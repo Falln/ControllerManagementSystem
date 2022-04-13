@@ -35,13 +35,24 @@ namespace ControllerManagementSystem
         {
             public readonly ControllerType controllerType;
             public readonly string name;
+            public string controllerStatus;
+            public Boolean isCheckedOut = false;
 
             public Controller(string name, ControllerType controllerType)
             {
                 this.name = name;
                 this.controllerType = controllerType;
+                this.controllerStatus = "New";
+            }
+
+            public Controller(string name, ControllerType controllerType, string controllerStatus)
+            {
+                this.name = name;
+                this.controllerType = controllerType;
+                this.controllerStatus = controllerStatus;
             }
         }
+
         public MainWindow()
         {
             InitializeComponent();
