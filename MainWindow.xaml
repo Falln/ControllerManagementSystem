@@ -5,8 +5,82 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControllerManagementSystem"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="450" Width="800" ResizeMode="NoResize">
+    <Window.Resources>
+        <!-- Default Colors -->
+        <Color x:Key="BaseGray">#FF2A2A2A</Color>
+        <Brush x:Key="BaseBackground">#FF2A2A2A</Brush>
 
-    </Grid>
+        <Style TargetType="{x:Type Button}" x:Key="WindowButtons">
+            <Setter Property="Background" Value="{StaticResource BaseBackground}"/>
+            <Setter Property="Width" Value="28"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FF525252"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
+    <Border BorderThickness="0">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Window interaction buttons -->
+            <!--
+            <Button x:Name="minimizeBtn" Style="{StaticResource WindowButtons}" Grid.Column="5" Grid.Row="0" Click="minimizeBtn_Click">
+                <Image Source="/Images/subtract.png" />
+            </Button>
+            <Button x:Name="makeResizeBtn" Style="{StaticResource WindowButtons}" Grid.Column="6" Grid.Row="0" Click="makeResizeBtn_Click">
+                <Image Source="/Images/restore-down.png" />
+            </Button>
+            <Button x:Name="closeBtn" Style="{StaticResource WindowButtons}" Grid.Column="7" Grid.Row="0" Click="closeBtn_Click">
+                <Image Source="/Images/close.png" />
+            </Button>
+            -->
+
+
+
+            <Button x:Name="AddItemBtn" Content="Add Item" HorizontalAlignment="Left" Margin="314,175,0,0" VerticalAlignment="Top" Grid.Column="1" Height="20" Grid.Row="1" Width="61"/>
+
+            <TextBox x:Name="UsernameCheckoutBox" Text="Name/Tag" HorizontalAlignment="Left" Margin="10,33,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="108" Height="25"/>
+            <ComboBox x:Name="ControllerTypeBox" SelectionChanged="ControllerTypeBox_SelectionChanged" HorizontalAlignment="Left" Margin="123,33,0,0" VerticalAlignment="Top" Width="101">
+            </ComboBox>
+            <ComboBox x:Name="ControllerNumberBox" SelectionChanged="ControllerNumberBox_SelectionChanged" Margin="248,33,68,0" VerticalAlignment="Top">
+            </ComboBox>
+            <TextBox x:Name="InitialsBox" Text="Initials" HorizontalAlignment="Left" Margin="351,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="68" Height="21" Grid.ColumnSpan="2"/>
+            <Button x:Name="CheckoutBtn" Grid.Column="1" Content="Checkout" HorizontalAlignment="Left" Margin="35,33,0,0" VerticalAlignment="Top" Click="CheckoutBtn_Click"/>
+            <Button x:Name="CheckinBtn" Grid.Column="1" Content="Check-in" HorizontalAlignment="Left" Margin="35,58,0,0" VerticalAlignment="Top" Width="54" Click="CheckinBtn_Click"/>
+            <Label Content="Controller Type" HorizontalAlignment="Left" Margin="123,7,0,0" VerticalAlignment="Top" Width="101"/>
+            <Label Content="Ctrl #" HorizontalAlignment="Left" Margin="248,7,0,0" VerticalAlignment="Top" Width="100"/>
+            <StackPanel x:Name="ControllerReadout" Margin="19,109,200,89" Grid.RowSpan="2">
+                <TextBlock x:Name="TestName"/>
+                <TextBlock x:Name="TestType"/>
+                <TextBlock x:Name="TestCheckedout"/>
+                <TextBlock x:Name="TestStatus"/>
+                <TextBlock x:Name="TestOwner"/>
+            </StackPanel>
+            
+
+
+        </Grid>
+    </Border>
 </Window>
