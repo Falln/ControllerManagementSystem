@@ -60,7 +60,34 @@ namespace ControllerManagementSystem
             this.controllerStatus = controllerStatus;
         }
 
+        public int CompareTo(Controller obj)
+        {
+            double thisControllerNum = Double.Parse(new string(this.name.Where(Char.IsDigit).ToArray()));
+            double newControllerNum = Double.Parse(new string(obj.name.Where(Char.IsDigit).ToArray()));
+            if (this.name.Length < obj.name.Length)
+                return -1;
+            else if (this.name.Length > obj.name.Length)
+                return 1;
+            else if (thisControllerNum < newControllerNum)
+                return -1;
+            else if (thisControllerNum > newControllerNum)
+                return 1;
+            else if (thisControllerNum == newControllerNum && this.name.Length == obj.name.Length)
+                return 0;
+            else
+                throw new ArgumentException("Object is not a Controller");
+        }
 
+        public int CompareTo(Object? obj)
+        {
+            try
+            {
+                return CompareTo(obj as Controller);
+            } catch (Exception ex)
+            {
+                throw new ArgumentException("Object is not a Controller");
+            }
+        }
     }
     public partial class MainWindow : Window
     {
@@ -76,8 +103,13 @@ namespace ControllerManagementSystem
             controllerList.Add(new Controller("Wired2", ControllerType.Xbox));
             controllerList.Add(new Controller("Wireless1", ControllerType.Xbox));
             controllerList.Add(new Controller("Mouse1", ControllerType.Other));
-            controllerList.Add(new Controller("Keyboard1", ControllerType.Other));
+            controllerList.Add(new Controller("Keyboard2", ControllerType.Other));
+            controllerList.Add(new Controller("Keyboard13", ControllerType.Other));
+            controllerList.Add(new Controller("Keyboard11", ControllerType.Other));
             controllerList.Add(new Controller("Mouse2", ControllerType.Other));
+            controllerList.Add(new Controller("Mouse23", ControllerType.Other));
+            controllerList.Add(new Controller("Mouse14", ControllerType.Other));
+            controllerList.Sort();
             InitializeComponent();
 
             ControllerTypeBox.Items.Add(ControllerType.Switch);
@@ -267,7 +299,7 @@ namespace ControllerManagementSystem
 
         private void ControllerNumberBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            try
+            if ((ComboBoxItem)ControllerNumberBox.SelectedItem != null)
             {
                 //Get the currently selected name and controller type, and then check that controller out
                 ControllerType controllerTypeItem = (ControllerType)ControllerTypeBox.SelectedItem;
@@ -284,17 +316,13 @@ namespace ControllerManagementSystem
                 TestCheckedout.Text = currController.isCheckedOut ? "Checked Out" : "Available";
                 TestStatus.Text = currController.controllerStatus;
                 TestOwner.Text = currController.currentOwner;
-            } catch (Exception ex)
-            {
-                Console.WriteLine("Couldn't Find controller in NumberBox_SelectionChanged. Possibly due to empty ComboBox");
-                Console.WriteLine(ex.ToString());
             }
         }
 
 
         private void CheckoutBtn_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if ((ComboBoxItem)ControllerNumberBox.SelectedItem != null)
             {
                 //Get the currently selected name and controller type, and then check that controller out
                 ControllerType controllerTypeItem = (ControllerType)ControllerTypeBox.SelectedItem;
@@ -312,17 +340,13 @@ namespace ControllerManagementSystem
                 int previousIndex = ControllerNumberBox.SelectedIndex;
                 ControllerTypeBox_SelectionChanged(new object(), null!);
                 ControllerNumberBox.SelectedIndex = previousIndex;
-            } catch (Exception ex)
-            {
-                Console.WriteLine("Could not process controller, probably due to blank Type field");
-                Console.WriteLine(ex.ToString());
             }
             
         }
 
         private void CheckinBtn_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if ((ComboBoxItem)ControllerNumberBox.SelectedItem != null)
             {
                 //Get the currently selected name and controller type, and then check that controller out
                 ControllerType controllerTypeItem = (ControllerType)ControllerTypeBox.SelectedItem;
@@ -340,11 +364,6 @@ namespace ControllerManagementSystem
                 int previousIndex = ControllerNumberBox.SelectedIndex;
                 ControllerTypeBox_SelectionChanged(new object(), null!);
                 ControllerNumberBox.SelectedIndex = previousIndex;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Could not process controller, probably due to blank Type field");
-                Console.WriteLine(ex.ToString());
             }
         }
     }
