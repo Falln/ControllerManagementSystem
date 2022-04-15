@@ -11,6 +11,7 @@ namespace ControllerManagementSystem
 {
     public class Controller : IComparable
     {
+        //TODO if adding more Controller types, add things here
         public enum ControllerType
         {
             Switch,
@@ -28,6 +29,8 @@ namespace ControllerManagementSystem
         public string currentOwner = "";
         public Boolean isCheckedOut = false;
         public string historyFile;
+
+        int totalEntriesToSave = 10;
 
         public Controller()
         {
@@ -65,7 +68,6 @@ namespace ControllerManagementSystem
             catch (Exception e)
             {
                 Trace.WriteLine(e.ToString());
-                throw e;
             }
         }
 
@@ -98,61 +100,172 @@ namespace ControllerManagementSystem
             catch (Exception e)
             {
                 Trace.WriteLine(e.ToString());
-                throw e;
             }
         }
 
         public void setCheckedOut(Boolean isCheckedOut, string owner, string controllerStatus, string employeeID)
         {
-            //Set the controller checked out status to the one given
+            //Check if the new checkout status matches the current checkout status. If so, do nothing
+            if (this.isCheckedOut == isCheckedOut)
+            {
+                return;
+            }
+            //Set the controller to checked out
             this.isCheckedOut = isCheckedOut;
 
+            //Add a list for the reader to unload on
+            List<List<string>> controllerCSVList;
+
             //Start the CSV writer
-            CsvWriterSettings settings = new();
-            settings.AppendExisting = true;
-            using (var writer = CsvWriter.Create(historyFile, settings))
+            var dataResolver = new BaseCSVResolver();
+            using (var reader = CsvReader<List<string>>.Create(historyFile, dataResolver))
             {
-                DateTime now = DateTime.Now;
-                //Add a CSV entry with the checked out status as the one given
-                //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials/ID
-                writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), isCheckedOut ? "Checked Out" : "Checked In", owner, controllerStatus, employeeID);
+                controllerCSVList = reader.ToList();
+            }
+
+            if (controllerCSVList.Count() < totalEntriesToSave)
+            {
+                CsvWriterSettings writerSettings = new();
+                writerSettings.AppendExisting = true;
+                using (var writer = CsvWriter.Create(historyFile, writerSettings))
+                {
+                    DateTime now = DateTime.Now;
+                    //Add a CSV entry with the checked out status as the one given
+                    //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials/ID
+                    writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), isCheckedOut ? "Checked Out" : "Checked In", owner, controllerStatus, employeeID);
+                    writer.Close();
+                }
+            }
+            else
+            {
+                CsvWriterSettings writerSettings = new();
+                writerSettings.AppendExisting = false;
+                writerSettings.OverwriteExisting = true;
+                using (var writer = CsvWriter.Create(historyFile, writerSettings))
+                {
+                    for (int k = 1; k <= totalEntriesToSave - 1; k++)
+                    {
+                        writer.WriteRow(controllerCSVList.ElementAt(k));
+                    }
+                    DateTime now = DateTime.Now;
+                    //Add a CSV entry with the checked out status as the one given
+                    //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials/ID
+                    writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), isCheckedOut ? "Checked Out" : "Checked In", owner, controllerStatus, employeeID);
+                    writer.Close();
+                }
             }
         }
 
         public void checkOut(string owner, string controllerStatus, string employeeID)
         {
+            //Check if the controller is already checked out, if so, do nothing
+            if (this.isCheckedOut)
+            {
+                return;
+            }
+
             //Set the controller to checked out
             this.isCheckedOut = true;
 
+            //Add a list for the reader to unload on
+            List<List<string>> controllerCSVList;
+
             //Start the CSV writer
-            CsvWriterSettings settings = new();
-            settings.AppendExisting = true;
-            using (var writer = CsvWriter.Create(historyFile, settings))
+            var dataResolver = new BaseCSVResolver();
+            using (var reader = CsvReader<List<string>>.Create(historyFile, dataResolver))
             {
-                DateTime now = DateTime.Now;
-                //Add a CSV entry of "checked in"
-                //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked Out", owner, controllerStatus, employeeID);
+                controllerCSVList = reader.ToList();
+            }
+
+            if (controllerCSVList.Count() < totalEntriesToSave)
+            {
+                CsvWriterSettings writerSettings = new();
+                writerSettings.AppendExisting = true;
+                using (var writer = CsvWriter.Create(historyFile, writerSettings))
+                {
+                    DateTime now = DateTime.Now;
+                    //Add a CSV entry of "checked out"
+                    //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
+                    writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked Out", owner, controllerStatus, employeeID);
+                    writer.Close();
+                }
+            }
+            else
+            {
+                CsvWriterSettings writerSettings = new();
+                writerSettings.AppendExisting = false;
+                writerSettings.OverwriteExisting = true;
+                using (var writer = CsvWriter.Create(historyFile, writerSettings))
+                {
+                    for (int k = 1; k <= totalEntriesToSave - 1; k++)
+                    {
+                        writer.WriteRow(controllerCSVList.ElementAt(k));
+                    }
+                    DateTime now = DateTime.Now;
+                    //Add a CSV entry of "checked out"
+                    //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
+                    writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked Out", owner, controllerStatus, employeeID);
+                    writer.Close();
+                }
             }
         }
 
         public void checkIn(string owner, string controllerStatus, string employeeID)
         {
+            //Check if the controller is already checked in, if so, do nothing
+            if (!this.isCheckedOut)
+            {
+                return;
+            }
+
             //Set the controller to checked in
             this.isCheckedOut = false;
 
+            //Add a list for the reader to unload on
+            List<List<string>> controllerCSVList;
+
             //Start the CSV writer
-            CsvWriterSettings settings = new();
-            settings.AppendExisting = true;
-            using (var writer = CsvWriter.Create(historyFile, settings))
+            var dataResolver = new BaseCSVResolver();
+            using (var reader = CsvReader<List<string>>.Create(historyFile, dataResolver))
             {
-                DateTime now = DateTime.Now;
-                //Add a CSV entry of "checked in"
-                //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", owner, controllerStatus, employeeID);
+                controllerCSVList = reader.ToList();
+            }
+
+            if (controllerCSVList.Count() < totalEntriesToSave)
+            {
+                CsvWriterSettings writerSettings = new();
+                writerSettings.AppendExisting = true;
+                using (var writer = CsvWriter.Create(historyFile, writerSettings))
+                {
+                    DateTime now = DateTime.Now;
+                    //Add a CSV entry of "checked in"
+                    //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
+                    writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", owner, controllerStatus, employeeID);
+                    writer.Close();
+                }
+            }
+            else
+            {
+                CsvWriterSettings writerSettings = new();
+                writerSettings.AppendExisting = false;
+                writerSettings.OverwriteExisting = true;
+                using (var writer = CsvWriter.Create(historyFile, writerSettings))
+                {
+                    for (int k = 1; k <= totalEntriesToSave-1; k++)
+                    {
+                        writer.WriteRow(controllerCSVList.ElementAt(k));
+                    }
+                    DateTime now = DateTime.Now;
+                    //Add a CSV entry of "checked in"
+                    //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
+                    writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", owner, controllerStatus, employeeID);
+                    writer.Close();
+                }
             }
         }
 
+
+        //TODO if adding more Controller types, add things here
         public static ControllerType FromStringToControllerType(string controllerTypeString)
         {
             switch (controllerTypeString)
@@ -199,7 +312,7 @@ namespace ControllerManagementSystem
             {
                 return CompareTo(obj as Controller);
             }
-            catch (Exception ex)
+            catch (Exception _)
             {
                 throw new ArgumentException("Object is not a Controller or is null");
             }

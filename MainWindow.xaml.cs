@@ -40,8 +40,19 @@ namespace ControllerManagementSystem
                 data.controllerType.ToString(),
             };
         }
+    }
 
-        
+    public class BaseCSVResolver : AbstractDataResolver<List<string>>
+    {
+        public override List<string> Deserialize(List<string> data)
+        {
+            return data;
+        }
+
+        public override List<string> Serialize(List<string> data)
+        {
+            return data;
+        }
     }
 
 
@@ -57,22 +68,22 @@ namespace ControllerManagementSystem
             System.IO.Directory.CreateDirectory(controllerCSVDirectory);
 
             //Adding test controllers
-            /*
-            controllerList.Add(new Controller("Joycon1", ControllerType.Switch));
-            controllerList.Add(new Controller("Joycon2", ControllerType.Switch));
-            controllerList.Add(new Controller("ProController1", ControllerType.Switch));
-            controllerList.Add(new Controller("ProController2", ControllerType.Switch));
-            controllerList.Add(new Controller("Wired1", ControllerType.Xbox));
-            controllerList.Add(new Controller("Wired2", ControllerType.Xbox));
-            controllerList.Add(new Controller("Wireless1", ControllerType.Xbox));
-            controllerList.Add(new Controller("Mouse1", ControllerType.Other));
-            controllerList.Add(new Controller("Keyboard2", ControllerType.Other));
-            controllerList.Add(new Controller("Keyboard13", ControllerType.Other));
-            controllerList.Add(new Controller("Keyboard11", ControllerType.Other));
-            controllerList.Add(new Controller("Mouse2", ControllerType.Other));
-            controllerList.Add(new Controller("Mouse23", ControllerType.Other));
-            controllerList.Add(new Controller("Mouse14", ControllerType.Other));
-            */
+            
+            controllerList.Add(new Controller("Joycon1", Controller.ControllerType.Switch));
+            controllerList.Add(new Controller("Joycon2", Controller.ControllerType.Switch));
+            controllerList.Add(new Controller("ProController1", Controller.ControllerType.Switch));
+            controllerList.Add(new Controller("ProController2", Controller.ControllerType.Switch));
+            controllerList.Add(new Controller("Wired1", Controller.ControllerType.Xbox));
+            controllerList.Add(new Controller("Wired2", Controller.ControllerType.Xbox));
+            controllerList.Add(new Controller("Wireless1", Controller.ControllerType.Xbox));
+            controllerList.Add(new Controller("Mouse1", Controller.ControllerType.Other));
+            controllerList.Add(new Controller("Keyboard2", Controller.ControllerType.Other));
+            controllerList.Add(new Controller("Keyboard13", Controller.ControllerType.Other));
+            controllerList.Add(new Controller("Keyboard11", Controller.ControllerType.Other));
+            controllerList.Add(new Controller("Mouse2", Controller.ControllerType.Other));
+            controllerList.Add(new Controller("Mouse23", Controller.ControllerType.Other));
+            controllerList.Add(new Controller("Mouse14", Controller.ControllerType.Other));
+            
 
             //Load controllers frome the controller CSV folder to the controller List<> and then sort the List
             LoadControllers(controllerCSVDirectory);
@@ -80,6 +91,7 @@ namespace ControllerManagementSystem
 
             InitializeComponent();
 
+            //TODO if adding more Controller types, add things here
             //Add ControllerTypes to the Type ComboBox
             ControllerTypeBox.Items.Add(Controller.ControllerType.Switch);
             ControllerTypeBox.Items.Add(Controller.ControllerType.Xbox);
@@ -178,110 +190,37 @@ namespace ControllerManagementSystem
             var controllerTypeItem = (Controller.ControllerType)ControllerTypeBox.SelectedItem;
             ControllerNumberBox.Items.Clear();
 
-            if (controllerTypeItem == Controller.ControllerType.Switch)
+            foreach (Controller controller in GetControllersOfOneType(controllerTypeItem))
             {
-                foreach (Controller controller in GetControllersOfOneType(Controller.ControllerType.Switch))
-                {
-                    //Create the ComboBox and the StackPanel to go in it
-                    ComboBoxItem newItem = new ComboBoxItem();
-                    StackPanel panel = new StackPanel();
-                    panel.Orientation = Orientation.Horizontal;
+                //Create the ComboBox and the StackPanel to go in it
+                ComboBoxItem newItem = new ComboBoxItem();
+                StackPanel panel = new StackPanel();
+                panel.Orientation = Orientation.Horizontal;
 
-                    //Create the Ellipse and the BulletDecorator it goes inside. This is the "Checked out" StatusLight
-                    Ellipse ellipse = new Ellipse();
-                    ellipse.Fill = controller.isCheckedOut ? Brushes.Red : Brushes.Green;
-                    ellipse.Stroke = Brushes.Black;
-                    ellipse.StrokeThickness = 0;
-                    ellipse.Height = 5;
-                    ellipse.Width = 5;
-                    BulletDecorator statusLight = new BulletDecorator();
-                    statusLight.Bullet = ellipse;
-                    statusLight.Margin = new Thickness(0, 5, 5, 0);
+                //Create the Ellipse and the BulletDecorator it goes inside. This is the "Checked out" StatusLight
+                Ellipse ellipse = new Ellipse();
+                ellipse.Fill = controller.isCheckedOut ? Brushes.Red : Brushes.Green;
+                ellipse.Stroke = Brushes.Black;
+                ellipse.StrokeThickness = 0;
+                ellipse.Height = 5;
+                ellipse.Width = 5;
+                BulletDecorator statusLight = new BulletDecorator();
+                statusLight.Bullet = ellipse;
+                statusLight.Margin = new Thickness(0, 5, 5, 0);
 
-                    //Create the TextBlock for the controller name
-                    TextBlock textBlock = new TextBlock();
-                    textBlock.Text = controller.name;
+                //Create the TextBlock for the controller name
+                TextBlock textBlock = new TextBlock();
+                textBlock.Text = controller.name;
 
-                    //Add the StatusLight and Name to the stack panel
-                    panel.Children.Add(statusLight);
-                    panel.Children.Add(textBlock);
+                //Add the StatusLight and Name to the stack panel
+                panel.Children.Add(statusLight);
+                panel.Children.Add(textBlock);
 
-                    //Add the StackPanel to the ComboBoxItem and then add it to the ComboBox
-                    newItem.Content = panel;
-                    ControllerNumberBox.Items.Add(newItem);
-                }
-                ControllerNumberBox.SelectedIndex = 0;
+                //Add the StackPanel to the ComboBoxItem and then add it to the ComboBox
+                newItem.Content = panel;
+                ControllerNumberBox.Items.Add(newItem);
             }
-            //If its an xbox controller, add all xbox controllers to the name ComboBox
-            else if (controllerTypeItem == Controller.ControllerType.Xbox)
-            {
-                foreach (Controller controller in GetControllersOfOneType(Controller.ControllerType.Xbox))
-                {
-                    //Create the ComboBox and the StackPanel to go in it
-                    ComboBoxItem newItem = new ComboBoxItem();
-                    StackPanel panel = new StackPanel();
-                    panel.Orientation = Orientation.Horizontal;
-
-                    //Create the Ellipse and the BulletDecorator it goes inside. This is the "Checked out" StatusLight
-                    Ellipse ellipse = new Ellipse();
-                    ellipse.Fill = controller.isCheckedOut ? Brushes.Red : Brushes.Green;
-                    ellipse.Stroke = Brushes.Black;
-                    ellipse.StrokeThickness = 0;
-                    ellipse.Height = 5;
-                    ellipse.Width = 5;
-                    BulletDecorator statusLight = new BulletDecorator();
-                    statusLight.Bullet = ellipse;
-                    statusLight.Margin = new Thickness(0, 5, 5, 0);
-
-                    //Create the TextBlock for the controller name
-                    TextBlock textBlock = new TextBlock();
-                    textBlock.Text = controller.name;
-
-                    //Add the StatusLight and Name to the stack panel
-                    panel.Children.Add(statusLight);
-                    panel.Children.Add(textBlock);
-
-                    //Add the StackPanel to the ComboBoxItem and then add it to the ComboBox
-                    newItem.Content = panel;
-                    ControllerNumberBox.Items.Add(newItem);
-                }
-                ControllerNumberBox.SelectedIndex = 0;
-            }
-            //If its an other item, add all other items to the name ComboBox
-            else if (controllerTypeItem == Controller.ControllerType.Other)
-            {
-                foreach (Controller controller in GetControllersOfOneType(Controller.ControllerType.Other))
-                {
-                    //Create the ComboBox and the StackPanel to go in it
-                    ComboBoxItem newItem = new ComboBoxItem();
-                    StackPanel panel = new StackPanel();
-                    panel.Orientation = Orientation.Horizontal;
-
-                    //Create the Ellipse and the BulletDecorator it goes inside. This is the "Checked out" StatusLight
-                    Ellipse ellipse = new Ellipse();
-                    ellipse.Fill = controller.isCheckedOut ? Brushes.Red : Brushes.Green;
-                    ellipse.Stroke = Brushes.Black;
-                    ellipse.StrokeThickness = 0;
-                    ellipse.Height = 5;
-                    ellipse.Width = 5;
-                    BulletDecorator statusLight = new BulletDecorator();
-                    statusLight.Bullet = ellipse;
-                    statusLight.Margin = new Thickness(0, 5, 5, 0);
-
-                    //Create the TextBlock for the controller name
-                    TextBlock textBlock = new TextBlock();
-                    textBlock.Text = controller.name;
-
-                    //Add the StatusLight and Name to the stack panel
-                    panel.Children.Add(statusLight);
-                    panel.Children.Add(textBlock);
-
-                    //Add the StackPanel to the ComboBoxItem and then add it to the ComboBox
-                    newItem.Content = panel;
-                    ControllerNumberBox.Items.Add(newItem);
-                }
-                ControllerNumberBox.SelectedIndex = 0;
-            }
+            ControllerNumberBox.SelectedIndex = 0;
         }
 
         private void ControllerNumberBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -322,9 +261,7 @@ namespace ControllerManagementSystem
                 currController.checkOut(UsernameCheckoutBox.Text, "New", InitialsBox.Text);
 
                 //Update all ComboBoxes with the new status
-                int previousIndex = ControllerNumberBox.SelectedIndex;
-                ControllerTypeBox_SelectionChanged(new object(), null!);
-                ControllerNumberBox.SelectedIndex = previousIndex;
+                RefreshControllerStatus();
             }
             
         }
@@ -345,9 +282,7 @@ namespace ControllerManagementSystem
 
 
                 //Update all ComboBoxes with the new status
-                int previousIndex = ControllerNumberBox.SelectedIndex;
-                ControllerTypeBox_SelectionChanged(new object(), null!);
-                ControllerNumberBox.SelectedIndex = previousIndex;
+                RefreshControllerStatus();
             }
         }
     }
