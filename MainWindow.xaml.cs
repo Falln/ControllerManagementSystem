@@ -68,7 +68,7 @@ namespace ControllerManagementSystem
             System.IO.Directory.CreateDirectory(controllerCSVDirectory);
 
             //Adding test controllers
-            
+            /*
             controllerList.Add(new Controller("Joycon1", Controller.ControllerType.Switch));
             controllerList.Add(new Controller("Joycon2", Controller.ControllerType.Switch));
             controllerList.Add(new Controller("ProController1", Controller.ControllerType.Switch));
@@ -83,7 +83,7 @@ namespace ControllerManagementSystem
             controllerList.Add(new Controller("Mouse2", Controller.ControllerType.Other));
             controllerList.Add(new Controller("Mouse23", Controller.ControllerType.Other));
             controllerList.Add(new Controller("Mouse14", Controller.ControllerType.Other));
-            
+            */
 
             //Load controllers frome the controller CSV folder to the controller List<> and then sort the List
             LoadControllers(controllerCSVDirectory);
@@ -150,12 +150,6 @@ namespace ControllerManagementSystem
         }
 
         //Clicks
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            NewControllerWindow window = new NewControllerWindow(controllerList);
-            window.Show();
-        }
-
         private void closeBtn_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -186,41 +180,44 @@ namespace ControllerManagementSystem
 
         private void ControllerTypeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //Grab the selected controller type and then clear the controller name ComboBox
-            var controllerTypeItem = (Controller.ControllerType)ControllerTypeBox.SelectedItem;
-            ControllerNumberBox.Items.Clear();
-
-            foreach (Controller controller in GetControllersOfOneType(controllerTypeItem))
+            if (ControllerTypeBox.SelectedItem != null)
             {
-                //Create the ComboBox and the StackPanel to go in it
-                ComboBoxItem newItem = new ComboBoxItem();
-                StackPanel panel = new StackPanel();
-                panel.Orientation = Orientation.Horizontal;
+                //Grab the selected controller type and then clear the controller name ComboBox
+                var controllerTypeItem = (Controller.ControllerType)ControllerTypeBox.SelectedItem;
+                ControllerNumberBox.Items.Clear();
 
-                //Create the Ellipse and the BulletDecorator it goes inside. This is the "Checked out" StatusLight
-                Ellipse ellipse = new Ellipse();
-                ellipse.Fill = controller.isCheckedOut ? Brushes.Red : Brushes.Green;
-                ellipse.Stroke = Brushes.Black;
-                ellipse.StrokeThickness = 0;
-                ellipse.Height = 5;
-                ellipse.Width = 5;
-                BulletDecorator statusLight = new BulletDecorator();
-                statusLight.Bullet = ellipse;
-                statusLight.Margin = new Thickness(0, 5, 5, 0);
+                foreach (Controller controller in GetControllersOfOneType(controllerTypeItem))
+                {
+                    //Create the ComboBox and the StackPanel to go in it
+                    ComboBoxItem newItem = new ComboBoxItem();
+                    StackPanel panel = new StackPanel();
+                    panel.Orientation = Orientation.Horizontal;
 
-                //Create the TextBlock for the controller name
-                TextBlock textBlock = new TextBlock();
-                textBlock.Text = controller.name;
+                    //Create the Ellipse and the BulletDecorator it goes inside. This is the "Checked out" StatusLight
+                    Ellipse ellipse = new Ellipse();
+                    ellipse.Fill = controller.isCheckedOut ? Brushes.Red : Brushes.Green;
+                    ellipse.Stroke = Brushes.Black;
+                    ellipse.StrokeThickness = 0;
+                    ellipse.Height = 5;
+                    ellipse.Width = 5;
+                    BulletDecorator statusLight = new BulletDecorator();
+                    statusLight.Bullet = ellipse;
+                    statusLight.Margin = new Thickness(0, 5, 5, 0);
 
-                //Add the StatusLight and Name to the stack panel
-                panel.Children.Add(statusLight);
-                panel.Children.Add(textBlock);
+                    //Create the TextBlock for the controller name
+                    TextBlock textBlock = new TextBlock();
+                    textBlock.Text = controller.name;
 
-                //Add the StackPanel to the ComboBoxItem and then add it to the ComboBox
-                newItem.Content = panel;
-                ControllerNumberBox.Items.Add(newItem);
+                    //Add the StatusLight and Name to the stack panel
+                    panel.Children.Add(statusLight);
+                    panel.Children.Add(textBlock);
+
+                    //Add the StackPanel to the ComboBoxItem and then add it to the ComboBox
+                    newItem.Content = panel;
+                    ControllerNumberBox.Items.Add(newItem);
+                }
+                ControllerNumberBox.SelectedIndex = 0;
             }
-            ControllerNumberBox.SelectedIndex = 0;
         }
 
         private void ControllerNumberBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -236,6 +233,7 @@ namespace ControllerManagementSystem
 
                 Controller currController = GetController(controllerTypeItem, controllerName);
 
+                //TODO: Test Variables. Remove later
                 //Update test field with the controller
                 TestName.Text = currController.name;
                 TestStatus.Text = currController.controllerStatus.ToString();
@@ -284,6 +282,13 @@ namespace ControllerManagementSystem
                 //Update all ComboBoxes with the new status
                 RefreshControllerStatus();
             }
+        }
+
+        private void AddItemBtn_Click(object sender, RoutedEventArgs e)
+        {
+            NewControllerWindow window = new NewControllerWindow(controllerList, RefreshControllerStatus);
+            window.Activate();
+            window.Show();
         }
     }
 }

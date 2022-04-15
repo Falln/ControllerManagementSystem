@@ -39,7 +39,6 @@ namespace ControllerManagementSystem
             controllerStatus = "";
             historyFile = "";
         }
-
         public Controller(string name, ControllerType controllerType)
         {
             this.name = name;
@@ -70,7 +69,36 @@ namespace ControllerManagementSystem
                 Trace.WriteLine(e.ToString());
             }
         }
+        public Controller(string name, ControllerType controllerType, string controllerStatus)
+        {
+            this.name = name;
+            this.controllerType = controllerType;
+            this.controllerStatus = controllerStatus;
+            historyFile = "Controller CSV Files/" + name + " History CSV.csv";
+            try
+            {
+                //Check if the files already exists, if so, don't create a new file
+                if (!File.Exists(historyFile))
+                {
+                    //Create a new .csv file
+                    using (FileStream fs = File.Create(historyFile)) { }
 
+                    //Write the first entry in the file. This will have time/date and the owner will be CES
+                    CsvWriterSettings settings = new();
+                    settings.AppendExisting = true;
+                    using (var writer = CsvWriter.Create(historyFile, settings))
+                    {
+                        DateTime now = DateTime.Now;
+                        //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
+                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", "CES", controllerStatus, "");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.ToString());
+            }
+        }
         public Controller(string name, ControllerType controllerType, Boolean isCheckedOut, string controllerStatus)
         {
             this.name = name;
@@ -123,7 +151,8 @@ namespace ControllerManagementSystem
                 controllerCSVList = reader.ToList();
             }
 
-            if (controllerCSVList.Count() < totalEntriesToSave)
+            //If there are less entries than the total allowed, then add one to the end
+            if (controllerCSVList.Count < totalEntriesToSave)
             {
                 CsvWriterSettings writerSettings = new();
                 writerSettings.AppendExisting = true;
@@ -136,6 +165,7 @@ namespace ControllerManagementSystem
                     writer.Close();
                 }
             }
+            //If there are more entries than the total allowed, then cycle entries down one and add the new one to the end
             else
             {
                 CsvWriterSettings writerSettings = new();
@@ -177,7 +207,8 @@ namespace ControllerManagementSystem
                 controllerCSVList = reader.ToList();
             }
 
-            if (controllerCSVList.Count() < totalEntriesToSave)
+            //If there are less entries than the total allowed, then add one to the end
+            if (controllerCSVList.Count < totalEntriesToSave)
             {
                 CsvWriterSettings writerSettings = new();
                 writerSettings.AppendExisting = true;
@@ -190,6 +221,7 @@ namespace ControllerManagementSystem
                     writer.Close();
                 }
             }
+            //If there are more entries than the total allowed, then cycle entries down one and add the new one to the end
             else
             {
                 CsvWriterSettings writerSettings = new();
@@ -231,7 +263,8 @@ namespace ControllerManagementSystem
                 controllerCSVList = reader.ToList();
             }
 
-            if (controllerCSVList.Count() < totalEntriesToSave)
+            //If there are less entries than the total allowed, then add one to the end
+            if (controllerCSVList.Count < totalEntriesToSave)
             {
                 CsvWriterSettings writerSettings = new();
                 writerSettings.AppendExisting = true;
@@ -244,6 +277,7 @@ namespace ControllerManagementSystem
                     writer.Close();
                 }
             }
+            //If there are more entries than the total allowed, then cycle entries down one and add the new one to the end
             else
             {
                 CsvWriterSettings writerSettings = new();
@@ -288,6 +322,7 @@ namespace ControllerManagementSystem
                     return ControllerType.Other;
             }
         }
+
         public int CompareTo(Controller obj)
         {
             double thisControllerNum = Double.Parse(new string(this.name.Where(Char.IsDigit).ToArray()));

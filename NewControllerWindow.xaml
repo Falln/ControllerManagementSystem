@@ -5,9 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControllerManagementSystem"
         mc:Ignorable="d"
-        Title="NewControllerWindow" Height="300" Width="100"
-        WindowStyle="ToolWindow">
-    <Grid>
-        
-    </Grid>
+        Title="Add Controller" Height="210" Width="170" ResizeMode="NoResize"
+        WindowStyle="ToolWindow" BorderThickness="0">
+    <Border BorderThickness="0">
+        <Grid>
+            <ComboBox x:Name="TypeBox" HorizontalAlignment="Left" Margin="21,21,0,0" VerticalAlignment="Top" Width="112"/>
+            <Label Content="Type" HorizontalAlignment="Left" Margin="17,0,0,0" VerticalAlignment="Top" FontSize="12"/>
+            <Label Content="Name" HorizontalAlignment="Left" Margin="15,41,0,0" VerticalAlignment="Top" FontSize="12"/>
+            <Label Content="Condition" HorizontalAlignment="Left" Margin="17,82,0,0" VerticalAlignment="Top" FontSize="12"/>
+            <TextBox x:Name="NameBox" Text="Name/Tag" HorizontalAlignment="Left" Margin="21,62,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="112" Height="19"/>
+            <ComboBox x:Name="ConditionBox" HorizontalAlignment="Left" Margin="21,103,0,0" VerticalAlignment="Top" Width="112">
+                <ComboBoxItem>New</ComboBoxItem>
+                <ComboBoxItem>Like New</ComboBoxItem>
+                <ComboBoxItem>Worn</ComboBoxItem>
+                <ComboBoxItem>Slightly Damaged</ComboBoxItem>
+                <ComboBoxItem>Damaged</ComboBoxItem>
+            </ComboBox>
+            <Button x:Name="AddControllerBtn" Content="Add Controller" HorizontalAlignment="Left" Margin="36,137,0,0" VerticalAlignment="Top" Click="AddControllerBtn_Click"/>
+        </Grid>
+    </Border>
+
 </Window>
