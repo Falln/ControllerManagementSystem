@@ -71,9 +71,8 @@ namespace ControllerManagementSystem
                     using (var writer = CsvWriter.Create(historyFile, settings))
                     {
                         DateTime now = DateTime.Now;
-                        //Add format: Date, Time, In or Out, Owner, Status, and Initials
-                        writer.WriteRow("Date", "Time", "In Or Out", "Owner", "Status", "Initials");
-                        writer.WriteRow(now.ToShortDateString(), now.ToShortTimeString(), "Checked In", "CES", controllerStatus, "");
+                        //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
+                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", "CES", controllerStatus, "");
                     }
                 }
             }
@@ -104,9 +103,8 @@ namespace ControllerManagementSystem
                     using (var writer = CsvWriter.Create(historyFile, settings))
                     {
                         DateTime now = DateTime.Now;
-                        //Add format: Date, Time, In or Out, Owner, Status, and Initials
-                        writer.WriteRow("Date", "Time", "In Or Out", "Owner", "Status", "Initials");
-                        writer.WriteRow(now.ToShortDateString(), now.ToShortTimeString(), "Checked In", "CES", controllerStatus, "");
+                        //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
+                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", "CES", controllerStatus, "");
                     }
                 }
             }
@@ -146,13 +144,58 @@ namespace ControllerManagementSystem
             }
         }
     }
+
+    public class ControllerResolver : AbstractDataResolver<Controller>
+    {
+        public override Controller Deserialize(List<String> data)
+        {
+            return new Controller(data[0], FromStringToControllerType(data[1]));
+        }
+
+        public override List<String> Serialize(Controller data)
+        {
+            return new List<String>
+            {
+                data.name,
+                data.controllerType.ToString(),
+            };
+        }
+
+        private ControllerType FromStringToControllerType(string controllerTypeString)
+        {
+            switch (controllerTypeString)
+            {
+                case "Switch":
+                    return ControllerType.Switch;
+                case "Xbox":
+                    return ControllerType.Xbox;
+                case "Other":
+                    return ControllerType.Other;
+                case "ProController":
+                    return ControllerType.ProController;
+                case "Joycon":
+                    return ControllerType.Joycon;
+                case "XboxWireless":
+                    return ControllerType.XboxWireless;
+                case "XboxWired":
+                    return ControllerType.XboxWired;
+                default:
+                    return ControllerType.Other;
+            }
+        }
+    }
+
+
+
     public partial class MainWindow : Window
     {
         List<Controller> controllerList = new();
 
         public MainWindow()
         {
-            System.IO.Directory.CreateDirectory("Controller CSV Files");
+            string controllerCSVDirectory = "Controller CSV Files";
+            System.IO.Directory.CreateDirectory(controllerCSVDirectory);
+            /*
             controllerList.Add(new Controller("Joycon1", ControllerType.Switch));
             controllerList.Add(new Controller("Joycon2", ControllerType.Switch));
             controllerList.Add(new Controller("ProController1", ControllerType.Switch));
@@ -167,6 +210,9 @@ namespace ControllerManagementSystem
             controllerList.Add(new Controller("Mouse2", ControllerType.Other));
             controllerList.Add(new Controller("Mouse23", ControllerType.Other));
             controllerList.Add(new Controller("Mouse14", ControllerType.Other));
+            */
+            LoadControllers(controllerCSVDirectory);
+
             controllerList.Sort();
             InitializeComponent();
 
@@ -175,6 +221,24 @@ namespace ControllerManagementSystem
             ControllerTypeBox.Items.Add(ControllerType.Other);
         }
 
+        public List<Controller> LoadControllers(string controllerCSVDirectory)
+        {
+            //Grab all the Controller files
+            string[] controllerCSVFiles = System.IO.Directory.GetFiles(controllerCSVDirectory);
+
+            //Loop through each controller files and load the controller using the CSV data
+            foreach (string controllerCSVFile in controllerCSVFiles)
+            {
+                //Start the CSV file reader
+                var dataResolver = new ControllerResolver();
+                using (var reader = CsvReader<Controller>.Create(controllerCSVFile, dataResolver))
+                {
+                    var baseController = reader.ElementAt(0);
+                    controllerList.Add(baseController);
+                }
+            }
+            return controllerList;
+        }
 
         public List<Controller> GetControllersOfOneType(ControllerType controllerType)
         {
