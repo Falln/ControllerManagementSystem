@@ -29,7 +29,7 @@ namespace ControllerManagementSystem
     {
         public override Controller Deserialize(List<String> data)
         {
-            return new Controller(data[0], Controller.FromStringToControllerType(data[1]), (data[4]=="Checked Out") ? true:false, data[6]);
+            return new Controller(data[0], Controller.FromStringToControllerType(data[1]), (data[4] == "Checked Out") ? true : false, data[6]);
         }
 
         public override List<String> Serialize(Controller data)
@@ -261,7 +261,7 @@ namespace ControllerManagementSystem
                 //Update all ComboBoxes with the new status
                 RefreshControllerStatus();
             }
-            
+
         }
 
         private void CheckinBtn_Click(object sender, RoutedEventArgs e)
