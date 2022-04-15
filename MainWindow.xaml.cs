@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Sky.Data.Csv;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,12 +41,14 @@ namespace ControllerManagementSystem
         public string controllerStatus;
         public string currentOwner = "";
         public Boolean isCheckedOut = false;
+        public string historyFile;
 
         public Controller()
         {
             controllerType = ControllerType.Other;
             name = "";
             controllerStatus = "";
+            historyFile = "";
         }
 
         public Controller(string name, ControllerType controllerType)
@@ -51,6 +56,32 @@ namespace ControllerManagementSystem
             this.name = name;
             this.controllerType = controllerType;
             this.controllerStatus = "New";
+            historyFile = "Controller CSV Files/" + name + " History CSV.csv";
+            try
+            {
+                //Check if the files already exists, if so, don't create a new file
+                if (!File.Exists(historyFile))
+                {
+                    //Create a new .csv file
+                    using (FileStream fs = File.Create(historyFile)){ }
+
+                    //Write the first entry in the file. This will have time/date and the owner will be CES
+                    CsvWriterSettings settings = new();
+                    settings.AppendExisting = true;
+                    using (var writer = CsvWriter.Create(historyFile, settings))
+                    {
+                        DateTime now = DateTime.Now;
+                        //Add format: Date, Time, In or Out, Owner, Status, and Initials
+                        writer.WriteRow("Date", "Time", "In Or Out", "Owner", "Status", "Initials");
+                        writer.WriteRow(now.ToShortDateString(), now.ToShortTimeString(), "Checked In", "CES", controllerStatus, "");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.ToString());
+                throw e;
+            }
         }
 
         public Controller(string name, ControllerType controllerType, string controllerStatus)
@@ -58,6 +89,32 @@ namespace ControllerManagementSystem
             this.name = name;
             this.controllerType = controllerType;
             this.controllerStatus = controllerStatus;
+            historyFile = "Controller CSV Files/" + name + " History CSV.csv";
+            try
+            {
+                //Check if the files already exists, if so, don't create a new file
+                if (!File.Exists(historyFile))
+                {
+                    //Create a new .csv file
+                    using (FileStream fs = File.Create(historyFile)) { }
+
+                    //Write the first entry in the file. This will have time/date and the owner will be CES
+                    CsvWriterSettings settings = new();
+                    settings.AppendExisting = true;
+                    using (var writer = CsvWriter.Create(historyFile, settings))
+                    {
+                        DateTime now = DateTime.Now;
+                        //Add format: Date, Time, In or Out, Owner, Status, and Initials
+                        writer.WriteRow("Date", "Time", "In Or Out", "Owner", "Status", "Initials");
+                        writer.WriteRow(now.ToShortDateString(), now.ToShortTimeString(), "Checked In", "CES", controllerStatus, "");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.ToString());
+                throw e;
+            }
         }
 
         public int CompareTo(Controller obj)
@@ -85,7 +142,7 @@ namespace ControllerManagementSystem
                 return CompareTo(obj as Controller);
             } catch (Exception ex)
             {
-                throw new ArgumentException("Object is not a Controller");
+                throw new ArgumentException("Object is not a Controller or is null");
             }
         }
     }
@@ -95,6 +152,7 @@ namespace ControllerManagementSystem
 
         public MainWindow()
         {
+            System.IO.Directory.CreateDirectory("Controller CSV Files");
             controllerList.Add(new Controller("Joycon1", ControllerType.Switch));
             controllerList.Add(new Controller("Joycon2", ControllerType.Switch));
             controllerList.Add(new Controller("ProController1", ControllerType.Switch));

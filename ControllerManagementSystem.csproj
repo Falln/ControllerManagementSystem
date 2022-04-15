@@ -15,10 +15,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Sky.Data.Csv" Version="2.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Images\close.png" />
     <Resource Include="Images\refresh_icon.png" />
     <Resource Include="Images\restore-down.png" />
     <Resource Include="Images\subtract.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controller CSV Files\" />
   </ItemGroup>
 
 </Project>
