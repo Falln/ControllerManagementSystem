@@ -23,218 +23,13 @@ namespace ControllerManagementSystem
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     /// 
-    public enum ControllerType
-    {
-        Switch,
-        Joycon,
-        ProController,
-        Xbox,
-        XboxWireless,
-        XboxWired,
-        Other
-    }
 
-    public partial class Controller : IComparable
-    {
-        public readonly ControllerType controllerType;
-        public readonly string name;
-        public string controllerStatus;
-        public string currentOwner = "";
-        public Boolean isCheckedOut = false;
-        public string historyFile;
-
-        public Controller()
-        {
-            controllerType = ControllerType.Other;
-            name = "";
-            controllerStatus = "";
-            historyFile = "";
-        }
-
-        public Controller(string name, ControllerType controllerType)
-        {
-            this.name = name;
-            this.controllerType = controllerType;
-            this.controllerStatus = "New";
-            historyFile = "Controller CSV Files/" + name + " History CSV.csv";
-            try
-            {
-                //Check if the files already exists, if so, don't create a new file
-                if (!File.Exists(historyFile))
-                {
-                    //Create a new .csv file
-                    using (FileStream fs = File.Create(historyFile)){ }
-
-                    //Write the first entry in the file. This will have time/date and the owner will be CES
-                    CsvWriterSettings settings = new();
-                    settings.AppendExisting = true;
-                    using (var writer = CsvWriter.Create(historyFile, settings))
-                    {
-                        DateTime now = DateTime.Now;
-                        //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", "CES", controllerStatus, "");
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Trace.WriteLine(e.ToString());
-                throw e;
-            }
-        }
-
-        public Controller(string name, ControllerType controllerType, string controllerStatus)
-        {
-            this.name = name;
-            this.controllerType = controllerType;
-            this.controllerStatus = controllerStatus;
-            historyFile = "Controller CSV Files/" + name + " History CSV.csv";
-            try
-            {
-                //Check if the files already exists, if so, don't create a new file
-                if (!File.Exists(historyFile))
-                {
-                    //Create a new .csv file
-                    using (FileStream fs = File.Create(historyFile)) { }
-
-                    //Write the first entry in the file. This will have time/date and the owner will be CES
-                    CsvWriterSettings settings = new();
-                    settings.AppendExisting = true;
-                    using (var writer = CsvWriter.Create(historyFile, settings))
-                    {
-                        DateTime now = DateTime.Now;
-                        //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", "CES", controllerStatus, "");
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Trace.WriteLine(e.ToString());
-                throw e;
-            }
-        }
-
-        public Controller(string name, ControllerType controllerType, Boolean isCheckedOut, string controllerStatus)
-        {
-            this.name = name;
-            this.controllerType = controllerType;
-            this.controllerStatus = controllerStatus;
-            this.isCheckedOut = isCheckedOut;
-            historyFile = "Controller CSV Files/" + name + " History CSV.csv";
-            try
-            {
-                //Check if the files already exists, if so, don't create a new file
-                if (!File.Exists(historyFile))
-                {
-                    //Create a new .csv file
-                    using (FileStream fs = File.Create(historyFile)) { }
-
-                    //Write the first entry in the file. This will have time/date and the owner will be CES
-                    CsvWriterSettings settings = new();
-                    settings.AppendExisting = true;
-                    using (var writer = CsvWriter.Create(historyFile, settings))
-                    {
-                        DateTime now = DateTime.Now;
-                        //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", "CES", controllerStatus, "");
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Trace.WriteLine(e.ToString());
-                throw e;
-            }
-        }
-
-        public void setCheckedOut(Boolean isCheckedOut, string owner, string controllerStatus)
-        {
-            //Set the controller checked out status to the one given
-            this.isCheckedOut = isCheckedOut;
-
-            //Start the CSV writer
-            CsvWriterSettings settings = new();
-            settings.AppendExisting = true;
-            using (var writer = CsvWriter.Create(historyFile, settings))
-            {
-                DateTime now = DateTime.Now;
-                //Add a CSV entry with the checked out status as the one given
-                //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), isCheckedOut ? "Checked Out":"Checked In", owner, controllerStatus, "");
-            }
-        }
-
-        public void checkOut(string owner, string controllerStatus)
-        {
-            //Set the controller to checked out
-            this.isCheckedOut = true;
-
-            //Start the CSV writer
-            CsvWriterSettings settings = new();
-            settings.AppendExisting = true;
-            using (var writer = CsvWriter.Create(historyFile, settings))
-            {
-                DateTime now = DateTime.Now;
-                //Add a CSV entry of "checked in"
-                //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked Out", owner, controllerStatus, "");
-            }
-        }
-
-        public void checkIn(string owner, string controllerStatus)
-        {
-            //Set the controller to checked in
-            this.isCheckedOut = false;
-
-            //Start the CSV writer
-            CsvWriterSettings settings = new();
-            settings.AppendExisting = true;
-            using (var writer = CsvWriter.Create(historyFile, settings))
-            {
-                DateTime now = DateTime.Now;
-                //Add a CSV entry of "checked in"
-                //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", owner, controllerStatus, "");
-            }
-        }
-
-
-        public int CompareTo(Controller obj)
-        {
-            double thisControllerNum = Double.Parse(new string(this.name.Where(Char.IsDigit).ToArray()));
-            double newControllerNum = Double.Parse(new string(obj.name.Where(Char.IsDigit).ToArray()));
-            if (this.name.Length < obj.name.Length)
-                return -1;
-            else if (this.name.Length > obj.name.Length)
-                return 1;
-            else if (thisControllerNum < newControllerNum)
-                return -1;
-            else if (thisControllerNum > newControllerNum)
-                return 1;
-            else if (thisControllerNum == newControllerNum && this.name.Length == obj.name.Length)
-                return 0;
-            else
-                throw new ArgumentException("Object is not a Controller");
-        }
-
-        public int CompareTo(Object? obj)
-        {
-            try
-            {
-                return CompareTo(obj as Controller);
-            } catch (Exception ex)
-            {
-                throw new ArgumentException("Object is not a Controller or is null");
-            }
-        }
-    }
 
     public class ControllerResolver : AbstractDataResolver<Controller>
     {
         public override Controller Deserialize(List<String> data)
         {
-            return new Controller(data[0], FromStringToControllerType(data[1]), (data[4]=="Checked Out") ? true:false, data[6]);
+            return new Controller(data[0], Controller.FromStringToControllerType(data[1]), (data[4]=="Checked Out") ? true:false, data[6]);
         }
 
         public override List<String> Serialize(Controller data)
@@ -246,41 +41,22 @@ namespace ControllerManagementSystem
             };
         }
 
-        private ControllerType FromStringToControllerType(string controllerTypeString)
-        {
-            switch (controllerTypeString)
-            {
-                case "Switch":
-                    return ControllerType.Switch;
-                case "Xbox":
-                    return ControllerType.Xbox;
-                case "Other":
-                    return ControllerType.Other;
-                case "ProController":
-                    return ControllerType.ProController;
-                case "Joycon":
-                    return ControllerType.Joycon;
-                case "XboxWireless":
-                    return ControllerType.XboxWireless;
-                case "XboxWired":
-                    return ControllerType.XboxWired;
-                default:
-                    return ControllerType.Other;
-            }
-        }
+        
     }
-
 
 
     public partial class MainWindow : Window
     {
+        //List of Controllers
         List<Controller> controllerList = new();
 
         public MainWindow()
         {
-
+            //Create the controller folder if it doesnt exist
             string controllerCSVDirectory = "Controller CSV Files";
             System.IO.Directory.CreateDirectory(controllerCSVDirectory);
+
+            //Adding test controllers
             /*
             controllerList.Add(new Controller("Joycon1", ControllerType.Switch));
             controllerList.Add(new Controller("Joycon2", ControllerType.Switch));
@@ -297,14 +73,17 @@ namespace ControllerManagementSystem
             controllerList.Add(new Controller("Mouse23", ControllerType.Other));
             controllerList.Add(new Controller("Mouse14", ControllerType.Other));
             */
-            LoadControllers(controllerCSVDirectory);
 
+            //Load controllers frome the controller CSV folder to the controller List<> and then sort the List
+            LoadControllers(controllerCSVDirectory);
             controllerList.Sort();
+
             InitializeComponent();
 
-            ControllerTypeBox.Items.Add(ControllerType.Switch);
-            ControllerTypeBox.Items.Add(ControllerType.Xbox);
-            ControllerTypeBox.Items.Add(ControllerType.Other);
+            //Add ControllerTypes to the Type ComboBox
+            ControllerTypeBox.Items.Add(Controller.ControllerType.Switch);
+            ControllerTypeBox.Items.Add(Controller.ControllerType.Xbox);
+            ControllerTypeBox.Items.Add(Controller.ControllerType.Other);
         }
 
         public List<Controller> LoadControllers(string controllerCSVDirectory)
@@ -326,7 +105,7 @@ namespace ControllerManagementSystem
             return controllerList;
         }
 
-        public List<Controller> GetControllersOfOneType(ControllerType controllerType)
+        public List<Controller> GetControllersOfOneType(Controller.ControllerType controllerType)
         {
             List<Controller> newControllerList = new();
             foreach (Controller controller in controllerList)
@@ -339,7 +118,7 @@ namespace ControllerManagementSystem
             return newControllerList;
         }
 
-        public Controller GetController(ControllerType controllerType, string name)
+        public Controller GetController(Controller.ControllerType controllerType, string name)
         {
             foreach (Controller controller in controllerList)
             {
@@ -396,12 +175,12 @@ namespace ControllerManagementSystem
         private void ControllerTypeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //Grab the selected controller type and then clear the controller name ComboBox
-            ControllerType controllerTypeItem = (ControllerType)ControllerTypeBox.SelectedItem;
+            var controllerTypeItem = (Controller.ControllerType)ControllerTypeBox.SelectedItem;
             ControllerNumberBox.Items.Clear();
 
-            if (controllerTypeItem == ControllerType.Switch)
+            if (controllerTypeItem == Controller.ControllerType.Switch)
             {
-                foreach (Controller controller in GetControllersOfOneType(ControllerType.Switch))
+                foreach (Controller controller in GetControllersOfOneType(Controller.ControllerType.Switch))
                 {
                     //Create the ComboBox and the StackPanel to go in it
                     ComboBoxItem newItem = new ComboBoxItem();
@@ -434,9 +213,9 @@ namespace ControllerManagementSystem
                 ControllerNumberBox.SelectedIndex = 0;
             }
             //If its an xbox controller, add all xbox controllers to the name ComboBox
-            else if (controllerTypeItem == ControllerType.Xbox)
+            else if (controllerTypeItem == Controller.ControllerType.Xbox)
             {
-                foreach (Controller controller in GetControllersOfOneType(ControllerType.Xbox))
+                foreach (Controller controller in GetControllersOfOneType(Controller.ControllerType.Xbox))
                 {
                     //Create the ComboBox and the StackPanel to go in it
                     ComboBoxItem newItem = new ComboBoxItem();
@@ -469,9 +248,9 @@ namespace ControllerManagementSystem
                 ControllerNumberBox.SelectedIndex = 0;
             }
             //If its an other item, add all other items to the name ComboBox
-            else if (controllerTypeItem == ControllerType.Other)
+            else if (controllerTypeItem == Controller.ControllerType.Other)
             {
-                foreach (Controller controller in GetControllersOfOneType(ControllerType.Other))
+                foreach (Controller controller in GetControllersOfOneType(Controller.ControllerType.Other))
                 {
                     //Create the ComboBox and the StackPanel to go in it
                     ComboBoxItem newItem = new ComboBoxItem();
@@ -509,8 +288,8 @@ namespace ControllerManagementSystem
         {
             if ((ComboBoxItem)ControllerNumberBox.SelectedItem != null)
             {
-                //Get the currently selected name and controller type, and then check that controller out
-                ControllerType controllerTypeItem = (ControllerType)ControllerTypeBox.SelectedItem;
+                //Get the selected controller from the controller list
+                Controller.ControllerType controllerTypeItem = (Controller.ControllerType)ControllerTypeBox.SelectedItem;
                 ComboBoxItem nameItem = (ComboBoxItem)ControllerNumberBox.SelectedItem;
                 StackPanel nameBoxStackPanel = (StackPanel)nameItem.Content;
                 TextBlock nameTextBox = (TextBlock)nameBoxStackPanel.Children[1];
@@ -518,7 +297,7 @@ namespace ControllerManagementSystem
 
                 Controller currController = GetController(controllerTypeItem, controllerName);
 
-                //Update test field
+                //Update test field with the controller
                 TestName.Text = currController.name;
                 TestStatus.Text = currController.controllerStatus.ToString();
                 TestCheckedout.Text = currController.isCheckedOut ? "Checked Out" : "Available";
@@ -533,7 +312,7 @@ namespace ControllerManagementSystem
             if ((ComboBoxItem)ControllerNumberBox.SelectedItem != null)
             {
                 //Get the currently selected name and controller type, and then check that controller out
-                ControllerType controllerTypeItem = (ControllerType)ControllerTypeBox.SelectedItem;
+                Controller.ControllerType controllerTypeItem = (Controller.ControllerType)ControllerTypeBox.SelectedItem;
                 ComboBoxItem nameItem = (ComboBoxItem)ControllerNumberBox.SelectedItem;
                 StackPanel nameBoxStackPanel = (StackPanel)nameItem.Content;
                 TextBlock nameTextBox = (TextBlock)nameBoxStackPanel.Children[1];
@@ -554,8 +333,8 @@ namespace ControllerManagementSystem
         {
             if ((ComboBoxItem)ControllerNumberBox.SelectedItem != null)
             {
-                //Get the currently selected name and controller type, and then check that controller out
-                ControllerType controllerTypeItem = (ControllerType)ControllerTypeBox.SelectedItem;
+                //Get the currently selected name and controller type, and then check that controller in
+                Controller.ControllerType controllerTypeItem = (Controller.ControllerType)ControllerTypeBox.SelectedItem;
                 ComboBoxItem nameItem = (ComboBoxItem)ControllerNumberBox.SelectedItem;
                 StackPanel nameBoxStackPanel = (StackPanel)nameItem.Content;
                 TextBlock nameTextBox = (TextBlock)nameBoxStackPanel.Children[1];
