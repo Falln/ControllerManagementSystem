@@ -102,7 +102,7 @@ namespace ControllerManagementSystem
             }
         }
 
-        public void setCheckedOut(Boolean isCheckedOut, string owner, string controllerStatus)
+        public void setCheckedOut(Boolean isCheckedOut, string owner, string controllerStatus, string employeeID)
         {
             //Set the controller checked out status to the one given
             this.isCheckedOut = isCheckedOut;
@@ -114,12 +114,12 @@ namespace ControllerManagementSystem
             {
                 DateTime now = DateTime.Now;
                 //Add a CSV entry with the checked out status as the one given
-                //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), isCheckedOut ? "Checked Out" : "Checked In", owner, controllerStatus, "");
+                //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials/ID
+                writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), isCheckedOut ? "Checked Out" : "Checked In", owner, controllerStatus, employeeID);
             }
         }
 
-        public void checkOut(string owner, string controllerStatus)
+        public void checkOut(string owner, string controllerStatus, string employeeID)
         {
             //Set the controller to checked out
             this.isCheckedOut = true;
@@ -132,11 +132,11 @@ namespace ControllerManagementSystem
                 DateTime now = DateTime.Now;
                 //Add a CSV entry of "checked in"
                 //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked Out", owner, controllerStatus, "");
+                writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked Out", owner, controllerStatus, employeeID);
             }
         }
 
-        public void checkIn(string owner, string controllerStatus)
+        public void checkIn(string owner, string controllerStatus, string employeeID)
         {
             //Set the controller to checked in
             this.isCheckedOut = false;
@@ -149,7 +149,7 @@ namespace ControllerManagementSystem
                 DateTime now = DateTime.Now;
                 //Add a CSV entry of "checked in"
                 //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", owner, controllerStatus, "");
+                writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", owner, controllerStatus, employeeID);
             }
         }
 

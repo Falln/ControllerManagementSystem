@@ -319,7 +319,7 @@ namespace ControllerManagementSystem
                 string controllerName = nameTextBox.Text;
 
                 Controller currController = GetController(controllerTypeItem, controllerName);
-                currController.checkOut(UsernameCheckoutBox.Text, "New");
+                currController.checkOut(UsernameCheckoutBox.Text, "New", InitialsBox.Text);
 
                 //Update all ComboBoxes with the new status
                 int previousIndex = ControllerNumberBox.SelectedIndex;
@@ -341,7 +341,7 @@ namespace ControllerManagementSystem
                 string controllerName = nameTextBox.Text;
 
                 Controller currController = GetController(controllerTypeItem, controllerName);
-                currController.checkIn(UsernameCheckoutBox.Text, "New");
+                currController.checkIn(UsernameCheckoutBox.Text, "New", InitialsBox.Text);
 
 
                 //Update all ComboBoxes with the new status
