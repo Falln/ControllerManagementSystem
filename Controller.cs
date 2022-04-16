@@ -60,7 +60,7 @@ namespace ControllerManagementSystem
                     {
                         DateTime now = DateTime.Now;
                         //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", "CES", controllerStatus, "");
+                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", "", controllerStatus, "");
                     }
                 }
             }
@@ -90,7 +90,7 @@ namespace ControllerManagementSystem
                     {
                         DateTime now = DateTime.Now;
                         //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", "CES", controllerStatus, "");
+                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", "", controllerStatus, "");
                     }
                 }
             }
@@ -121,7 +121,7 @@ namespace ControllerManagementSystem
                     {
                         DateTime now = DateTime.Now;
                         //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", "CES", controllerStatus, "");
+                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", "", controllerStatus, "");
                     }
                 }
             }
@@ -140,6 +140,8 @@ namespace ControllerManagementSystem
             }
             //Set the controller to checked out
             this.isCheckedOut = isCheckedOut;
+            if (isCheckedOut)
+                currentOwner = owner;
 
             //Add a list for the reader to unload on
             List<List<string>> controllerCSVList;
@@ -194,8 +196,9 @@ namespace ControllerManagementSystem
                 return;
             }
 
-            //Set the controller to checked out
+            //Set the controller to checked out and set the owner
             this.isCheckedOut = true;
+            this.currentOwner = owner;
 
             //Add a list for the reader to unload on
             List<List<string>> controllerCSVList;
@@ -252,6 +255,7 @@ namespace ControllerManagementSystem
 
             //Set the controller to checked in
             this.isCheckedOut = false;
+            this.currentOwner = "";
 
             //Add a list for the reader to unload on
             List<List<string>> controllerCSVList;
