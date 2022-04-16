@@ -1,0 +1,21 @@
+﻿<Window x:Class="ControllerManagementSystem.AddControllerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ControllerManagementSystem"
+        mc:Ignorable="d"
+        Title="Add Controller" Height="220" Width="170" ResizeMode="NoResize"
+        WindowStyle="ToolWindow" BorderThickness="0">
+    <Border BorderThickness="0">
+        <Grid>
+            <ComboBox x:Name="ControllerTypeBox" HorizontalAlignment="Left" Margin="21,21,0,0" VerticalAlignment="Top" Width="112"/>
+            <Label Content="Type" HorizontalAlignment="Left" Margin="17,0,0,0" VerticalAlignment="Top" FontSize="12"/>
+            <Label Content="Controller #" HorizontalAlignment="Left" Margin="17,43,0,0" VerticalAlignment="Top" FontSize="12"/>
+            <ComboBox x:Name="ControllerNumberBox" HorizontalAlignment="Left" Margin="21,64,0,0" VerticalAlignment="Top" Width="112">
+            </ComboBox>
+            <Button x:Name="RemoveControllerBtn" Content="Delete Controller" HorizontalAlignment="Left" Margin="30,98,0,0" VerticalAlignment="Top" Click="AddControllerBtn_Click"/>
+            <TextBox x:Name="ValidityBox" HorizontalAlignment="Left" Margin="2,118,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150" TextAlignment="Center" FontSize="10" BorderThickness="0"/>
+        </Grid>
+    </Border>
+</Window>
