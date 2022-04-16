@@ -294,6 +294,7 @@ namespace ControllerManagementSystem
 
         private void AddItemBtn_Click(object sender, RoutedEventArgs e)
         {
+            //Check if there are any other add/remove windows open. If so close them
             if (removeControllerWindow != null)
             {
                 if (removeControllerWindow.IsEnabled)
@@ -306,6 +307,7 @@ namespace ControllerManagementSystem
                     newControllerWindow.Close();
             }
 
+            //Start new add window
             newControllerWindow = new NewControllerWindow(controllerList, RefreshControllerStatus);
             newControllerWindow.Activate();
             newControllerWindow.Show();
@@ -313,6 +315,7 @@ namespace ControllerManagementSystem
 
         private void RemoveItemBtn_Click(object sender, RoutedEventArgs e)
         {
+            //Check if there are any other add/remove windows open. If so close them
             if (removeControllerWindow != null)
             {
                 if (removeControllerWindow.IsEnabled)
@@ -325,6 +328,7 @@ namespace ControllerManagementSystem
                     newControllerWindow.Close();
             }
 
+            //Start new remove window
             removeControllerWindow = new RemoveControllerWindow(controllerList, RefreshControllerStatus);
             removeControllerWindow.Activate();
             removeControllerWindow.Show();
