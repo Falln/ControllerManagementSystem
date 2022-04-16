@@ -61,6 +61,10 @@ namespace ControllerManagementSystem
         //List of Controllers
         List<Controller> controllerList = new();
 
+        //Add/Remove Windows
+        NewControllerWindow newControllerWindow;
+        RemoveControllerWindow removeControllerWindow;
+
         public MainWindow()
         {
             //Create the controller folder if it doesnt exist
@@ -90,6 +94,7 @@ namespace ControllerManagementSystem
             controllerList.Sort();
 
             InitializeComponent();
+            
 
             //TODO if adding more Controller types, add things here
             //Add ControllerTypes to the Type ComboBox
@@ -289,16 +294,40 @@ namespace ControllerManagementSystem
 
         private void AddItemBtn_Click(object sender, RoutedEventArgs e)
         {
-            NewControllerWindow window = new NewControllerWindow(controllerList, RefreshControllerStatus);
-            window.Activate();
-            window.Show();
+            if (removeControllerWindow != null)
+            {
+                if (removeControllerWindow.IsEnabled)
+                    removeControllerWindow.Close();
+            }
+
+            if (newControllerWindow != null)
+            {
+                if (newControllerWindow.IsEnabled)
+                    newControllerWindow.Close();
+            }
+
+            newControllerWindow = new NewControllerWindow(controllerList, RefreshControllerStatus);
+            newControllerWindow.Activate();
+            newControllerWindow.Show();
         }
 
         private void RemoveItemBtn_Click(object sender, RoutedEventArgs e)
         {
-            RemoveControllerWindow window = new RemoveControllerWindow(controllerList, RefreshControllerStatus);
-            window.Activate();
-            window.Show();
+            if (removeControllerWindow != null)
+            {
+                if (removeControllerWindow.IsEnabled)
+                    removeControllerWindow.Close();
+            }
+
+            if (newControllerWindow != null)
+            {
+                if (newControllerWindow.IsEnabled)
+                    newControllerWindow.Close();
+            }
+
+            removeControllerWindow = new RemoveControllerWindow(controllerList, RefreshControllerStatus);
+            removeControllerWindow.Activate();
+            removeControllerWindow.Show();
         }
     }
 }
