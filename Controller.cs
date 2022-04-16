@@ -285,7 +285,7 @@ namespace ControllerManagementSystem
                 writerSettings.OverwriteExisting = true;
                 using (var writer = CsvWriter.Create(historyFile, writerSettings))
                 {
-                    for (int k = 1; k <= totalEntriesToSave-1; k++)
+                    for (int k = 1; k <= totalEntriesToSave - 1; k++)
                     {
                         writer.WriteRow(controllerCSVList.ElementAt(k));
                     }
@@ -298,6 +298,17 @@ namespace ControllerManagementSystem
             }
         }
 
+        public static Boolean ContainsSameName(List<Controller> controllerList, string newName)
+        {
+            foreach (Controller controller in controllerList)
+            {
+                if (controller.name.Equals(newName))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         //TODO if adding more Controller types, add things here
         public static ControllerType FromStringToControllerType(string controllerTypeString)
@@ -325,12 +336,31 @@ namespace ControllerManagementSystem
 
         public int CompareTo(Controller obj)
         {
-            double thisControllerNum = Double.Parse(new string(this.name.Where(Char.IsDigit).ToArray()));
-            double newControllerNum = Double.Parse(new string(obj.name.Where(Char.IsDigit).ToArray()));
+            //Check if there's a number, if there's not, save it as -1
+            string thisNameNumbers = new string(this.name.Where(Char.IsDigit).ToArray());
+            double thisControllerNum = -1;
+            if (!(thisNameNumbers.Length == 0))
+            {
+                thisControllerNum = Double.Parse(thisNameNumbers);
+            }
+
+            //Check if there's a number, if there's not, save it as -1
+            string newNameNumbers = new string(obj.name.Where(Char.IsDigit).ToArray());
+            double newControllerNum = -1;
+            if (!(newNameNumbers.Length == 0))
+            {
+                newControllerNum = Double.Parse(newNameNumbers);
+            }
+
+            //First compare length, then check if both have a number, then compare numbers, then assume the same
             if (this.name.Length < obj.name.Length)
                 return -1;
             else if (this.name.Length > obj.name.Length)
                 return 1;
+            else if (thisControllerNum == -1 && newControllerNum != -1)
+                return 1;
+            else if (thisControllerNum != -1 && newControllerNum == -1)
+                return -1;
             else if (thisControllerNum < newControllerNum)
                 return -1;
             else if (thisControllerNum > newControllerNum)
