@@ -290,5 +290,12 @@ namespace ControllerManagementSystem
             window.Activate();
             window.Show();
         }
+
+        private void RemoveItemBtn_Click(object sender, RoutedEventArgs e)
+        {
+            RemoveControllerWindow window = new RemoveControllerWindow(controllerList, RefreshControllerStatus);
+            window.Activate();
+            window.Show();
+        }
     }
 }
