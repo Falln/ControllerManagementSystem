@@ -96,6 +96,9 @@ namespace ControllerManagementSystem
             ControllerTypeBox.Items.Add(Controller.ControllerType.Switch);
             ControllerTypeBox.Items.Add(Controller.ControllerType.Xbox);
             ControllerTypeBox.Items.Add(Controller.ControllerType.Other);
+
+            //Set the default selected item for the TypeBox
+            ControllerTypeBox.SelectedIndex = 0;
         }
 
         public List<Controller> LoadControllers(string controllerCSVDirectory)

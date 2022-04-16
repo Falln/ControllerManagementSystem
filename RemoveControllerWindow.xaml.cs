@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,9 @@ namespace ControllerManagementSystem
             ControllerTypeBox.Items.Add(Controller.ControllerType.Switch);
             ControllerTypeBox.Items.Add(Controller.ControllerType.Xbox);
             ControllerTypeBox.Items.Add(Controller.ControllerType.Other);
+
+            //Set the default selected item for the TypeBox
+            ControllerTypeBox.SelectedIndex = 0;
         }
 
 
@@ -122,6 +126,7 @@ namespace ControllerManagementSystem
 
                 Controller currController = GetController(controllerTypeItem, controllerName);
 
+                //Remove the controller and output whether it was successfully removed
                 bool controllerRemoved = controllerList.Remove(currController);
                 if (controllerRemoved)
                 {
@@ -133,9 +138,15 @@ namespace ControllerManagementSystem
                     ValidityBox.Foreground = Brushes.Red;
                     ValidityBox.Text = "Controller doesn't exist";
                 }
+
+                //Refresh the MainWindow's NumberComboBox
                 Dispatcher.Invoke(refreshControllerStatus);
 
+                //Refresh the NumberComboBox
                 RefreshControllerStatus();
+
+                //Remove the csv file associated with the controller
+                File.Delete(currController.historyFile);
             }
         }
 
