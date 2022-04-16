@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControllerManagementSystem"
         mc:Ignorable="d"
-        Title="Add Controller" Height="210" Width="170" ResizeMode="NoResize"
+        Title="Add Controller" Height="220" Width="170" ResizeMode="NoResize"
         WindowStyle="ToolWindow" BorderThickness="0">
     <Border BorderThickness="0">
         <Grid>
@@ -22,6 +22,7 @@
                 <ComboBoxItem>Damaged</ComboBoxItem>
             </ComboBox>
             <Button x:Name="AddControllerBtn" Content="Add Controller" HorizontalAlignment="Left" Margin="36,137,0,0" VerticalAlignment="Top" Click="AddControllerBtn_Click"/>
+            <TextBox x:Name="ValidityBox" HorizontalAlignment="Center" Margin="0,157,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150" TextAlignment="Center" FontSize="10" BorderThickness="0"/>
         </Grid>
     </Border>
 
