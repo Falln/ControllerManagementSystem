@@ -34,49 +34,15 @@ namespace ControllerManagementSystem
 
         private void AddControllerBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (checkControllerValidity())
+            if (TypeBox.SelectedItem != null && ConditionBox.SelectedItem != null)
             {
                 Controller.ControllerType controllerType = (Controller.ControllerType)TypeBox.SelectedItem;
                 ComboBoxItem controllerCondition = (ComboBoxItem)ConditionBox.SelectedItem;
-                Controller newController = new Controller(NameBox.Text.ToString(), controllerType, controllerCondition.Content.ToString());
+                Controller newController = new Controller(NameBox.Text, controllerType, controllerCondition.Content.ToString());
                 controllerList.Add(newController);
                 controllerList.Sort();
                 Dispatcher.Invoke(refreshControllerStatus);
-            }
-        }
-
-        private bool checkControllerValidity()
-        {
-            if (TypeBox.SelectedItem == null)
-            {
-                ValidityBox.Foreground = Brushes.Red;
-                ValidityBox.Text = "Please enter controller type";
-                return false;
-            }
-            else if (NameBox.Text == "" || NameBox.Text == null || NameBox.Text == " ")
-            {
-                ValidityBox.Foreground = Brushes.Red;
-                ValidityBox.Text = "Please enter valid name";
-                return false;
-            }
-            else if (ConditionBox.SelectedItem == null)
-            {
-                ValidityBox.Foreground = Brushes.Red;
-                ValidityBox.Text = "Please enter controller condition";
-                return false;
-            } 
-            else if (Controller.ContainsSameName(controllerList, NameBox.Text))
-            {
-                ValidityBox.Foreground = Brushes.Red;
-                ValidityBox.Text = "Controller name already exists";
-                return false;
-            } 
-            else
-            {
-                ValidityBox.Foreground = Brushes.Green;
-                ValidityBox.Text = "Controller Added";
-                return true;
-            }
+            }   
         }
     }
 }
