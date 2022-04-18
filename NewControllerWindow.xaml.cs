@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdonisUI.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace ControllerManagementSystem
     /// <summary>
     /// Interaction logic for NewControllerWindow.xaml
     /// </summary>
-    public partial class NewControllerWindow : Window
+    public partial class NewControllerWindow : AdonisWindow
     {
         List<Controller> controllerList = new();
         Action refreshControllerStatus;

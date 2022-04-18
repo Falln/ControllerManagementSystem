@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdonisUI.Controls;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace ControllerManagementSystem
     /// <summary>
     /// Interaction logic for RemoveControllerWindow.xaml
     /// </summary>
-    public partial class RemoveControllerWindow : Window
+    public partial class RemoveControllerWindow : AdonisWindow
     {
         List<Controller> controllerList = new List<Controller>();
         Action refreshControllerStatus;
