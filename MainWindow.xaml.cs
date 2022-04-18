@@ -1,4 +1,5 @@
-﻿using Sky.Data.Csv;
+﻿using AdonisUI.Controls;
+using Sky.Data.Csv;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -56,14 +57,14 @@ namespace ControllerManagementSystem
     }
 
 
-    public partial class MainWindow : Window
+    public partial class MainWindow : AdonisWindow
     {
         //List of Controllers
         List<Controller> controllerList = new();
 
         //Add/Remove Windows
-        NewControllerWindow newControllerWindow;
-        RemoveControllerWindow removeControllerWindow;
+        NewControllerWindow ?newControllerWindow;
+        RemoveControllerWindow ?removeControllerWindow;
 
         public MainWindow()
         {
