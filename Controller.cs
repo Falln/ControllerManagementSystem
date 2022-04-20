@@ -30,7 +30,7 @@ namespace ControllerManagementSystem
         public Boolean isCheckedOut = false;
         public string historyFile;
 
-        int totalEntriesToSave = 10;
+        int totalEntriesToSave = 20;
 
         public Controller()
         {

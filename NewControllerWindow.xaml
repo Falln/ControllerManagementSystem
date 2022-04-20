@@ -4,25 +4,49 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControllerManagementSystem"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Icon="/CMSFavicon.ico"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{materialDesign:MaterialDesignFont}"
+        FontSize="14"
         mc:Ignorable="d"
-        Title="Add Controller" Height="220" Width="170" ResizeMode="NoResize"
+        Title="Add Controller" Height="280" Width="200" ResizeMode="NoResize"
         WindowStyle="ToolWindow" BorderThickness="0">
     <Border BorderThickness="0">
         <Grid>
-            <ComboBox x:Name="TypeBox" HorizontalAlignment="Left" Margin="21,21,0,0" VerticalAlignment="Top" Width="112"/>
-            <Label Content="Type" HorizontalAlignment="Left" Margin="17,0,0,0" VerticalAlignment="Top" FontSize="12"/>
-            <Label Content="Name" HorizontalAlignment="Left" Margin="15,41,0,0" VerticalAlignment="Top" FontSize="12"/>
-            <Label Content="Condition" HorizontalAlignment="Left" Margin="17,82,0,0" VerticalAlignment="Top" FontSize="12"/>
-            <TextBox x:Name="NameBox" Text="Name/Tag" HorizontalAlignment="Left" Margin="21,62,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="112" Height="19"/>
-            <ComboBox x:Name="ConditionBox" HorizontalAlignment="Left" Margin="21,103,0,0" VerticalAlignment="Top" Width="112">
-                <ComboBoxItem>New</ComboBoxItem>
-                <ComboBoxItem>Like New</ComboBoxItem>
-                <ComboBoxItem>Worn</ComboBoxItem>
-                <ComboBoxItem>Slightly Damaged</ComboBoxItem>
-                <ComboBoxItem>Damaged</ComboBoxItem>
-            </ComboBox>
-            <Button x:Name="AddControllerBtn" Content="Add Controller" HorizontalAlignment="Left" Margin="36,137,0,0" VerticalAlignment="Top" Click="AddControllerBtn_Click"/>
-            <TextBox x:Name="ValidityBox" HorizontalAlignment="Center" Margin="0,157,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150" TextAlignment="Center" FontSize="10" BorderThickness="0"/>
+            <StackPanel HorizontalAlignment="Center">
+                <Label Content="Type" HorizontalAlignment="Left" Margin="10,5,0,0"/>
+                <ComboBox x:Name="TypeBox" 
+                          Margin="0" HorizontalAlignment="Center" 
+                          Width="120"/>
+                <Label Content="Name" HorizontalAlignment="Left" Margin="10,10,0,0"/>
+                <TextBox x:Name="NameBox"
+                         materialDesign:HintAssist.Hint="Enter Name"
+                         Margin="0" HorizontalAlignment="Center"
+                         TextWrapping="Wrap"  
+                         Width="120"/>
+                <Label Content="Condition" HorizontalAlignment="Left" Margin="10,10,0,0"/>
+                <ComboBox x:Name="ConditionBox" 
+                          Margin="0" HorizontalAlignment="Center"
+                          Width="120">
+                    <ComboBoxItem>New</ComboBoxItem>
+                    <ComboBoxItem>Like New</ComboBoxItem>
+                    <ComboBoxItem>Worn</ComboBoxItem>
+                    <ComboBoxItem>Slightly Damaged</ComboBoxItem>
+                    <ComboBoxItem>Damaged</ComboBoxItem>
+                </ComboBox>
+                <Button x:Name="AddControllerBtn" 
+                        Content="Add Controller" 
+                        Click="AddControllerBtn_Click"
+                        HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                <TextBox x:Name="ValidityBox" 
+                         Text=""             
+                         FontSize="10" TextWrapping="Wrap" TextAlignment="Center" 
+                         HorizontalAlignment="Center" Margin="0"
+                         Width="150"
+                         BorderThickness="0"/>
+            </StackPanel>
         </Grid>
     </Border>
 
