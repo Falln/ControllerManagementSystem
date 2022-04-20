@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="CMSFavicon.ico" />
     <None Remove="Images\close.png" />
     <None Remove="Images\refresh_icon.png" />
     <None Remove="Images\restore-down.png" />
@@ -22,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="CMSFavicon.ico" />
     <Resource Include="Images\close.png" />
     <Resource Include="Images\refresh_icon.png" />
     <Resource Include="Images\restore-down.png" />
