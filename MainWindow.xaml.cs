@@ -341,5 +341,10 @@ namespace ControllerManagementSystem
             removeControllerWindow.Activate();
             removeControllerWindow.Show();
         }
+
+        private void FocusGrid(object sender, EventArgs e)
+        {
+            Grid.Focus();
+        }
     }
 }

@@ -11,6 +11,7 @@
         FontFamily="{materialDesign:MaterialDesignFont}"
         FontSize="14"
         mc:Ignorable="d"
+        MouseDown="FocusGrid"
         Title="ControllerManagementSystem" Height="450" Width="800" ResizeMode="CanResize">
     <Window.Resources>
         <!-- Default Colors -->
@@ -40,7 +41,7 @@
 
     </Window.Resources>
     <Border BorderThickness="0">
-        <Grid>
+        <Grid x:Name="Grid" Focusable="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
@@ -69,27 +70,35 @@
                 <Image Source="/Images/close.png" />
             </Button>
             -->
-            
+
             <TextBox x:Name="UsernameCheckoutBox" 
                     materialDesign:HintAssist.Hint="Name/Tag" 
+                    materialDesign:HintAssist.IsFloating="True"
                     ToolTip="Person checking the controller out" 
                     TextWrapping="Wrap" 
                     Grid.Column="0" Grid.Row="1" Margin="20,0,0,0" VerticalAlignment="Top"
                     Width="120"/>
-            <Label Content="Type" Grid.Column="1" Grid.Row="0" Margin="5,0,0,3" VerticalAlignment="Bottom"/>
-            <ComboBox x:Name="ControllerTypeBox" 
-                      SelectionChanged="ControllerTypeBox_SelectionChanged" 
+            <!-- <Label Content="Type" Grid.Column="1" Grid.Row="0" Margin="5,0,0,3" VerticalAlignment="Bottom"/> -->
+            <ComboBox x:Name="ControllerTypeBox"
+                      SelectionChanged="ControllerTypeBox_SelectionChanged"
+                      DropDownClosed="FocusGrid"
+                      materialDesign:HintAssist.Hint="Type" 
+                      materialDesign:HintAssist.IsFloating="True"
                       HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
                       Grid.Column="1" Grid.Row="1" Margin="10,0,0,0" VerticalAlignment="Top"
                       Width="70"/>
-            <Label Content="Controller Name" Grid.Column="2" Grid.Row="0" Margin="5,0,0,3" VerticalAlignment="Bottom"/>
+            <!-- <Label Content="Controller Name" Grid.Column="2" Grid.Row="0" Margin="5,0,0,3" VerticalAlignment="Bottom"/> -->
             <ComboBox x:Name="ControllerNumberBox" 
+                      materialDesign:HintAssist.Hint="Name" 
+                      materialDesign:HintAssist.IsFloating="True"
                       SelectionChanged="ControllerNumberBox_SelectionChanged"
+                      DropDownClosed="FocusGrid"
                       HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
                       Grid.Column="2" Grid.Row="1" Margin="10,0,0,0" VerticalAlignment="Top"
                       Width="140"/>
             <TextBox x:Name="InitialsBox" 
                      materialDesign:HintAssist.Hint="Initials" 
+                     materialDesign:HintAssist.IsFloating="True"
                      ToolTip="Employee Initials" 
                      Grid.Column="3" Grid.Row="1" Margin="10,0,0,0" VerticalAlignment="Top"
                      Width="50"/>
@@ -103,6 +112,7 @@
                         Click="CheckinBtn_Click" 
                         Width="91" Height="29" Margin="0,5,0,0"/>
             </StackPanel>
+
             <StackPanel x:Name="ControllerReadout" Grid.ColumnSpan="2" Grid.Row="2" Grid.Column="0" Margin="20">
                 <TextBlock x:Name="TestName"/>
                 <TextBlock x:Name="TestType"/>
@@ -111,8 +121,12 @@
                 <TextBlock x:Name="TestOwner"/>
             </StackPanel>
 
-            <Button x:Name="AddItemBtn" Content="Add Item" HorizontalAlignment="Left" Margin="212,42,0,0" VerticalAlignment="Top" Grid.Row="3" Grid.Column="6" Height="26" Width="116" Click="AddItemBtn_Click"/>
-            <Button x:Name="RemoveItemBtn" Content="Remove Item" HorizontalAlignment="Left" Margin="212,73,0,0" VerticalAlignment="Top" Grid.Row="3" Grid.Column="6" Height="26" Width="116" Click="RemoveItemBtn_Click"/>
+            <Button x:Name="AddItemBtn" Content="Add Item" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="3" Grid.Column="4" Height="26" Width="116" Click="AddItemBtn_Click" Grid.ColumnSpan="2"/>
+            <Button x:Name="RemoveItemBtn" Content="Remove Item" HorizontalAlignment="Center" Margin="0,31,0,0" VerticalAlignment="Top" Grid.Row="3" Grid.Column="4" Height="26" Width="116" Click="RemoveItemBtn_Click" Grid.ColumnSpan="2"/>
+            <Button Style="{DynamicResource MaterialDesignFloatingActionButton}"
+                    Content="{materialDesign:PackIcon Gear}"
+                    Grid.Column="6" 
+                    HorizontalAlignment="Left" VerticalAlignment="Top" Height="27" Width="27" Margin="29,12,0,0"/>
 
 
 

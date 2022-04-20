@@ -18,6 +18,8 @@
             <StackPanel HorizontalAlignment="Center">
                 <Label Content="Type" HorizontalAlignment="Left" Margin="10,5,0,0"/>
                 <ComboBox x:Name="TypeBox" 
+                          Style="{DynamicResource MaterialDesignFloatingHintComboBox}"
+                          materialDesign:HintAssist.Hint="Type"
                           Margin="0" HorizontalAlignment="Center" 
                           Width="120"/>
                 <Label Content="Name" HorizontalAlignment="Left" Margin="10,10,0,0"/>
