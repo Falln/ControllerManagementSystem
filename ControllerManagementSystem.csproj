@@ -5,6 +5,7 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>CMSFavicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,7 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="CMSFavicon.ico" />
+    <Resource Include="CMSFavicon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\close.png" />
     <Resource Include="Images\refresh_icon.png" />
     <Resource Include="Images\restore-down.png" />
