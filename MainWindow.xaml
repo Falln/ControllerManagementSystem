@@ -84,7 +84,7 @@
                       Width="70"/>
             <Label Content="Controller Name" Grid.Column="2" Grid.Row="0" Margin="5,0,0,3" VerticalAlignment="Bottom"/>
             <ComboBox x:Name="ControllerNumberBox" 
-                      SelectionChanged="ControllerNumberBox_SelectionChanged" 
+                      SelectionChanged="ControllerNumberBox_SelectionChanged"
                       HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
                       Grid.Column="2" Grid.Row="1" Margin="10,0,0,0" VerticalAlignment="Top"
                       Width="140"/>

@@ -95,7 +95,8 @@ namespace ControllerManagementSystem
                     ellipse.Width = 5;
                     BulletDecorator statusLight = new BulletDecorator();
                     statusLight.Bullet = ellipse;
-                    statusLight.Margin = new Thickness(0, 5, 5, 0);
+                    statusLight.VerticalAlignment = VerticalAlignment.Center;
+                    statusLight.Margin = new Thickness(0, 0, 5, 0);
 
                     //Create the TextBlock for the controller name
                     TextBlock textBlock = new TextBlock();

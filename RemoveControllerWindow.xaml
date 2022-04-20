@@ -4,18 +4,40 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControllerManagementSystem"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Icon="/CMSFavicon.ico"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{materialDesign:MaterialDesignFont}"
+        FontSize="14"
         mc:Ignorable="d"
-        Title="Remove Controller" Height="180" Width="170" ResizeMode="NoResize"
+        Title="Remove Controller" Height="220" Width="200" ResizeMode="NoResize"
         WindowStyle="ToolWindow" BorderThickness="0">
     <Border BorderThickness="0">
         <Grid>
-            <ComboBox x:Name="ControllerTypeBox" SelectionChanged="ControllerTypeBox_SelectionChanged" HorizontalAlignment="Left" Margin="21,21,0,0" VerticalAlignment="Top" Width="112"/>
-            <Label Content="Type" HorizontalAlignment="Left" Margin="17,0,0,0" VerticalAlignment="Top" FontSize="12"/>
-            <Label Content="Controller #" HorizontalAlignment="Left" Margin="17,43,0,0" VerticalAlignment="Top" FontSize="12"/>
-            <ComboBox x:Name="ControllerNumberBox" HorizontalAlignment="Left" Margin="21,64,0,0" VerticalAlignment="Top" Width="112" SelectionChanged="ControllerNumberBox_SelectionChanged">
-            </ComboBox>
-            <Button x:Name="RemoveControllerBtn" Content="Delete Controller" HorizontalAlignment="Left" Margin="30,98,0,0" VerticalAlignment="Top" Click="RemoveControllerBtn_Click"/>
-            <TextBlock x:Name="ValidityBox" HorizontalAlignment="Left" Margin="2,118,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150" TextAlignment="Center" FontSize="10"/>
+            <StackPanel HorizontalAlignment="Center">
+                <Label Content="Type" HorizontalAlignment="Left" Margin="10,5,0,0" />
+                <ComboBox x:Name="ControllerTypeBox"
+                          SelectionChanged="ControllerTypeBox_SelectionChanged"
+                          HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
+                          Margin="0" HorizontalAlignment="Center"
+                          Width="120"/>
+                <Label Content="Name" HorizontalAlignment="Left" Margin="10,10,0,0" />
+                <ComboBox x:Name="ControllerNumberBox"
+                          SelectionChanged="ControllerNumberBox_SelectionChanged"
+                          HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
+                          Margin="0" HorizontalAlignment="Center"
+                          Width="120"/>
+                <Button x:Name="RemoveControllerBtn"
+                        Content="Delete Controller"
+                        Click="RemoveControllerBtn_Click"
+                        Margin="0,10,0,0" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="ValidityBox"
+                         Text=""
+                         FontSize="10" TextWrapping="Wrap" TextAlignment="Center"
+                         HorizontalAlignment="Center" Margin="0,3,0,0"
+                         Width="150"/>
+            </StackPanel>
         </Grid>
     </Border>
 </Window>
