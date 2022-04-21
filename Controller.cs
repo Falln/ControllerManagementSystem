@@ -20,6 +20,7 @@ namespace ControllerManagementSystem
             Xbox,
             XboxWireless,
             XboxWired,
+            Console,
             Other
         }
 
@@ -99,12 +100,13 @@ namespace ControllerManagementSystem
                 Trace.WriteLine(e.ToString());
             }
         }
-        public Controller(string name, ControllerType controllerType, Boolean isCheckedOut, string controllerStatus)
+        public Controller(string name, ControllerType controllerType, Boolean isCheckedOut, string controllerStatus, string owner)
         {
             this.name = name;
             this.controllerType = controllerType;
             this.controllerStatus = controllerStatus;
             this.isCheckedOut = isCheckedOut;
+            this.currentOwner = owner;
             historyFile = "Controller CSV Files/" + name + " History CSV.csv";
             try
             {

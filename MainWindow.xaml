@@ -12,7 +12,8 @@
         FontSize="14"
         mc:Ignorable="d"
         MouseDown="FocusGrid"
-        Title="ControllerManagementSystem" Height="450" Width="800" ResizeMode="CanResize">
+        Title="ControllerManagementSystem" Height="300" Width="600" ResizeMode="CanResize">
+
     <Window.Resources>
         <!-- Default Colors -->
         <Color x:Key="BaseGray">#FF2A2A2A</Color>
@@ -40,9 +41,11 @@
         </Style>
 
     </Window.Resources>
+
     <Border BorderThickness="0">
         <Grid x:Name="Grid" Focusable="True">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
@@ -113,20 +116,52 @@
                         Width="91" Height="29" Margin="0,5,0,0"/>
             </StackPanel>
 
-            <StackPanel x:Name="ControllerReadout" Grid.ColumnSpan="2" Grid.Row="2" Grid.Column="0" Margin="20">
-                <TextBlock x:Name="TestName"/>
-                <TextBlock x:Name="TestType"/>
-                <TextBlock x:Name="TestCheckedout"/>
-                <TextBlock x:Name="TestStatus"/>
-                <TextBlock x:Name="TestOwner"/>
+
+            <TextBlock Text="Quick Item Info"
+                       Grid.Row="2" Grid.Column="0" Margin="20,20,60,94" Grid.ColumnSpan="2"/>
+            <StackPanel x:Name="ControllerReadout" Grid.ColumnSpan="2" Grid.Row="2" Grid.Column="0" Margin="20,50,20,10">
+                <TextBlock x:Name="TestName" materialDesign:HintAssist.Hint="Item Name"/>
+                <TextBlock x:Name="TestType" materialDesign:HintAssist.Hint="Item Type"/>
+                <TextBlock x:Name="TestCheckedout" materialDesign:HintAssist.Hint="CheckedOut?"/>
+                <TextBlock x:Name="TestStatus" materialDesign:HintAssist.Hint="Controller Condition"/>
+                <TextBlock x:Name="TestOwner" materialDesign:HintAssist.Hint="Owner"/>
             </StackPanel>
 
-            <Button x:Name="AddItemBtn" Content="Add Item" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="3" Grid.Column="4" Height="26" Width="116" Click="AddItemBtn_Click" Grid.ColumnSpan="2"/>
-            <Button x:Name="RemoveItemBtn" Content="Remove Item" HorizontalAlignment="Center" Margin="0,31,0,0" VerticalAlignment="Top" Grid.Row="3" Grid.Column="4" Height="26" Width="116" Click="RemoveItemBtn_Click" Grid.ColumnSpan="2"/>
-            <Button Style="{DynamicResource MaterialDesignFloatingActionButton}"
-                    Content="{materialDesign:PackIcon Gear}"
-                    Grid.Column="6" 
-                    HorizontalAlignment="Left" VerticalAlignment="Top" Height="27" Width="27" Margin="29,12,0,0"/>
+
+            <materialDesign:PopupBox Style="{DynamicResource MaterialDesignFloatingActionButtonPopupBox}" 
+                                     PlacementMode="LeftAndAlignBottomEdges"
+                                     Margin="15,0,0,0"
+                                     Grid.Column="7" Grid.Row="0" Grid.RowSpan="1" HorizontalAlignment="Right">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Margin="5,0,5,0">
+                        <Button Content="Add Item"
+                                Style="{DynamicResource MaterialDesignRaisedButton}"
+                                Click="AddItemBtn_Click"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                Height="30" Width="116"/>
+                        <Button Content="Remove Item"
+                                Style="{DynamicResource MaterialDesignRaisedButton}"
+                                Click="RemoveItemBtn_Click"
+                                Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                Height="30" Width="116"/>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:PopupBox>
+
+
+            <Rectangle Grid.Column="1" Grid.ColumnSpan="4" HorizontalAlignment="Left" Height="166" Margin="10,10,0,0" Grid.Row="2" Stroke="Black" VerticalAlignment="Top" Width="340" Grid.RowSpan="2"/>
+            <Label Grid.Column="2" Content="Controller history lookup/&#xD;&#xA;quick info extension" HorizontalAlignment="Left" Margin="17,76,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
 
 
 

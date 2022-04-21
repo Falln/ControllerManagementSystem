@@ -31,7 +31,7 @@ namespace ControllerManagementSystem
     {
         public override Controller Deserialize(List<String> data)
         {
-            return new Controller(data[0], Controller.FromStringToControllerType(data[1]), (data[4] == "Checked Out") ? true : false, data[6]);
+            return new Controller(data[0], Controller.FromStringToControllerType(data[1]), (data[4] == "Checked Out") ? true : false, data[6], data[5]);
         }
 
         public override List<String> Serialize(Controller data)
@@ -102,6 +102,7 @@ namespace ControllerManagementSystem
             //Add ControllerTypes to the Type ComboBox
             ControllerTypeBox.Items.Add(Controller.ControllerType.Switch);
             ControllerTypeBox.Items.Add(Controller.ControllerType.Xbox);
+            ControllerTypeBox.Items.Add(Controller.ControllerType.Console);
             ControllerTypeBox.Items.Add(Controller.ControllerType.Other);
 
             //Set the default selected item for the TypeBox
@@ -252,7 +253,7 @@ namespace ControllerManagementSystem
                 //TODO: Test Variables. Remove later
                 //Update test field with the controller
                 TestName.Text = currController.name;
-                TestStatus.Text = currController.controllerStatus.ToString();
+                TestType.Text = currController.controllerType.ToString();
                 TestCheckedout.Text = currController.isCheckedOut ? "Checked Out" : "Available";
                 TestStatus.Text = currController.controllerStatus;
                 TestOwner.Text = currController.currentOwner;

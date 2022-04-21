@@ -29,6 +29,7 @@ namespace ControllerManagementSystem
 
             TypeBox.Items.Add(Controller.ControllerType.Switch);
             TypeBox.Items.Add(Controller.ControllerType.Xbox);
+            TypeBox.Items.Add(Controller.ControllerType.Console);
             TypeBox.Items.Add(Controller.ControllerType.Other);
         }
 
