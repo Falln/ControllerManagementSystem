@@ -32,6 +32,7 @@ namespace ControllerManagementSystem
 
             ControllerTypeBox.Items.Add(Controller.ControllerType.Switch);
             ControllerTypeBox.Items.Add(Controller.ControllerType.Xbox);
+            ControllerTypeBox.Items.Add(Controller.ControllerType.Console);
             ControllerTypeBox.Items.Add(Controller.ControllerType.Other);
 
             //Set the default selected item for the TypeBox
