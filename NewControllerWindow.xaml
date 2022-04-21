@@ -18,18 +18,21 @@
             <StackPanel HorizontalAlignment="Center">
                 <Label Content="Type" HorizontalAlignment="Left" Margin="10,5,0,0"/>
                 <ComboBox x:Name="TypeBox" 
-                          Style="{DynamicResource MaterialDesignFloatingHintComboBox}"
-                          materialDesign:HintAssist.Hint="Type"
+                          SelectionChanged="ClearValidityBox"
+                          materialDesign:HintAssist.Hint="Select Type"
                           Margin="0" HorizontalAlignment="Center" 
                           Width="120"/>
                 <Label Content="Name" HorizontalAlignment="Left" Margin="10,10,0,0"/>
                 <TextBox x:Name="NameBox"
+                         TextChanged="ClearValidityBox"
                          materialDesign:HintAssist.Hint="Enter Name"
                          Margin="0" HorizontalAlignment="Center"
                          TextWrapping="Wrap"  
                          Width="120"/>
                 <Label Content="Condition" HorizontalAlignment="Left" Margin="10,10,0,0"/>
                 <ComboBox x:Name="ConditionBox" 
+                          SelectionChanged="ClearValidityBox"
+                          materialDesign:HintAssist.Hint="Select Condition"
                           Margin="0" HorizontalAlignment="Center"
                           Width="120">
                     <ComboBoxItem>New</ComboBoxItem>

@@ -79,5 +79,11 @@ namespace ControllerManagementSystem
                 return true;
             }
         }
+
+        private void ClearValidityBox(object sender, RoutedEventArgs e)
+        {
+            //Reset the validity box when a new type is selected
+            ValidityBox.Text = "";
+        }
     }
 }

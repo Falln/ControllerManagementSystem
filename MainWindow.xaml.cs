@@ -318,6 +318,9 @@ namespace ControllerManagementSystem
 
             //Start new add window
             newControllerWindow = new NewControllerWindow(controllerList, RefreshControllerStatus);
+            newControllerWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            newControllerWindow.Left = PointToScreen(Mouse.GetPosition(null)).X;
+            newControllerWindow.Top = PointToScreen(Mouse.GetPosition(null)).Y;
             newControllerWindow.Activate();
             newControllerWindow.Show();
         }
@@ -339,6 +342,9 @@ namespace ControllerManagementSystem
 
             //Start new remove window
             removeControllerWindow = new RemoveControllerWindow(controllerList, RefreshControllerStatus);
+            removeControllerWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            removeControllerWindow.Left = PointToScreen(Mouse.GetPosition(null)).X;
+            removeControllerWindow.Top = PointToScreen(Mouse.GetPosition(null)).Y;
             removeControllerWindow.Activate();
             removeControllerWindow.Show();
         }
