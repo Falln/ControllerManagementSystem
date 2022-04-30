@@ -52,12 +52,13 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="112.803"/>
+                <RowDefinition Height="42.214"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
@@ -79,7 +80,7 @@
                     materialDesign:HintAssist.IsFloating="True"
                     ToolTip="Person checking the controller out" 
                     TextWrapping="Wrap" 
-                    Grid.Column="0" Grid.Row="1" Margin="20,0,0,0" VerticalAlignment="Top"
+                    Grid.Column="0" Grid.Row="1" Margin="20,0,0,0" VerticalAlignment="Center"
                     Width="120"/>
             <!-- <Label Content="Type" Grid.Column="1" Grid.Row="0" Margin="5,0,0,3" VerticalAlignment="Bottom"/> -->
             <ComboBox x:Name="ControllerTypeBox"
@@ -88,7 +89,7 @@
                       materialDesign:HintAssist.Hint="Type" 
                       materialDesign:HintAssist.IsFloating="True"
                       HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
-                      Grid.Column="1" Grid.Row="1" Margin="10,0,0,0" VerticalAlignment="Top"
+                      Grid.Column="1" Grid.Row="1" Margin="10,0,0,0"
                       Width="70"/>
             <!-- <Label Content="Controller Name" Grid.Column="2" Grid.Row="0" Margin="5,0,0,3" VerticalAlignment="Bottom"/> -->
             <ComboBox x:Name="ControllerNumberBox" 
@@ -97,15 +98,15 @@
                       SelectionChanged="ControllerNumberBox_SelectionChanged"
                       DropDownClosed="FocusGrid"
                       HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
-                      Grid.Column="2" Grid.Row="1" Margin="10,0,0,0" VerticalAlignment="Top"
+                      Grid.Column="2" Grid.Row="1" Margin="10,0,0,0"
                       Width="140"/>
             <TextBox x:Name="InitialsBox" 
                      materialDesign:HintAssist.Hint="Initials" 
                      materialDesign:HintAssist.IsFloating="True"
                      ToolTip="Employee Initials" 
-                     Grid.Column="3" Grid.Row="1" Margin="10,0,0,0" VerticalAlignment="Top"
+                     Grid.Column="3" Grid.Row="1" Margin="10,0,0,0" VerticalAlignment="Center"
                      Width="50"/>
-            <StackPanel Grid.Column="4" Grid.Row="0" Grid.RowSpan="3" Margin="10,21,0,0">
+            <StackPanel Grid.Column="4" Grid.Row="0" Grid.RowSpan="4" Margin="10,21,0,0">
                 <Button x:Name="CheckoutBtn" 
                         Content="Checkout" 
                         Click="CheckoutBtn_Click"
@@ -118,8 +119,8 @@
 
 
             <TextBlock Text="Quick Item Info"
-                       Grid.Row="2" Grid.Column="0" Margin="20,20,60,94" Grid.ColumnSpan="2"/>
-            <StackPanel x:Name="ControllerReadout" Grid.ColumnSpan="2" Grid.Row="2" Grid.Column="0" Margin="20,50,20,10">
+                       Grid.Row="2" Grid.Column="0" Margin="20,20,60,52" Grid.ColumnSpan="2"/>
+            <StackPanel x:Name="ControllerReadout" Grid.Row="2" Grid.Column="0" Margin="20,50,10,21" Grid.RowSpan="2">
                 <TextBlock x:Name="TestName" materialDesign:HintAssist.Hint="Item Name"/>
                 <TextBlock x:Name="TestType" materialDesign:HintAssist.Hint="Item Type"/>
                 <TextBlock x:Name="TestCheckedout" materialDesign:HintAssist.Hint="CheckedOut?"/>
@@ -130,8 +131,9 @@
 
             <materialDesign:PopupBox Style="{DynamicResource MaterialDesignFloatingActionButtonPopupBox}" 
                                      PlacementMode="LeftAndAlignTopEdges"
-                                     Margin="15,0,0,0"
-                                     Grid.Column="7" Grid.Row="0" Grid.RowSpan="1" HorizontalAlignment="Right">
+                                     Foreground="Black"
+                                     Margin="35,0,0,0"
+                                     Grid.Column="7" Grid.Row="0" Grid.RowSpan="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
@@ -158,10 +160,31 @@
                     </StackPanel>
                 </Grid>
             </materialDesign:PopupBox>
+            <ComboBox x:Name="ItemHistTypeBox"
+                SelectionChanged="ItemHistTypeBox_SelectionChanged"
+                DropDownClosed="FocusGrid"
+                materialDesign:HintAssist.Hint="Type" 
+                materialDesign:HintAssist.IsFloating="True"
+                HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
+                Grid.Column="2" Grid.Row="2" Margin="0,54,80,0"
+                Width="70" VerticalAlignment="Top"/>
+            <ComboBox x:Name="ItemHistNameBox" 
+                materialDesign:HintAssist.Hint="Name" 
+                materialDesign:HintAssist.IsFloating="True"
+                SelectionChanged="ItemHistNameBox_SelectionChanged"
+                DropDownClosed="FocusGrid"
+                HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
+                Grid.Column="2" Grid.Row="2" Margin="80,54,91,0"
+                Width="140" Grid.ColumnSpan="3" VerticalAlignment="Top"/>
 
-
-            <Rectangle Grid.Column="1" Grid.ColumnSpan="4" HorizontalAlignment="Left" Height="166" Margin="10,10,0,0" Grid.Row="2" Stroke="Black" VerticalAlignment="Top" Width="340" Grid.RowSpan="2"/>
-            <Label Grid.Column="2" Content="Controller history lookup/&#xD;&#xA;quick info extension" HorizontalAlignment="Left" Margin="17,76,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+            <materialDesign:PopupBox x:Name="CheckHistoryBtn"
+                                     Content="Check History" 
+                                     Margin="0,113,0,0" VerticalAlignment="Top" HorizontalAlignment="Right"
+                                     Grid.Column="2" Grid.Row="2" Grid.RowSpan="2">
+                <materialDesign:PopupBox.ToggleContent>
+                    <Button Content="Check History" Style="{DynamicResource MaterialDesignRaisedDarkButton}"/>
+                </materialDesign:PopupBox.ToggleContent>
+            </materialDesign:PopupBox>
 
 
 

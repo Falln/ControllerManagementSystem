@@ -105,6 +105,11 @@ namespace ControllerManagementSystem
             ControllerTypeBox.Items.Add(Controller.ControllerType.Console);
             ControllerTypeBox.Items.Add(Controller.ControllerType.Other);
 
+            ItemHistTypeBox.Items.Add(Controller.ControllerType.Switch);
+            ItemHistTypeBox.Items.Add(Controller.ControllerType.Xbox);
+            ItemHistTypeBox.Items.Add(Controller.ControllerType.Console);
+            ItemHistTypeBox.Items.Add(Controller.ControllerType.Other);
+
             //Set the default selected item for the TypeBox
             ControllerTypeBox.SelectedIndex = 0;
         }
@@ -158,6 +163,10 @@ namespace ControllerManagementSystem
             int previousIndex = ControllerNumberBox.SelectedIndex;
             ControllerTypeBox_SelectionChanged(new object(), null!);
             ControllerNumberBox.SelectedIndex = previousIndex;
+
+            previousIndex = ItemHistNameBox.SelectedIndex;
+            ItemHistTypeBox_SelectionChanged(new object(), null!);
+            ItemHistNameBox.SelectedIndex = previousIndex;
         }
 
         //Clicks
@@ -348,6 +357,72 @@ namespace ControllerManagementSystem
             removeControllerWindow.Activate();
             removeControllerWindow.Show();
         }
+
+
+        private void ItemHistTypeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ItemHistTypeBox.SelectedItem != null)
+            {
+                //Grab the selected controller type and then clear the controller name ComboBox
+                var controllerTypeItem = (Controller.ControllerType)ItemHistTypeBox.SelectedItem;
+                ItemHistNameBox.Items.Clear();
+
+                foreach (Controller controller in GetControllersOfOneType(controllerTypeItem))
+                {
+                    //Create the ComboBox and the StackPanel to go in it
+                    ComboBoxItem newItem = new ComboBoxItem();
+                    StackPanel panel = new StackPanel();
+                    panel.Orientation = Orientation.Horizontal;
+
+                    //Create the Ellipse and the BulletDecorator it goes inside. This is the "Checked out" StatusLight
+                    Ellipse ellipse = new Ellipse();
+                    ellipse.Fill = controller.isCheckedOut ? Brushes.Red : Brushes.Green;
+                    ellipse.Stroke = Brushes.Black;
+                    ellipse.StrokeThickness = 0;
+                    ellipse.Height = 5;
+                    ellipse.Width = 5;
+                    BulletDecorator statusLight = new BulletDecorator();
+                    statusLight.Bullet = ellipse;
+                    statusLight.VerticalAlignment = VerticalAlignment.Center;
+                    statusLight.Margin = new Thickness(0, 0, 5, 0);
+
+                    //Create the TextBlock for the controller name
+                    TextBlock textBlock = new TextBlock();
+                    textBlock.Text = controller.name;
+
+                    //Add the StatusLight and Name to the stack panel
+                    panel.Children.Add(statusLight);
+                    panel.Children.Add(textBlock);
+
+                    //Add the StackPanel to the ComboBoxItem and then add it to the ComboBox
+                    newItem.Content = panel;
+                    ItemHistNameBox.Items.Add(newItem);
+                }
+                ItemHistNameBox.SelectedIndex = 0;
+
+                if (ItemHistNameBox.SelectedItem == null)
+                {
+                    FrameworkElement controllerNumberBox = ItemHistNameBox as FrameworkElement;
+                }
+            }
+        }
+
+        //Check history stuff
+        private void ItemHistNameBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if ((ComboBoxItem)ItemHistNameBox.SelectedItem != null)
+            {
+                //Get the selected controller from the controller list
+                Controller.ControllerType controllerTypeItem = (Controller.ControllerType)ItemHistTypeBox.SelectedItem;
+                ComboBoxItem nameItem = (ComboBoxItem)ItemHistNameBox.SelectedItem;
+                StackPanel nameBoxStackPanel = (StackPanel)nameItem.Content;
+                TextBlock nameTextBox = (TextBlock)nameBoxStackPanel.Children[1];
+                string controllerName = nameTextBox.Text;
+
+                Controller currController = GetController(controllerTypeItem, controllerName);
+            }
+        }
+
 
         private void FocusGrid(object sender, EventArgs e)
         {
