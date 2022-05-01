@@ -57,12 +57,12 @@ namespace ControllerManagementSystem
         }
     }
 
-    public class ControllerHistroyResolver : AbstractDataResolver<Controller.ControllerHistoryFromCSV>
+    public class ControllerHistroyResolver : AbstractDataResolver<Controller.HistoryEntry>
     {
-        public override Controller.ControllerHistoryFromCSV Deserialize(List<string> data)
+        public override Controller.HistoryEntry Deserialize(List<string> data)
         {
 
-            return new Controller.ControllerHistoryFromCSV
+            return new Controller.HistoryEntry
             {
                 name = data[0],
                 controllerType = Controller.FromStringToControllerType(data[1]),
@@ -74,7 +74,7 @@ namespace ControllerManagementSystem
             };
         }
 
-        public override List<string> Serialize(Controller.ControllerHistoryFromCSV data)
+        public override List<string> Serialize(Controller.HistoryEntry data)
         {
             return new List<string>
             {
@@ -511,7 +511,7 @@ namespace ControllerManagementSystem
                 Controller currController = GetController(controllerTypeItem, controllerName);
 
                 //Get the controller history and store it as a ControllerHistory object in a big list of them
-                List<Controller.ControllerHistoryFromCSV> controllerHistoryList = currController.GetControllerHistoryFromCSVs();
+                List<Controller.HistoryEntry> controllerHistoryList = currController.GetControllerHistory();
 
                 //Add the list of the history to the ListView
                 DataGrid dataGrid = (DataGrid)CheckHistPopupBox.PopupContent;

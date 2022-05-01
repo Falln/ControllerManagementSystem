@@ -307,12 +307,12 @@ namespace ControllerManagementSystem
             }
         }
 
-        public List<ControllerHistoryFromCSV> GetControllerHistoryFromCSVs()
+        public List<HistoryEntry> GetControllerHistory()
         {
-            List<ControllerHistoryFromCSV> controllerHistoryFromCSVs = new List<ControllerHistoryFromCSV>();
+            List<HistoryEntry> controllerHistoryFromCSVs = new List<HistoryEntry>();
             //Start the CSV writer
             var dataResolver = new ControllerHistroyResolver();
-            using (var reader = CsvReader<ControllerHistoryFromCSV>.Create(historyFile, dataResolver))
+            using (var reader = CsvReader<HistoryEntry>.Create(historyFile, dataResolver))
             {
                 foreach (var controllerHistoryLine in reader)
                 {
@@ -407,7 +407,7 @@ namespace ControllerManagementSystem
             }
         }
 
-        public class ControllerHistoryFromCSV
+        public class HistoryEntry
         {
             public ControllerType controllerType { get; set; }
             public string name { get; set; }
