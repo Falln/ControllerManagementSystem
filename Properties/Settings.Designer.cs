@@ -31,5 +31,14 @@ namespace ControllerManagementSystem.Properties {
                 return ((int)(this["totalEntriesToSave"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("173, 7, 7")]
+        public string primaryColor {
+            get {
+                return ((string)(this["primaryColor"]));
+            }
+        }
     }
 }
