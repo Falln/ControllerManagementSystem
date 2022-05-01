@@ -12,7 +12,7 @@
         FontSize="14"
         mc:Ignorable="d"
         MouseDown="FocusGrid"
-        Title="ControllerManagementSystem" Height="300" Width="600" ResizeMode="CanResize">
+        Title="ControllerManagementSystem" Height="300" Width="640" ResizeMode="CanResize">
     <Window.Resources>
         <!-- Default Colors -->
         <Color x:Key="BaseGray">#FF2A2A2A</Color>
@@ -89,7 +89,7 @@
                       materialDesign:HintAssist.IsFloating="True"
                       HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
                       Grid.Column="1" Grid.Row="1" Margin="10,0,0,0"
-                      Width="70"/>
+                      Width="110"/>
             <!-- <Label Content="Controller Name" Grid.Column="2" Grid.Row="0" Margin="5,0,0,3" VerticalAlignment="Bottom"/> -->
             <ComboBox x:Name="ControllerNumberBox" 
                       materialDesign:HintAssist.Hint="Name" 
@@ -165,16 +165,17 @@
                 materialDesign:HintAssist.Hint="Type" 
                 materialDesign:HintAssist.IsFloating="True"
                 HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
-                Grid.Column="2" Grid.Row="2" Margin="0,54,80,0"
-                Width="70" VerticalAlignment="Top"/>
+                HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                Grid.Column="2" Grid.Row="2"
+                Width="110"/>
             <ComboBox x:Name="ItemHistNameBox" 
                 materialDesign:HintAssist.Hint="Name" 
                 materialDesign:HintAssist.IsFloating="True"
                 SelectionChanged="ItemHistNameBox_SelectionChanged"
                 DropDownClosed="FocusGrid"
                 HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
-                Grid.Column="2" Grid.Row="2" Margin="80,54,91,0"
-                Width="140" Grid.ColumnSpan="3" VerticalAlignment="Top"/>
+                Grid.Column="2" Grid.Row="2" Margin="120,0,0,0"
+                Width="140" Grid.ColumnSpan="3" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
 
             <materialDesign:PopupBox x:Name="CheckHistPopupBox"
                                      Content="Check History" 
@@ -184,7 +185,7 @@
                 <materialDesign:PopupBox.ToggleContent>
                     <Button x:Name="CheckHistInsideBtn" Content="Check History" IsEnabled="True" Click="CheckHistInsideBtn_Click"/>
                 </materialDesign:PopupBox.ToggleContent>
-                
+
                 <DataGrid AutoGenerateColumns="False" IsReadOnly="True"
                           FontSize="11"
                           BorderThickness="0"

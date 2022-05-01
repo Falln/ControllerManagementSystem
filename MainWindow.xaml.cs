@@ -133,14 +133,20 @@ namespace ControllerManagementSystem
 
             //TODO if adding more Controller types, add things here
             //Add ControllerTypes to the Type ComboBox
-            ControllerTypeBox.Items.Add(Controller.ControllerType.Switch);
-            ControllerTypeBox.Items.Add(Controller.ControllerType.Xbox);
-            ControllerTypeBox.Items.Add(Controller.ControllerType.Console);
+            ControllerTypeBox.Items.Add(Controller.ControllerType.JoyCon);
+            ControllerTypeBox.Items.Add(Controller.ControllerType.ProController);
+            ControllerTypeBox.Items.Add(Controller.ControllerType.SwitchConsole);
+            ControllerTypeBox.Items.Add(Controller.ControllerType.XboxWireless);
+            ControllerTypeBox.Items.Add(Controller.ControllerType.XboxWired);
+            ControllerTypeBox.Items.Add(Controller.ControllerType.Mouse);
             ControllerTypeBox.Items.Add(Controller.ControllerType.Other);
 
-            ItemHistTypeBox.Items.Add(Controller.ControllerType.Switch);
-            ItemHistTypeBox.Items.Add(Controller.ControllerType.Xbox);
-            ItemHistTypeBox.Items.Add(Controller.ControllerType.Console);
+            ItemHistTypeBox.Items.Add(Controller.ControllerType.JoyCon);
+            ItemHistTypeBox.Items.Add(Controller.ControllerType.ProController);
+            ItemHistTypeBox.Items.Add(Controller.ControllerType.SwitchConsole);
+            ItemHistTypeBox.Items.Add(Controller.ControllerType.XboxWireless);
+            ItemHistTypeBox.Items.Add(Controller.ControllerType.XboxWired);
+            ItemHistTypeBox.Items.Add(Controller.ControllerType.Mouse);
             ItemHistTypeBox.Items.Add(Controller.ControllerType.Other);
 
             //Set the default selected item for the TypeBox
@@ -464,23 +470,26 @@ namespace ControllerManagementSystem
 
         private void CheckHistInsideBtn_Click(object sender, RoutedEventArgs e)
         {
-            //Get the selected controller from the controller list
-            Controller.ControllerType controllerTypeItem = (Controller.ControllerType)ItemHistTypeBox.SelectedItem;
-            ComboBoxItem nameItem = (ComboBoxItem)ItemHistNameBox.SelectedItem;
-            StackPanel nameBoxStackPanel = (StackPanel)nameItem.Content;
-            TextBlock nameTextBox = (TextBlock)nameBoxStackPanel.Children[1];
-            string controllerName = nameTextBox.Text;
+            if (ItemHistTypeBox.SelectedItem != null && ItemHistNameBox != null)
+            {
+                //Get the selected controller from the controller list
+                Controller.ControllerType controllerTypeItem = (Controller.ControllerType)ItemHistTypeBox.SelectedItem;
+                ComboBoxItem nameItem = (ComboBoxItem)ItemHistNameBox.SelectedItem;
+                StackPanel nameBoxStackPanel = (StackPanel)nameItem.Content;
+                TextBlock nameTextBox = (TextBlock)nameBoxStackPanel.Children[1];
+                string controllerName = nameTextBox.Text;
 
-            Controller currController = GetController(controllerTypeItem, controllerName);
-            
-            //Get the controller history and store it as a ControllerHistory object in a big list of them
-            List<Controller.ControllerHistoryFromCSV> controllerHistoryList = currController.GetControllerHistoryFromCSVs();
+                Controller currController = GetController(controllerTypeItem, controllerName);
 
-            //Add the list of the history to the ListView
-            DataGrid dataGrid = (DataGrid)CheckHistPopupBox.PopupContent;
-            dataGrid.ItemsSource = controllerHistoryList;
+                //Get the controller history and store it as a ControllerHistory object in a big list of them
+                List<Controller.ControllerHistoryFromCSV> controllerHistoryList = currController.GetControllerHistoryFromCSVs();
 
-            CheckHistPopupBox.IsPopupOpen = true;
+                //Add the list of the history to the ListView
+                DataGrid dataGrid = (DataGrid)CheckHistPopupBox.PopupContent;
+                dataGrid.ItemsSource = controllerHistoryList;
+
+                CheckHistPopupBox.IsPopupOpen = true;
+            }
         }
     }
 }

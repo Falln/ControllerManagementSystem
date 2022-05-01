@@ -30,9 +30,12 @@ namespace ControllerManagementSystem
             
             InitializeComponent();
 
-            ControllerTypeBox.Items.Add(Controller.ControllerType.Switch);
-            ControllerTypeBox.Items.Add(Controller.ControllerType.Xbox);
-            ControllerTypeBox.Items.Add(Controller.ControllerType.Console);
+            ControllerTypeBox.Items.Add(Controller.ControllerType.JoyCon);
+            ControllerTypeBox.Items.Add(Controller.ControllerType.ProController);
+            ControllerTypeBox.Items.Add(Controller.ControllerType.SwitchConsole);
+            ControllerTypeBox.Items.Add(Controller.ControllerType.XboxWireless);
+            ControllerTypeBox.Items.Add(Controller.ControllerType.XboxWired);
+            ControllerTypeBox.Items.Add(Controller.ControllerType.Mouse);
             ControllerTypeBox.Items.Add(Controller.ControllerType.Other);
 
             //Set the default selected item for the TypeBox

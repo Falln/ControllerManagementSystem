@@ -27,9 +27,12 @@ namespace ControllerManagementSystem
             this.refreshControllerStatus = refreshControllerStatus;
             InitializeComponent();
 
-            TypeBox.Items.Add(Controller.ControllerType.Switch);
-            TypeBox.Items.Add(Controller.ControllerType.Xbox);
-            TypeBox.Items.Add(Controller.ControllerType.Console);
+            TypeBox.Items.Add(Controller.ControllerType.JoyCon);
+            TypeBox.Items.Add(Controller.ControllerType.ProController);
+            TypeBox.Items.Add(Controller.ControllerType.SwitchConsole);
+            TypeBox.Items.Add(Controller.ControllerType.XboxWireless);
+            TypeBox.Items.Add(Controller.ControllerType.XboxWired);
+            TypeBox.Items.Add(Controller.ControllerType.Mouse);
             TypeBox.Items.Add(Controller.ControllerType.Other);
         }
 

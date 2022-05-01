@@ -14,13 +14,12 @@ namespace ControllerManagementSystem
         //TODO if adding more Controller types, add things here
         public enum ControllerType
         {
-            Switch,
-            Joycon,
+            JoyCon,
             ProController,
-            Xbox,
+            SwitchConsole,
             XboxWireless,
             XboxWired,
-            Console,
+            Mouse,
             Other
         }
 
@@ -31,7 +30,7 @@ namespace ControllerManagementSystem
         public Boolean isCheckedOut = false;
         public string historyFile;
 
-        int totalEntriesToSave = 20;
+        int totalEntriesToSave = Properties.Settings.Default.totalEntriesToSave;
 
         public Controller()
         {
@@ -336,20 +335,20 @@ namespace ControllerManagementSystem
         {
             switch (controllerTypeString)
             {
-                case "Switch":
-                    return ControllerType.Switch;
-                case "Xbox":
-                    return ControllerType.Xbox;
-                case "Other":
-                    return ControllerType.Other;
+                case "JoyCon":
+                    return ControllerType.JoyCon;
                 case "ProController":
                     return ControllerType.ProController;
-                case "Joycon":
-                    return ControllerType.Joycon;
+                case "SwitchConsole":
+                    return ControllerType.SwitchConsole;
                 case "XboxWireless":
                     return ControllerType.XboxWireless;
                 case "XboxWired":
                     return ControllerType.XboxWired;
+                case "Mouse":
+                    return ControllerType.Mouse;
+                case "Other":
+                    return ControllerType.Other;
                 default:
                     return ControllerType.Other;
             }
