@@ -116,7 +116,6 @@
                         Width="91" Height="29" Margin="0,5,0,0"/>
             </StackPanel>
 
-
             <TextBlock Text="Quick Item Info"
                        Grid.Row="2" Grid.Column="0" Margin="20,20,60,52" Grid.ColumnSpan="2"/>
             <StackPanel x:Name="ControllerReadout" Grid.Row="2" Grid.Column="0" Margin="20,50,10,21" Grid.RowSpan="2">
@@ -180,10 +179,11 @@
             <materialDesign:PopupBox x:Name="CheckHistPopupBox"
                                      Content="Check History" 
                                      PlacementMode="TopAndAlignCentres"
-                                     Margin="0,113,0,0" VerticalAlignment="Top" HorizontalAlignment="Right"
-                                     Grid.Column="2" Grid.Row="2" Grid.RowSpan="2">
+                                     materialDesign:RippleAssist.IsDisabled="True"
+                                     Margin="55,0,0,0" VerticalAlignment="Center"
+                                     Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2">
                 <materialDesign:PopupBox.ToggleContent>
-                    <Button x:Name="CheckHistInsideBtn" Content="Check History" IsEnabled="True" Click="CheckHistInsideBtn_Click"/>
+                    <Button x:Name="CheckHistInsideBtn" Content="Check History" IsEnabled="True" materialDesign:RippleAssist.IsDisabled="False" Click="CheckHistInsideBtn_Click"/>
                 </materialDesign:PopupBox.ToggleContent>
 
                 <DataGrid AutoGenerateColumns="False" IsReadOnly="True"

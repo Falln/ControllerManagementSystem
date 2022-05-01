@@ -8,5 +8,8 @@
     <Setting Name="primaryColor" Type="System.String" Scope="Application">
       <Value Profile="(Default)">173, 7, 7</Value>
     </Setting>
+    <Setting Name="defaultOwner" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">CES</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

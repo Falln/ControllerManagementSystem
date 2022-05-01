@@ -40,5 +40,14 @@ namespace ControllerManagementSystem.Properties {
                 return ((string)(this["primaryColor"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("CES")]
+        public string defaultOwner {
+            get {
+                return ((string)(this["defaultOwner"]));
+            }
+        }
     }
 }

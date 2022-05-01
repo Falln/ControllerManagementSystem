@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
-
+using System.Collections.ObjectModel;
 
 namespace ControllerManagementSystem
 {
@@ -108,20 +108,20 @@ namespace ControllerManagementSystem
 
             //Adding test controllers
             /*
-            controllerList.Add(new Controller("Joycon1", Controller.ControllerType.Switch));
-            controllerList.Add(new Controller("Joycon2", Controller.ControllerType.Switch));
-            controllerList.Add(new Controller("ProController1", Controller.ControllerType.Switch));
-            controllerList.Add(new Controller("ProController2", Controller.ControllerType.Switch));
-            controllerList.Add(new Controller("Wired1", Controller.ControllerType.Xbox));
-            controllerList.Add(new Controller("Wired2", Controller.ControllerType.Xbox));
-            controllerList.Add(new Controller("Wireless1", Controller.ControllerType.Xbox));
-            controllerList.Add(new Controller("Mouse1", Controller.ControllerType.Other));
+            controllerList.Add(new Controller("JoyCon1", Controller.ControllerType.JoyCon));
+            controllerList.Add(new Controller("JoyCon2", Controller.ControllerType.JoyCon));
+            controllerList.Add(new Controller("ProController1", Controller.ControllerType.ProController));
+            controllerList.Add(new Controller("ProController2", Controller.ControllerType.ProController));
+            controllerList.Add(new Controller("Wired1", Controller.ControllerType.XboxWired));
+            controllerList.Add(new Controller("Wired2", Controller.ControllerType.XboxWired));
+            controllerList.Add(new Controller("Wireless1", Controller.ControllerType.XboxWireless));
+            controllerList.Add(new Controller("Mouse1", Controller.ControllerType.Mouse));
             controllerList.Add(new Controller("Keyboard2", Controller.ControllerType.Other));
             controllerList.Add(new Controller("Keyboard13", Controller.ControllerType.Other));
             controllerList.Add(new Controller("Keyboard11", Controller.ControllerType.Other));
-            controllerList.Add(new Controller("Mouse2", Controller.ControllerType.Other));
-            controllerList.Add(new Controller("Mouse23", Controller.ControllerType.Other));
-            controllerList.Add(new Controller("Mouse14", Controller.ControllerType.Other));
+            controllerList.Add(new Controller("Mouse2", Controller.ControllerType.Mouse));
+            controllerList.Add(new Controller("Mouse23", Controller.ControllerType.Mouse));
+            controllerList.Add(new Controller("Mouse14", Controller.ControllerType.Mouse));
             */
 
             //Load controllers frome the controller CSV folder to the controller List<> and then sort the List
@@ -132,7 +132,7 @@ namespace ControllerManagementSystem
             
 
             //TODO if adding more Controller types, add things here
-            //Add ControllerTypes to the Type ComboBox
+            //Add ControllerTypes to the Type ComboBoxes
             ControllerTypeBox.Items.Add(Controller.ControllerType.JoyCon);
             ControllerTypeBox.Items.Add(Controller.ControllerType.ProController);
             ControllerTypeBox.Items.Add(Controller.ControllerType.SwitchConsole);
@@ -241,12 +241,17 @@ namespace ControllerManagementSystem
         {
             if (ControllerTypeBox.SelectedItem != null)
             {
+                int numOfController = 0;
+
                 //Grab the selected controller type and then clear the controller name ComboBox
                 var controllerTypeItem = (Controller.ControllerType)ControllerTypeBox.SelectedItem;
                 ControllerNumberBox.Items.Clear();
 
                 foreach (Controller controller in GetControllersOfOneType(controllerTypeItem))
                 {
+                    //Set the hint to name
+                    HintAssist.SetHint(ControllerNumberBox, "Name");
+
                     //Create the ComboBox and the StackPanel to go in it
                     ComboBoxItem newItem = new ComboBoxItem();
                     StackPanel panel = new StackPanel();
@@ -275,16 +280,26 @@ namespace ControllerManagementSystem
                     //Add the StackPanel to the ComboBoxItem and then add it to the ComboBox
                     newItem.Content = panel;
                     ControllerNumberBox.Items.Add(newItem);
-                }
-                ControllerNumberBox.SelectedIndex = 0;
+                    numOfController++;
 
-                if (ControllerNumberBox.SelectedItem == null)
-                {
-                    FrameworkElement controllerNumberBox = ControllerNumberBox as FrameworkElement;
                 }
+
+                if (numOfController == 0)
+                {
+                    //Change the hint to say no items found
+                    HintAssist.SetHint(ControllerNumberBox, "No Item Found");
+                }
+                
+                ControllerNumberBox.SelectedIndex = 0;
             }
         }
 
+        public class QuickViewItem
+        {
+            public string quickView { get; set; }
+
+            public QuickViewItem(string quickView) { this.quickView = quickView; }
+        }
         private void ControllerNumberBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if ((ComboBoxItem)ControllerNumberBox.SelectedItem != null)
@@ -341,7 +356,7 @@ namespace ControllerManagementSystem
                 string controllerName = nameTextBox.Text;
 
                 Controller currController = GetController(controllerTypeItem, controllerName);
-                currController.checkIn(UsernameCheckoutBox.Text, "New", InitialsBox.Text);
+                currController.checkIn("New", InitialsBox.Text);
 
 
                 //Update all ComboBoxes with the new status
@@ -402,12 +417,17 @@ namespace ControllerManagementSystem
         {
             if (ItemHistTypeBox.SelectedItem != null)
             {
+                int numOfController = 0;
+
                 //Grab the selected controller type and then clear the controller name ComboBox
                 var controllerTypeItem = (Controller.ControllerType)ItemHistTypeBox.SelectedItem;
                 ItemHistNameBox.Items.Clear();
 
                 foreach (Controller controller in GetControllersOfOneType(controllerTypeItem))
                 {
+                    //Set the hint to name
+                    HintAssist.SetHint(ItemHistNameBox, "Name");
+
                     //Create the ComboBox and the StackPanel to go in it
                     ComboBoxItem newItem = new ComboBoxItem();
                     StackPanel panel = new StackPanel();
@@ -436,13 +456,16 @@ namespace ControllerManagementSystem
                     //Add the StackPanel to the ComboBoxItem and then add it to the ComboBox
                     newItem.Content = panel;
                     ItemHistNameBox.Items.Add(newItem);
+                    numOfController++;
                 }
-                ItemHistNameBox.SelectedIndex = 0;
 
-                if (ItemHistNameBox.SelectedItem == null)
+                if (numOfController == 0)
                 {
-                    FrameworkElement controllerNumberBox = ItemHistNameBox as FrameworkElement;
+                    //Change the hint to say no items found
+                    HintAssist.SetHint(ItemHistNameBox, "No Item Found");
                 }
+
+                ItemHistNameBox.SelectedIndex = 0;
             }
         }
 
@@ -470,7 +493,7 @@ namespace ControllerManagementSystem
 
         private void CheckHistInsideBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (ItemHistTypeBox.SelectedItem != null && ItemHistNameBox != null)
+            if (ItemHistTypeBox.SelectedItem != null && ItemHistNameBox.SelectedItem != null)
             {
                 //Get the selected controller from the controller list
                 Controller.ControllerType controllerTypeItem = (Controller.ControllerType)ItemHistTypeBox.SelectedItem;

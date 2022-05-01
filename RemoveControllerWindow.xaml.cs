@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -79,12 +80,17 @@ namespace ControllerManagementSystem
         {
             if (ControllerTypeBox.SelectedItem != null)
             {
+                int numOfController = 0;
+
                 //Grab the selected controller type and then clear the controller name ComboBox
                 var controllerTypeItem = (Controller.ControllerType)ControllerTypeBox.SelectedItem;
                 ControllerNumberBox.Items.Clear();
 
                 foreach (Controller controller in GetControllersOfOneType(controllerTypeItem))
                 {
+                    //Set the hint to name
+                    HintAssist.SetHint(ControllerNumberBox, "Name");
+
                     //Create the ComboBox and the StackPanel to go in it
                     ComboBoxItem newItem = new ComboBoxItem();
                     StackPanel panel = new StackPanel();
@@ -113,7 +119,15 @@ namespace ControllerManagementSystem
                     //Add the StackPanel to the ComboBoxItem and then add it to the ComboBox
                     newItem.Content = panel;
                     ControllerNumberBox.Items.Add(newItem);
+                    numOfController++;
                 }
+
+                if (numOfController == 0)
+                {
+                    //Change the hint to say no items found
+                    HintAssist.SetHint(ControllerNumberBox, "No Item Found");
+                }
+
                 ControllerNumberBox.SelectedIndex = 0;
             }
         }

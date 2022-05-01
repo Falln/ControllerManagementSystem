@@ -26,7 +26,7 @@ namespace ControllerManagementSystem
         public readonly ControllerType controllerType;
         public readonly string name;
         public string controllerStatus;
-        public string currentOwner = "";
+        public string currentOwner;
         public Boolean isCheckedOut = false;
         public string historyFile;
 
@@ -38,6 +38,7 @@ namespace ControllerManagementSystem
             name = "";
             controllerStatus = "";
             historyFile = "";
+            currentOwner = Properties.Settings.Default.defaultOwner;
         }
         public Controller(string name, ControllerType controllerType)
         {
@@ -45,6 +46,7 @@ namespace ControllerManagementSystem
             this.controllerType = controllerType;
             this.controllerStatus = "New";
             historyFile = "Controller CSV Files/" + name + " History CSV.csv";
+            currentOwner = Properties.Settings.Default.defaultOwner;
             try
             {
                 //Check if the files already exists, if so, don't create a new file
@@ -60,7 +62,7 @@ namespace ControllerManagementSystem
                     {
                         DateTime now = DateTime.Now;
                         //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToLongTimeString(), "Checked In", "", controllerStatus, "");
+                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToLongTimeString(), "Checked In", currentOwner, controllerStatus, "");
                     }
                 }
             }
@@ -75,6 +77,7 @@ namespace ControllerManagementSystem
             this.controllerType = controllerType;
             this.controllerStatus = controllerStatus;
             historyFile = "Controller CSV Files/" + name + " History CSV.csv";
+            currentOwner = Properties.Settings.Default.defaultOwner;
             try
             {
                 //Check if the files already exists, if so, don't create a new file
@@ -90,7 +93,7 @@ namespace ControllerManagementSystem
                     {
                         DateTime now = DateTime.Now;
                         //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToLongTimeString(), "Checked In", "", controllerStatus, "");
+                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToLongTimeString(), "Checked In", currentOwner, controllerStatus, "");
                     }
                 }
             }
@@ -122,7 +125,7 @@ namespace ControllerManagementSystem
                     {
                         DateTime now = DateTime.Now;
                         //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToLongTimeString(), "Checked In", "", controllerStatus, "");
+                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToLongTimeString(), "Checked In", currentOwner, controllerStatus, "");
                     }
                 }
             }
@@ -246,7 +249,7 @@ namespace ControllerManagementSystem
             }
         }
 
-        public void checkIn(string owner, string controllerStatus, string employeeID)
+        public void checkIn(string controllerStatus, string employeeID)
         {
             //Check if the controller is already checked in, if so, do nothing
             if (!this.isCheckedOut)
@@ -256,7 +259,8 @@ namespace ControllerManagementSystem
 
             //Set the controller to checked in
             this.isCheckedOut = false;
-            this.currentOwner = "";
+            string owner = Properties.Settings.Default.defaultOwner;
+            this.currentOwner = owner;
 
             //Add a list for the reader to unload on
             List<List<string>> controllerCSVList;
