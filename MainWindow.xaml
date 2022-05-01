@@ -13,7 +13,6 @@
         mc:Ignorable="d"
         MouseDown="FocusGrid"
         Title="ControllerManagementSystem" Height="300" Width="600" ResizeMode="CanResize">
-
     <Window.Resources>
         <!-- Default Colors -->
         <Color x:Key="BaseGray">#FF2A2A2A</Color>
@@ -132,7 +131,7 @@
             <materialDesign:PopupBox Style="{DynamicResource MaterialDesignFloatingActionButtonPopupBox}" 
                                      PlacementMode="LeftAndAlignTopEdges"
                                      Foreground="Black"
-                                     Margin="35,0,0,0"
+                                     Margin="0,0,0,0" HorizontalAlignment="Right"
                                      Grid.Column="7" Grid.Row="0" Grid.RowSpan="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -177,17 +176,35 @@
                 Grid.Column="2" Grid.Row="2" Margin="80,54,91,0"
                 Width="140" Grid.ColumnSpan="3" VerticalAlignment="Top"/>
 
-            <materialDesign:PopupBox x:Name="CheckHistoryBtn"
+            <materialDesign:PopupBox x:Name="CheckHistPopupBox"
                                      Content="Check History" 
+                                     PlacementMode="TopAndAlignCentres"
                                      Margin="0,113,0,0" VerticalAlignment="Top" HorizontalAlignment="Right"
                                      Grid.Column="2" Grid.Row="2" Grid.RowSpan="2">
                 <materialDesign:PopupBox.ToggleContent>
-                    <Button Content="Check History" Style="{DynamicResource MaterialDesignRaisedDarkButton}"/>
+                    <Button x:Name="CheckHistInsideBtn" Content="Check History" IsEnabled="True" Click="CheckHistInsideBtn_Click"/>
                 </materialDesign:PopupBox.ToggleContent>
+                
+                <DataGrid AutoGenerateColumns="False" IsReadOnly="True"
+                          FontSize="11"
+                          BorderThickness="0"
+                          Margin="0"
+                          MaxHeight="250">
+                    <DataGrid.Columns>
+                        <materialDesign:DataGridTextColumn Header="Date/Time"
+                                                           Binding="{Binding dateTime}"
+                                                           SortDirection="Descending"/>
+                        <materialDesign:DataGridTextColumn Header="Condition"
+                                                           Binding="{Binding condition}"/>
+                        <materialDesign:DataGridTextColumn Header="Checked Status"
+                                                           Binding="{Binding checkedStatus}"/>
+                        <materialDesign:DataGridTextColumn Header="Owner"
+                                                           Binding="{Binding currentOwner}"/>
+                        <materialDesign:DataGridTextColumn Header="Initials"
+                                                           Binding="{Binding initials}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </materialDesign:PopupBox>
-
-
-
         </Grid>
     </Border>
 </Window>

@@ -57,6 +57,39 @@ namespace ControllerManagementSystem
         }
     }
 
+    public class ControllerHistroyResolver : AbstractDataResolver<Controller.ControllerHistoryFromCSV>
+    {
+        public override Controller.ControllerHistoryFromCSV Deserialize(List<string> data)
+        {
+
+            return new Controller.ControllerHistoryFromCSV
+            {
+                name = data[0],
+                controllerType = Controller.FromStringToControllerType(data[1]),
+                dateTime = DateTime.Parse(data[2] + " " + data[3]),
+                checkedStatus = data[4],
+                currentOwner = data[5],
+                condition = data[6],
+                initials = data[7],
+            };
+        }
+
+        public override List<string> Serialize(Controller.ControllerHistoryFromCSV data)
+        {
+            return new List<string>
+            {
+                data.name,
+                data.controllerType.ToString(),
+                data.dateTime.ToShortDateString(),
+                data.dateTime.ToShortTimeString(),
+                data.checkedStatus,
+                data.currentOwner,
+                data.condition,
+                data.initials
+            };
+        }
+    }
+
 
     public partial class MainWindow : Window
     {
@@ -427,6 +460,27 @@ namespace ControllerManagementSystem
         private void FocusGrid(object sender, EventArgs e)
         {
             Grid.Focus();
+        }
+
+        private void CheckHistInsideBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //Get the selected controller from the controller list
+            Controller.ControllerType controllerTypeItem = (Controller.ControllerType)ItemHistTypeBox.SelectedItem;
+            ComboBoxItem nameItem = (ComboBoxItem)ItemHistNameBox.SelectedItem;
+            StackPanel nameBoxStackPanel = (StackPanel)nameItem.Content;
+            TextBlock nameTextBox = (TextBlock)nameBoxStackPanel.Children[1];
+            string controllerName = nameTextBox.Text;
+
+            Controller currController = GetController(controllerTypeItem, controllerName);
+            
+            //Get the controller history and store it as a ControllerHistory object in a big list of them
+            List<Controller.ControllerHistoryFromCSV> controllerHistoryList = currController.GetControllerHistoryFromCSVs();
+
+            //Add the list of the history to the ListView
+            DataGrid dataGrid = (DataGrid)CheckHistPopupBox.PopupContent;
+            dataGrid.ItemsSource = controllerHistoryList;
+
+            CheckHistPopupBox.IsPopupOpen = true;
         }
     }
 }

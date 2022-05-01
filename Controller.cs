@@ -61,7 +61,7 @@ namespace ControllerManagementSystem
                     {
                         DateTime now = DateTime.Now;
                         //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", "", controllerStatus, "");
+                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToLongTimeString(), "Checked In", "", controllerStatus, "");
                     }
                 }
             }
@@ -91,7 +91,7 @@ namespace ControllerManagementSystem
                     {
                         DateTime now = DateTime.Now;
                         //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", "", controllerStatus, "");
+                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToLongTimeString(), "Checked In", "", controllerStatus, "");
                     }
                 }
             }
@@ -123,7 +123,7 @@ namespace ControllerManagementSystem
                     {
                         DateTime now = DateTime.Now;
                         //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", "", controllerStatus, "");
+                        writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToLongTimeString(), "Checked In", "", controllerStatus, "");
                     }
                 }
             }
@@ -165,7 +165,7 @@ namespace ControllerManagementSystem
                     DateTime now = DateTime.Now;
                     //Add a CSV entry with the checked out status as the one given
                     //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials/ID
-                    writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), isCheckedOut ? "Checked Out" : "Checked In", owner, controllerStatus, employeeID);
+                    writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToLongTimeString(), isCheckedOut ? "Checked Out" : "Checked In", owner, controllerStatus, employeeID);
                     writer.Close();
                 }
             }
@@ -184,7 +184,7 @@ namespace ControllerManagementSystem
                     DateTime now = DateTime.Now;
                     //Add a CSV entry with the checked out status as the one given
                     //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials/ID
-                    writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), isCheckedOut ? "Checked Out" : "Checked In", owner, controllerStatus, employeeID);
+                    writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToLongTimeString(), isCheckedOut ? "Checked Out" : "Checked In", owner, controllerStatus, employeeID);
                     writer.Close();
                 }
             }
@@ -222,7 +222,7 @@ namespace ControllerManagementSystem
                     DateTime now = DateTime.Now;
                     //Add a CSV entry of "checked out"
                     //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                    writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked Out", owner, controllerStatus, employeeID);
+                    writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToLongTimeString(), "Checked Out", owner, controllerStatus, employeeID);
                     writer.Close();
                 }
             }
@@ -241,7 +241,7 @@ namespace ControllerManagementSystem
                     DateTime now = DateTime.Now;
                     //Add a CSV entry of "checked out"
                     //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                    writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked Out", owner, controllerStatus, employeeID);
+                    writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToLongTimeString(), "Checked Out", owner, controllerStatus, employeeID);
                     writer.Close();
                 }
             }
@@ -279,7 +279,7 @@ namespace ControllerManagementSystem
                     DateTime now = DateTime.Now;
                     //Add a CSV entry of "checked in"
                     //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                    writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", owner, controllerStatus, employeeID);
+                    writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToLongTimeString(), "Checked In", owner, controllerStatus, employeeID);
                     writer.Close();
                 }
             }
@@ -298,10 +298,25 @@ namespace ControllerManagementSystem
                     DateTime now = DateTime.Now;
                     //Add a CSV entry of "checked in"
                     //Add format: Name, ControllerType, Date, Time, In or Out, Owner, Status, and Initials
-                    writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToShortTimeString(), "Checked In", owner, controllerStatus, employeeID);
+                    writer.WriteRow(name, controllerType.ToString(), now.ToShortDateString(), now.ToLongTimeString(), "Checked In", owner, controllerStatus, employeeID);
                     writer.Close();
                 }
             }
+        }
+
+        public List<ControllerHistoryFromCSV> GetControllerHistoryFromCSVs()
+        {
+            List<ControllerHistoryFromCSV> controllerHistoryFromCSVs = new List<ControllerHistoryFromCSV>();
+            //Start the CSV writer
+            var dataResolver = new ControllerHistroyResolver();
+            using (var reader = CsvReader<ControllerHistoryFromCSV>.Create(historyFile, dataResolver))
+            {
+                foreach (var controllerHistoryLine in reader)
+                {
+                    controllerHistoryFromCSVs.Add(controllerHistoryLine);
+                }
+            }
+            return controllerHistoryFromCSVs;
         }
 
         public static Boolean ContainsSameName(List<Controller> controllerList, string newName)
@@ -387,6 +402,18 @@ namespace ControllerManagementSystem
             {
                 throw new ArgumentException("Object is not a Controller or is null");
             }
+        }
+
+        public class ControllerHistoryFromCSV
+        {
+            public ControllerType controllerType { get; set; }
+            public string name { get; set; }
+            public string condition { get; set; }
+            public string currentOwner { get; set; }
+            public string checkedStatus { get; set; }
+            public DateTime dateTime { get; set; }
+            public string initials { get; set; }
+
         }
     }
 }
