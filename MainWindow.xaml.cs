@@ -201,11 +201,17 @@ namespace ControllerManagementSystem
         {
             int previousIndex = ControllerNumberBox.SelectedIndex;
             ControllerTypeBox_SelectionChanged(new object(), null!);
-            ControllerNumberBox.SelectedIndex = previousIndex;
+            if (previousIndex == -1)
+                ControllerNumberBox.SelectedIndex = 1;
+            else
+                ControllerNumberBox.SelectedIndex = previousIndex;
 
             previousIndex = ItemHistNameBox.SelectedIndex;
             ItemHistTypeBox_SelectionChanged(new object(), null!);
-            ItemHistNameBox.SelectedIndex = previousIndex;
+            if (previousIndex == -1)
+                ItemHistNameBox.SelectedIndex = 1;
+            else
+                ItemHistNameBox.SelectedIndex = previousIndex;
         }
 
         //Clicks

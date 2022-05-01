@@ -38,7 +38,6 @@
                     <ComboBoxItem>New</ComboBoxItem>
                     <ComboBoxItem>Like New</ComboBoxItem>
                     <ComboBoxItem>Worn</ComboBoxItem>
-                    <ComboBoxItem>Slightly Damaged</ComboBoxItem>
                     <ComboBoxItem>Damaged</ComboBoxItem>
                 </ComboBox>
                 <Button x:Name="AddControllerBtn" 
