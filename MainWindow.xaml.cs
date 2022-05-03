@@ -18,6 +18,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MaterialDesignThemes.Wpf;
 using System.Collections.ObjectModel;
+using MaterialDesignExtensions.Controls;
+using System.Globalization;
 
 namespace ControllerManagementSystem
 {
@@ -91,7 +93,7 @@ namespace ControllerManagementSystem
     }
 
 
-    public partial class MainWindow : Window
+    public partial class MainWindow : MaterialWindow
     {
         //List of Controllers
         List<Controller> controllerList = new();
@@ -519,6 +521,38 @@ namespace ControllerManagementSystem
 
                 CheckHistPopupBox.IsPopupOpen = true;
             }
+        }
+
+        private void CancelColorBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ApplyColorBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+    }
+
+    [ValueConversion(typeof(Color), typeof(Brush))]
+    public class ColorToBrushConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is Color color)
+            {
+                return new SolidColorBrush(color);
+            }
+            return Binding.DoNothing;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is SolidColorBrush brush)
+            {
+                return brush.Color;
+            }
+            return default(Color);
         }
     }
 }

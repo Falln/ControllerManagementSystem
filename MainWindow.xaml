@@ -1,10 +1,12 @@
-﻿<Window x:Class="ControllerManagementSystem.MainWindow"
+﻿<mde:MaterialWindow x:Class="ControllerManagementSystem.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControllerManagementSystem"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:materialDesignColors="clr-namespace:MaterialDesignColors;assembly=MaterialDesignColors"
+        xmlns:mde="clr-namespace:MaterialDesignExtensions.Controls;assembly=MaterialDesignExtensions"
         Icon="/CMSFavicon.ico"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
@@ -13,7 +15,8 @@
         mc:Ignorable="d"
         MouseDown="FocusGrid"
         Title="ControllerManagementSystem" Height="300" Width="640" ResizeMode="CanResize">
-    <Window.Resources>
+
+    <mde:MaterialWindow.Resources>
         <!-- Default Colors -->
         <Color x:Key="BaseGray">#FF2A2A2A</Color>
         <Brush x:Key="BaseBackground">#FF2A2A2A</Brush>
@@ -39,7 +42,22 @@
             </Style.Triggers>
         </Style>
 
-    </Window.Resources>
+        <local:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+
+    </mde:MaterialWindow.Resources>
+
+    <mde:MaterialWindow.TitleTemplate>
+        <DataTemplate>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Style="{StaticResource WindowTitleTextBlockStyle}" Text="{Binding Path=Title, RelativeSource={RelativeSource AncestorType={x:Type mde:MaterialWindow}}}" Margin="8,0,0,0" />
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Stretch"/>
+            </Grid>
+        </DataTemplate>
+    </mde:MaterialWindow.TitleTemplate>
 
     <Border BorderThickness="0">
         <Grid x:Name="Grid" Focusable="True">
@@ -130,6 +148,7 @@
             <materialDesign:PopupBox Style="{DynamicResource MaterialDesignFloatingActionButtonPopupBox}" 
                                      PlacementMode="LeftAndAlignTopEdges"
                                      Foreground="Black"
+                                     StaysOpen="True"
                                      Margin="0,0,0,0" HorizontalAlignment="Right"
                                      Grid.Column="7" Grid.Row="0" Grid.RowSpan="1">
                 <Grid>
@@ -143,6 +162,18 @@
                     </Grid.RowDefinitions>
 
                     <StackPanel Margin="5,0,5,0">
+                        <TextBox x:Name="TotalEntriesBlock"
+                                 materialDesign:HintAssist.Hint="Entries" 
+                                 materialDesign:HintAssist.HelperText="# of enteries to save"
+                                 ToolTip="Total number of entries to save per controller"
+                                 Margin="0,0,0,0" HorizontalAlignment="Center"
+                                 Width="100"/>
+                        <TextBox x:Name="DefaultOwnerBlock"
+                                 materialDesign:HintAssist.Hint="Default"
+                                 materialDesign:HintAssist.HelperText="Default owner"
+                                 ToolTip="Who you want to own the controller when it is checked in"
+                                 Margin="0,20,0,20" HorizontalAlignment="Center"
+                                 Width="100"/>
                         <Button Content="Add Item"
                                 Style="{DynamicResource MaterialDesignRaisedButton}"
                                 Click="AddItemBtn_Click"
@@ -155,6 +186,11 @@
                                 Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"
                                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                                 Height="30" Width="116"/>
+                        <Button Style="{DynamicResource MaterialDesignFloatingActionMiniButton}"
+                                Margin="0,5,0,0" HorizontalAlignment="Center"
+                                Height="30" Width="30">
+                            <materialDesign:PackIcon Kind="PaletteOutline" />
+                        </Button>
                     </StackPanel>
                 </Grid>
             </materialDesign:PopupBox>
@@ -206,6 +242,62 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </materialDesign:PopupBox>
+
+            <!-- Dialog Hosts -->
+
+            <materialDesign:DialogHost IsOpen="False">
+                <materialDesign:DialogHost.DialogContent>
+                    <Grid Visibility="{Binding IsChecked, ElementName=CustomPaletteButton, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <DockPanel Grid.Column="0" Grid.Row="0">
+                                <TextBox Text="{Binding Color, ElementName=ColorPicker}"
+                                         Style="{StaticResource MaterialDesignFilledTextBox}"
+                                         materialDesign:HintAssist.Hint="Color HEX value"
+                                         DockPanel.Dock="Top" 
+                                         Margin="2,0,0,2" HorizontalAlignment="Left"
+                                         Width="130"/>
+                                <Rectangle x:Name="ColorDisplayRect"
+                                           Fill="{Binding Color,
+                                           ElementName=ColorPicker,
+                                           Converter={StaticResource ColorToBrushConverter}}"
+                                           Margin="2,0,0,2" HorizontalAlignment="Left"
+                                           Height="100" Width="130"/>
+                            </DockPanel>
+                            <materialDesign:ColorPicker x:Name="ColorPicker"
+                                                        Grid.Column="1" Grid.Row="0"
+                                                        Color="{Binding SelectedColor, Delay=25}"
+                                                        Width="200" DockPanel.Dock="Right"/>
+                        <StackPanel Orientation="Horizontal" 
+                                    HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                    Grid.ColumnSpan="2" Grid.Row="1">
+                                <Button x:Name="ApplyColorBtn"
+                                        Content="Apply"
+                                        Style="{DynamicResource MaterialDesignFlatButton}"
+                                        Click="ApplyColorBtn_Click"
+                                        Margin="0,0,35,0" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                        Height="30" Width="116"/>
+                                <Button x:Name="CancelColorBtn"
+                                        Content="Cancel"
+                                        Style="{DynamicResource MaterialDesignFlatButton}"
+                                        Click="CancelColorBtn_Click"
+                                        Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                        Height="30" Width="116"/>
+                            </StackPanel>
+                    </Grid>
+                </materialDesign:DialogHost.DialogContent>
+            </materialDesign:DialogHost>
+            
+
+
         </Grid>
     </Border>
-</Window>
+</mde:MaterialWindow>
