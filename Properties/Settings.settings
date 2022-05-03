@@ -2,13 +2,13 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ControllerManagementSystem.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="totalEntriesToSave" Type="System.Int32" Scope="Application">
+    <Setting Name="totalEntriesToSave" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">20</Value>
     </Setting>
-    <Setting Name="primaryColor" Type="System.String" Scope="Application">
+    <Setting Name="primaryColor" Type="System.String" Scope="User">
       <Value Profile="(Default)">173, 7, 7</Value>
     </Setting>
-    <Setting Name="defaultOwner" Type="System.String" Scope="Application">
+    <Setting Name="defaultOwner" Type="System.String" Scope="User">
       <Value Profile="(Default)">CES</Value>
     </Setting>
   </Settings>

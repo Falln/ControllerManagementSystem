@@ -153,6 +153,22 @@ namespace ControllerManagementSystem
 
             //Set the default selected item for the TypeBox
             ControllerTypeBox.SelectedIndex = 0;
+
+            //Update stuff from settings
+
+            //Set the theme based on the one kept in settings
+            var paletteHelper = new PaletteHelper();
+            ITheme theme = paletteHelper.GetTheme();
+            theme.SetPrimaryColor((Color)ColorConverter.ConvertFromString(Properties.Settings.Default.primaryColor));
+            paletteHelper.SetTheme(theme);
+
+            //Set the default owner and total # of entries to save
+
+        }
+
+        private void MaterialWindow_Closed(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Save();
         }
 
         public List<Controller> LoadControllers(string controllerCSVDirectory)
@@ -522,15 +538,31 @@ namespace ControllerManagementSystem
                 CheckHistPopupBox.IsPopupOpen = true;
             }
         }
+        private void ApplyColorBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //Get the current theme
+            var paletteHelper = new PaletteHelper();
+            ITheme theme = paletteHelper.GetTheme();
+
+            //Change the current accent color to the new accent color
+            theme.SetPrimaryColor(ColorPicker.Color);
+
+            //Update the theme and update the settings with the new color
+            Properties.Settings.Default.primaryColor = ColorPicker.Color.ToString();
+            paletteHelper.SetTheme(theme);
+
+            //Close the color dialog
+            ColorDialog.IsOpen = false;
+        }
 
         private void CancelColorBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            ColorDialog.IsOpen = false;
         }
 
-        private void ApplyColorBtn_Click(object sender, RoutedEventArgs e)
+        private void OpenColorDialogBtn_Click(Object sender, RoutedEventArgs e)
         {
-
+            ColorDialog.IsOpen = true;
         }
     }
 
