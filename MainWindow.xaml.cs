@@ -155,7 +155,7 @@ namespace ControllerManagementSystem
             ControllerTypeBox.SelectedIndex = 0;
 
             //Update stuff from settings
-
+            string testcolor = Properties.Settings.Default.primaryColor;
             Color primaryColor = (Color)ColorConverter.ConvertFromString(Properties.Settings.Default.primaryColor);
 
             //Set the theme based on the one kept in settings

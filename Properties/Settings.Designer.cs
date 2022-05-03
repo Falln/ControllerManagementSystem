@@ -25,7 +25,7 @@ namespace ControllerManagementSystem.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
         public int totalEntriesToSave {
             get {
                 return ((int)(this["totalEntriesToSave"]));
@@ -37,7 +37,7 @@ namespace ControllerManagementSystem.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("173, 7, 7")]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFAD0707")]
         public string primaryColor {
             get {
                 return ((string)(this["primaryColor"]));
@@ -49,7 +49,7 @@ namespace ControllerManagementSystem.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("CES")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Center")]
         public string defaultOwner {
             get {
                 return ((string)(this["defaultOwner"]));
@@ -61,7 +61,7 @@ namespace ControllerManagementSystem.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool isThemeDark {
             get {
                 return ((bool)(this["isThemeDark"]));
