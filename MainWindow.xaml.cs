@@ -162,6 +162,10 @@ namespace ControllerManagementSystem
             var paletteHelper = new PaletteHelper();
             ITheme theme = paletteHelper.GetTheme();
             theme.SetPrimaryColor(primaryColor);
+            if (Properties.Settings.Default.isThemeDark)
+                theme.SetBaseTheme(Theme.Dark);
+            else
+                theme.SetBaseTheme(Theme.Light);
             paletteHelper.SetTheme(theme);
 
             //Set the default owner and total # of entries to save
@@ -584,18 +588,48 @@ namespace ControllerManagementSystem
 
         private void DefaultOwnerBlock_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (DefaultOwnerBlock.Text == "")
+                DefaultOwnerBlock.FontStyle = FontStyles.Italic;
+            else
+                DefaultOwnerBlock.FontStyle = FontStyles.Normal;
             Properties.Settings.Default.defaultOwner = DefaultOwnerBlock.Text;
         }
 
-        private void OpenColorDialogBtn_TextChanged(object sender, TextChangedEventArgs e)
+        private void ModeTglBtn_Checked(object sender, RoutedEventArgs e)
+        {
+            var paletteHelper = new PaletteHelper();
+            ITheme theme = paletteHelper.GetTheme();
+            BaseTheme theme1 = theme.GetBaseTheme();
+            if (theme.GetBaseTheme().Equals(BaseTheme.Light))
+            {
+                theme.SetBaseTheme(Theme.Dark);
+                paletteHelper.SetTheme(theme);
+                Properties.Settings.Default.isThemeDark = true;
+            }
+
+        }
+
+        private void ModeTglBtn_Unchecked(object sender, RoutedEventArgs e)
+        {
+            var paletteHelper = new PaletteHelper();
+            ITheme theme = paletteHelper.GetTheme();
+            if (theme.GetBaseTheme().Equals(BaseTheme.Dark))
+            {
+                theme.SetBaseTheme(Theme.Light);
+                paletteHelper.SetTheme(theme);
+                Properties.Settings.Default.isThemeDark = false;
+            }
+        }
+
+        private void ColorDialog_DialogOpened(object sender, DialogOpenedEventArgs eventArgs)
         {
             //Update the ColorSelector
             Color primaryColor = (Color)ColorConverter.ConvertFromString(Properties.Settings.Default.primaryColor);
             string test = (string)new BrushToHexConverter().Convert(new ColorToBrushConverter().Convert(primaryColor, null!, null!, null!), null!, null!, null!);
-            ColorPickerHexInput.Text = test.Remove(0);
             ColorPicker.Color = primaryColor;
+            ColorPickerHexInput.Text = test;
+            ModeTglBtn.IsChecked = Properties.Settings.Default.isThemeDark;
         }
-
     }
 
     [ValueConversion(typeof(Color), typeof(Brush))]

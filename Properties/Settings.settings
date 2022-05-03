@@ -11,5 +11,8 @@
     <Setting Name="defaultOwner" Type="System.String" Scope="User">
       <Value Profile="(Default)">CES</Value>
     </Setting>
+    <Setting Name="isThemeDark" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

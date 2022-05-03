@@ -59,7 +59,7 @@
         </DataTemplate>
     </mde:MaterialWindow.TitleTemplate>
 
-    <materialDesign:DialogHost x:Name="ColorDialog" IsOpen="True">
+    <materialDesign:DialogHost x:Name="ColorDialog" IsOpen="False" DialogOpened="ColorDialog_DialogOpened">
         <materialDesign:DialogHost.DialogContent>
             <Grid Visibility="{Binding IsChecked, ElementName=CustomPaletteButton, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid.ColumnDefinitions>
@@ -79,14 +79,16 @@
                              Margin="5,0,0,2" HorizontalAlignment="Left"
                              Width="130"/>
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom"
-                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"
                                 Height="40">
-                        <TextBlock Text="Light" VerticalAlignment="Center"/>
+                        <TextBlock Text="Light" VerticalAlignment="Center" Margin="0,6,0,0"/>
                         <ToggleButton x:Name="ModeTglBtn"
+                                      Checked="ModeTglBtn_Checked"
+                                      Unchecked="ModeTglBtn_Unchecked"
                                       Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                      Margin="10,0,10,0" VerticalAlignment="Center"
+                                      Margin="10,6,10,0" VerticalAlignment="Center"
                                       Height="20"/>
-                        <TextBlock Text="Dark" VerticalAlignment="Center"/>
+                        <TextBlock Text="Dark" VerticalAlignment="Center" Margin="0,6,0,0"/>
                     </StackPanel>
                     <Rectangle x:Name="ColorDisplayRect"
                                Fill="{Binding Color,
@@ -234,7 +236,8 @@
                                      Width="100"/>
                             <TextBox x:Name="DefaultOwnerBlock"
                                      TextChanged="DefaultOwnerBlock_TextChanged"
-                                     materialDesign:HintAssist.Hint="Default"
+                                     FontStyle="Italic"
+                                     materialDesign:HintAssist.Hint="No Owner"
                                      materialDesign:HintAssist.HelperText="Default owner"
                                      ToolTip="Who you want to own the controller when it is checked in"
                                      Margin="0,20,0,20" HorizontalAlignment="Center"
