@@ -59,7 +59,7 @@
         </DataTemplate>
     </mde:MaterialWindow.TitleTemplate>
 
-    <materialDesign:DialogHost x:Name="ColorDialog" IsOpen="False">
+    <materialDesign:DialogHost x:Name="ColorDialog" IsOpen="True">
         <materialDesign:DialogHost.DialogContent>
             <Grid Visibility="{Binding IsChecked, ElementName=CustomPaletteButton, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid.ColumnDefinitions>
@@ -71,18 +71,30 @@
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
                 <DockPanel Grid.Column="0" Grid.Row="0">
-                    <TextBox Text="{Binding Color, ElementName=ColorPicker, UpdateSourceTrigger=PropertyChanged}"
-                                         Style="{StaticResource MaterialDesignFilledTextBox}"
-                                         materialDesign:HintAssist.Hint="Color HEX value"
-                                         DockPanel.Dock="Top" 
-                                         Margin="2,0,0,2" HorizontalAlignment="Left"
-                                         Width="130"/>
+                    <TextBox x:Name="ColorPickerHexInput"
+                             Text="{Binding Color, ElementName=ColorPicker, UpdateSourceTrigger=PropertyChanged}"
+                             Style="{StaticResource MaterialDesignFilledTextBox}"
+                             materialDesign:HintAssist.Hint="Color HEX value"
+                             DockPanel.Dock="Top" 
+                             Margin="5,0,0,2" HorizontalAlignment="Left"
+                             Width="130"/>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Height="40">
+                        <TextBlock Text="Light" VerticalAlignment="Center"/>
+                        <ToggleButton x:Name="ModeTglBtn"
+                                      Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                      Margin="10,0,10,0" VerticalAlignment="Center"
+                                      Height="20"/>
+                        <TextBlock Text="Dark" VerticalAlignment="Center"/>
+                    </StackPanel>
                     <Rectangle x:Name="ColorDisplayRect"
-                                           Fill="{Binding Color,
-                                           ElementName=ColorPicker,
-                                           Converter={StaticResource ColorToBrushConverter}}"
-                                           Margin="2,0,0,2" HorizontalAlignment="Left"
-                                           Height="100" Width="130"/>
+                               Fill="{Binding Color,
+                               ElementName=ColorPicker,
+                               Converter={StaticResource ColorToBrushConverter}}"
+                               Margin="5,0,0,2" HorizontalAlignment="Left"
+                               Height="70" Width="130"/>
+
                 </DockPanel>
                 <materialDesign:ColorPicker x:Name="ColorPicker"
                                                     Grid.Column="1" Grid.Row="0"
@@ -213,12 +225,15 @@
 
                         <StackPanel Margin="5,0,5,0">
                             <TextBox x:Name="TotalEntriesBlock"
+                                     PreviewTextInput="TotalEntriesBlock_PreviewTextInput"
+                                     TextChanged="TotalEntriesBlock_TextChanged"
                                      materialDesign:HintAssist.Hint="Entries" 
-                                     materialDesign:HintAssist.HelperText="# of enteries to save"
+                                     materialDesign:HintAssist.HelperText="# of entries to save"
                                      ToolTip="Total number of entries to save per controller"
                                      Margin="0,0,0,0" HorizontalAlignment="Center"
                                      Width="100"/>
                             <TextBox x:Name="DefaultOwnerBlock"
+                                     TextChanged="DefaultOwnerBlock_TextChanged"
                                      materialDesign:HintAssist.Hint="Default"
                                      materialDesign:HintAssist.HelperText="Default owner"
                                      ToolTip="Who you want to own the controller when it is checked in"
@@ -227,17 +242,20 @@
                             <Button Content="Add Item"
                                     Style="{DynamicResource MaterialDesignRaisedButton}"
                                     Click="AddItemBtn_Click"
+                                    ToolTip="Add a Controller to the System"
                                     HorizontalAlignment="Center" VerticalAlignment="Center"
                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                                     Height="30" Width="116"/>
                             <Button Content="Remove Item"
                                     Style="{DynamicResource MaterialDesignRaisedButton}"
                                     Click="RemoveItemBtn_Click"
+                                    ToolTip="Remove a Controller from the System"
                                     Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"
                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                                     Height="30" Width="116"/>
                             <Button Click="OpenColorDialogBtn_Click"
                                     Style="{DynamicResource MaterialDesignFloatingActionMiniButton}"
+                                    ToolTip="Change the theme of the app"
                                     Margin="0,5,0,0" HorizontalAlignment="Center"
                                     Command="{x:Static materialDesign:PopupBox.ClosePopupCommand}"
                                     Height="30" Width="30">

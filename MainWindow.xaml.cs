@@ -156,14 +156,17 @@ namespace ControllerManagementSystem
 
             //Update stuff from settings
 
+            Color primaryColor = (Color)ColorConverter.ConvertFromString(Properties.Settings.Default.primaryColor);
+
             //Set the theme based on the one kept in settings
             var paletteHelper = new PaletteHelper();
             ITheme theme = paletteHelper.GetTheme();
-            theme.SetPrimaryColor((Color)ColorConverter.ConvertFromString(Properties.Settings.Default.primaryColor));
+            theme.SetPrimaryColor(primaryColor);
             paletteHelper.SetTheme(theme);
 
             //Set the default owner and total # of entries to save
-
+            TotalEntriesBlock.Text = Properties.Settings.Default.totalEntriesToSave.ToString();
+            DefaultOwnerBlock.Text = Properties.Settings.Default.defaultOwner;
         }
 
         private void MaterialWindow_Closed(object sender, EventArgs e)
@@ -564,6 +567,35 @@ namespace ControllerManagementSystem
         {
             ColorDialog.IsOpen = true;
         }
+
+        private void TotalEntriesBlock_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (TotalEntriesBlock.Text != null && TotalEntriesBlock.Text != "")
+            {
+                Properties.Settings.Default.totalEntriesToSave = int.Parse(TotalEntriesBlock.Text);
+            }
+        }
+
+        private void TotalEntriesBlock_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void DefaultOwnerBlock_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Properties.Settings.Default.defaultOwner = DefaultOwnerBlock.Text;
+        }
+
+        private void OpenColorDialogBtn_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //Update the ColorSelector
+            Color primaryColor = (Color)ColorConverter.ConvertFromString(Properties.Settings.Default.primaryColor);
+            string test = (string)new BrushToHexConverter().Convert(new ColorToBrushConverter().Convert(primaryColor, null!, null!, null!), null!, null!, null!);
+            ColorPickerHexInput.Text = test.Remove(0);
+            ColorPicker.Color = primaryColor;
+        }
+
     }
 
     [ValueConversion(typeof(Color), typeof(Brush))]
@@ -586,5 +618,21 @@ namespace ControllerManagementSystem
             }
             return default(Color);
         }
+    }
+    public class BrushToHexConverter : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            if (value is null) return null;
+            string lowerHexString(int i) => i.ToString("X2").ToLower();
+            var brush = (SolidColorBrush)value;
+            var hex = lowerHexString(brush.Color.R) +
+                      lowerHexString(brush.Color.G) +
+                      lowerHexString(brush.Color.B);
+            return "#" + hex;
+        }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+            => throw new NotImplementedException();
     }
 }
