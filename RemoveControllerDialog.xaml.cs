@@ -20,15 +20,16 @@ namespace ControllerManagementSystem
     /// <summary>
     /// Interaction logic for RemoveControllerWindow.xaml
     /// </summary>
-    public partial class RemoveControllerWindow : UserControl
+    public partial class RemoveControllerDialog : UserControl
     {
         List<Controller> controllerList = new List<Controller>();
-        Action refreshControllerStatus;
-        public RemoveControllerWindow(List<Controller> controllerList, Action refreshControllerStatus)
+        Action refreshControllerStatus, closeDialog;
+        public RemoveControllerDialog(List<Controller> controllerList, Action refreshControllerStatus, Action closeDialog)
         {
             this.controllerList = controllerList;
             this.refreshControllerStatus = refreshControllerStatus;
-            
+            this.closeDialog = closeDialog;
+
             InitializeComponent();
 
             ControllerTypeBox.Items.Add(Controller.ControllerType.JoyCon);
@@ -150,22 +151,36 @@ namespace ControllerManagementSystem
                 {
                     ValidityBox.Foreground = Brushes.Green;
                     ValidityBox.Text = "Controller removed sucessfully";
+
+                    //Refresh the MainWindow's NumberComboBox
+                    Dispatcher.Invoke(refreshControllerStatus);
+
+                    //Refresh the NumberComboBox
+                    RefreshControllerStatus();
+
+                    //Remove the csv file associated with the controller
+                    File.Delete(currController.historyFile);
+
+                    //Close the dialog
+                    Dispatcher.Invoke(closeDialog);
                 }
                 else
                 {
                     ValidityBox.Foreground = Brushes.Red;
                     ValidityBox.Text = "Controller doesn't exist";
                 }
-
-                //Refresh the MainWindow's NumberComboBox
-                Dispatcher.Invoke(refreshControllerStatus);
-
-                //Refresh the NumberComboBox
-                RefreshControllerStatus();
-
-                //Remove the csv file associated with the controller
-                File.Delete(currController.historyFile);
             }
+            else
+            {
+                ValidityBox.Foreground = Brushes.Red;
+                ValidityBox.Text = "Controller doesn't exist";
+            }
+        }
+
+        private void CloseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //Close the dialog
+            Dispatcher.Invoke(closeDialog);
         }
 
         private void ControllerNumberBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

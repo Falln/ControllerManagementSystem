@@ -171,6 +171,10 @@ namespace ControllerManagementSystem
             //Set the default owner and total # of entries to save
             TotalEntriesBlock.Text = Properties.Settings.Default.totalEntriesToSave.ToString();
             DefaultOwnerBlock.Text = Properties.Settings.Default.defaultOwner;
+
+            //Add the dialog content to the dialogs
+            RemoveControllerDialog removeContent = new RemoveControllerDialog(controllerList, RefreshControllerStatus, () => RemoveDialog.IsOpen=false);
+            RemoveDialog.DialogContent = removeContent;
         }
 
         private void MaterialWindow_Closed(object sender, EventArgs e)
@@ -400,8 +404,8 @@ namespace ControllerManagementSystem
             //Check if there are any other add/remove windows open. If so close them
             if (removeControllerWindow != null)
             {
-                if (removeControllerWindow.IsEnabled)
-                    removeControllerWindow.Close();
+                if (removeControllerWindow.IsEnabled) { }
+                    //removeControllerWindow.Close();
             }
 
             if (newControllerWindow != null)
@@ -422,25 +426,10 @@ namespace ControllerManagementSystem
         private void RemoveItemBtn_Click(object sender, RoutedEventArgs e)
         {
             //Check if there are any other add/remove windows open. If so close them
-            if (removeControllerWindow != null)
-            {
-                if (removeControllerWindow.IsEnabled)
-                    removeControllerWindow.Close();
-            }
 
-            if (newControllerWindow != null)
-            {
-                if (newControllerWindow.IsEnabled)
-                    newControllerWindow.Close();
-            }
 
-            //Start new remove window
-            removeControllerWindow = new RemoveControllerWindow(controllerList, RefreshControllerStatus);
-            removeControllerWindow.WindowStartupLocation = WindowStartupLocation.Manual;
-            removeControllerWindow.Left = PointToScreen(Mouse.GetPosition(null)).X;
-            removeControllerWindow.Top = PointToScreen(Mouse.GetPosition(null)).Y;
-            removeControllerWindow.Activate();
-            removeControllerWindow.Show();
+            //Start the remove dialog box
+            RemoveDialog.IsOpen = true;
         }
 
 
@@ -621,6 +610,13 @@ namespace ControllerManagementSystem
         {
             ItemHistNameBox_SelectionChanged(sender, e);
         }
+
+        private void DialogHost_DialogOpened(object sender, DialogOpenedEventArgs eventArgs)
+        {
+
+        }
+
+
     }
 
     [ValueConversion(typeof(Color), typeof(Brush))]
