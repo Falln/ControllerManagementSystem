@@ -14,7 +14,7 @@
         FontSize="14"
         mc:Ignorable="d"
         MouseDown="FocusGrid" Closing="MaterialWindow_Closed" 
-        Title="ControllerManagementSystem" Height="300" Width="640" ResizeMode="CanResize">
+        Title="ControllerManagementSystem" Height="360" Width="700" ResizeMode="CanResize">
 
     <mde:MaterialWindow.Resources>
         <!-- Default Colors -->
@@ -140,73 +140,208 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="112.803"/>
                     <RowDefinition Height="42.214"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <!-- Window interaction buttons -->
-                <!--
-                <Button x:Name="minimizeBtn" Style="{StaticResource WindowButtons}" Grid.Column="5" Grid.Row="0" Click="minimizeBtn_Click">
-                    <Image Source="/Images/subtract.png" />
-                </Button>
-                <Button x:Name="makeResizeBtn" Style="{StaticResource WindowButtons}" Grid.Column="6" Grid.Row="0" Click="makeResizeBtn_Click">
-                    <Image Source="/Images/restore-down.png" />
-                </Button>
-                <Button x:Name="closeBtn" Style="{StaticResource WindowButtons}" Grid.Column="7" Grid.Row="0" Click="closeBtn_Click">
-                    <Image Source="/Images/close.png" />
-                </Button>
-                -->
 
-                <TextBox x:Name="UsernameCheckoutBox" 
-                        materialDesign:HintAssist.Hint="Name/Tag" 
-                        materialDesign:HintAssist.IsFloating="True"
-                        ToolTip="Person checking the controller out" 
-                        TextWrapping="Wrap" 
-                        Grid.Column="0" Grid.Row="1" Margin="20,0,0,0" VerticalAlignment="Center"
-                        Width="120"/>
-                <!-- <Label Content="Type" Grid.Column="1" Grid.Row="0" Margin="5,0,0,3" VerticalAlignment="Bottom"/> -->
-                <ComboBox x:Name="ControllerTypeBox"
-                          SelectionChanged="ControllerTypeBox_SelectionChanged"
-                          DropDownClosed="FocusGrid"
-                          materialDesign:HintAssist.Hint="Type" 
-                          materialDesign:HintAssist.IsFloating="True"
-                          HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
-                          Grid.Column="1" Grid.Row="1" Margin="10,0,0,0"
-                          Width="110"/>
-                <!-- <Label Content="Controller Name" Grid.Column="2" Grid.Row="0" Margin="5,0,0,3" VerticalAlignment="Bottom"/> -->
-                <ComboBox x:Name="ControllerNumberBox" 
-                          materialDesign:HintAssist.Hint="Name" 
-                          materialDesign:HintAssist.IsFloating="True"
-                          SelectionChanged="ControllerNumberBox_SelectionChanged"
-                          DropDownClosed="FocusGrid"
-                          HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
-                          Grid.Column="2" Grid.Row="1" Margin="10,0,0,0"
-                          Width="140"/>
-                <TextBox x:Name="InitialsBox" 
-                         materialDesign:HintAssist.Hint="Initials" 
-                         materialDesign:HintAssist.IsFloating="True"
-                         ToolTip="Employee Initials" 
-                         Grid.Column="3" Grid.Row="1" Margin="10,0,0,0" VerticalAlignment="Center"
-                         Width="50"/>
-                <StackPanel Grid.Column="4" Grid.Row="0" Grid.RowSpan="4" Margin="10,21,0,0">
-                    <Button x:Name="CheckoutBtn" 
-                            Content="Checkout" 
-                            Click="CheckoutBtn_Click"
-                            Width="91" Height="29"/>
-                    <Button x:Name="CheckinBtn" 
-                            Content="Check-in" 
-                            Click="CheckinBtn_Click" 
-                            Width="91" Height="29" Margin="0,5,0,0"/>
-                </StackPanel>
+                <materialDesign:Card Grid.RowSpan="5" Grid.ColumnSpan="8">
+                    <TabControl x:Name="MainNavRail"
+                                Style="{StaticResource MaterialDesignNavigationRailTabControl}"
+                                TabStripPlacement="Left"
+                                SelectionChanged="MainNavRail_SelectionChanged"
+                                materialDesign:ColorZoneAssist.Mode="PrimaryDark">
+                        <TabItem>
+                            <TabItem.Header>
+                                <StackPanel Width="auto" Height="auto">
+                                    <materialDesign:PackIcon Width="24"
+                                                             Height="24"
+                                                             HorizontalAlignment="Center"
+                                                             Kind="MicrosoftXboxController" />
+                                    <TextBlock HorizontalAlignment="Center"
+                                               Text="Controllers" />
+                                </StackPanel>
+                            </TabItem.Header>
 
-                <TextBlock Text="Quick Item Info"
-                           Grid.Row="2" Grid.Column="0" Margin="20,20,60,52" Grid.ColumnSpan="2"/>
-                <StackPanel x:Name="ControllerReadout" Grid.Row="2" Grid.Column="0" Margin="20,50,10,21" Grid.RowSpan="2">
-                    <TextBlock x:Name="TestName" materialDesign:HintAssist.Hint="Item Name"/>
-                    <TextBlock x:Name="TestType" materialDesign:HintAssist.Hint="Item Type"/>
-                    <TextBlock x:Name="TestCheckedout" materialDesign:HintAssist.Hint="CheckedOut?"/>
-                    <TextBlock x:Name="TestStatus" materialDesign:HintAssist.Hint="Controller Condition"/>
-                    <TextBlock x:Name="TestOwner" materialDesign:HintAssist.Hint="Owner"/>
-                </StackPanel>
+
+                            <Grid x:Name="ControllerGrid" Focusable="True">
+                                
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="112.803"/>
+                                    <RowDefinition Height="42.214"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBox x:Name="UsernameCheckoutBox" 
+                                         materialDesign:HintAssist.Hint="Name/Tag" 
+                                         materialDesign:HintAssist.IsFloating="True"
+                                         ToolTip="Person checking the controller out" 
+                                         TextWrapping="NoWrap"
+                                         Grid.Column="0" Grid.Row="1" Margin="20,0,0,0" VerticalAlignment="Center"
+                                         Width="120"/>
+                                <!-- <Label Content="Type" Grid.Column="1" Grid.Row="0" Margin="5,0,0,3" VerticalAlignment="Bottom"/> -->
+                                <ComboBox x:Name="ControllerTypeBox"
+                                          SelectionChanged="ControllerTypeBox_SelectionChanged"
+                                          DropDownClosed="FocusGrid"
+                                          materialDesign:HintAssist.Hint="Type" 
+                                          materialDesign:HintAssist.IsFloating="True"
+                                          HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
+                                          Grid.Column="1" Grid.Row="1" Margin="10,0,0,0"
+                                          Width="110"/>
+                                <!-- <Label Content="Controller Name" Grid.Column="2" Grid.Row="0" Margin="5,0,0,3" VerticalAlignment="Bottom"/> -->
+                                <ComboBox x:Name="ControllerNumberBox" 
+                                          materialDesign:HintAssist.Hint="Name" 
+                                          materialDesign:HintAssist.IsFloating="True"
+                                          SelectionChanged="ControllerNumberBox_SelectionChanged"
+                                          DropDownClosed="FocusGrid"
+                                          HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
+                                          Grid.Column="2" Grid.Row="1" Margin="10,0,0,0"
+                                          Width="140"/>
+                                <TextBox x:Name="InitialsBox" 
+                                         materialDesign:HintAssist.Hint="Initials" 
+                                         materialDesign:HintAssist.IsFloating="True"
+                                         ToolTip="Employee Initials" 
+                                         Grid.Column="3" Grid.Row="1" Margin="10,0,0,0" VerticalAlignment="Center"
+                                         Width="50"/>
+                                <StackPanel Grid.Column="4" Grid.Row="0" Grid.RowSpan="4" Margin="10,21,0,0">
+                                    <Button x:Name="CheckoutBtn" 
+                                            Content="Checkout" 
+                                            Click="CheckoutBtn_Click"
+                                            Width="91" Height="29"/>
+                                    <Button x:Name="CheckinBtn" 
+                                            Content="Check-in" 
+                                            Click="CheckinBtn_Click" 
+                                            Width="91" Height="29" Margin="0,5,0,0"/>
+                                </StackPanel>
+
+                                <TextBlock Text="Quick Item Info"
+                                           Grid.Row="2" Grid.Column="0" Margin="20,20,60,52" Grid.ColumnSpan="2"/>
+                                <StackPanel x:Name="ControllerReadout" Grid.Row="2" Grid.Column="0" Margin="20,50,10,21" Grid.RowSpan="2">
+                                    <TextBlock x:Name="TestName" materialDesign:HintAssist.Hint="Item Name"/>
+                                    <TextBlock x:Name="TestType" materialDesign:HintAssist.Hint="Item Type"/>
+                                    <TextBlock x:Name="TestCheckedout" materialDesign:HintAssist.Hint="CheckedOut?"/>
+                                    <TextBlock x:Name="TestStatus" materialDesign:HintAssist.Hint="Controller Condition"/>
+                                    <TextBlock x:Name="TestOwner" materialDesign:HintAssist.Hint="Owner"/>
+                                </StackPanel>
+                            </Grid>
+
+                        </TabItem>
+                        <TabItem>
+                            <TabItem.Header>
+                                <StackPanel Width="auto" Height="auto">
+                                    <materialDesign:PackIcon Width="24"
+                                                             Height="24"
+                                                             HorizontalAlignment="Center"
+                                                             Kind="DatabaseSearchOutline" />
+                                    <TextBlock HorizontalAlignment="Center"
+                                               Text="Lookup" />
+                                </StackPanel>
+                            </TabItem.Header>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                
+                                
+                            </Grid>
+                            
+                            
+                        </TabItem>
+                        <TabItem>
+                            <TabItem.Header>
+                                <StackPanel Width="auto" Height="auto">
+                                    <materialDesign:PackIcon Width="24"
+                                                             Height="24"
+                                                             HorizontalAlignment="Center"
+                                                             Kind="History" />
+                                    <TextBlock HorizontalAlignment="Center"
+                                               Text="History" />
+                                </StackPanel>
+                            </TabItem.Header>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+
+                                <StackPanel Margin="15">
+                                    <ComboBox x:Name="ItemHistTypeBox"
+                                              SelectionChanged="ItemHistTypeBox_SelectionChanged"
+                                              DropDownClosed="FocusGrid"
+                                              materialDesign:HintAssist.Hint="Type" 
+                                              materialDesign:HintAssist.IsFloating="True"       
+                                              HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
+                                              Width="140"/>
+                                    <ComboBox x:Name="ItemHistNameBox" 
+                                              materialDesign:HintAssist.Hint="Name" 
+                                              materialDesign:HintAssist.IsFloating="True"
+                                              SelectionChanged="ItemHistNameBox_SelectionChanged"
+                                              DropDownClosed="FocusGrid"
+                                              HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
+                                              Margin="0,30,0,0"
+                                              Width="140" Grid.ColumnSpan="3" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                                </StackPanel>
+
+                                <DataGrid x:Name="ControllerHistoryData"
+                                          AutoGenerateColumns="False" IsReadOnly="True"
+                                          FontSize="11"
+                                          BorderThickness="0"
+                                          Margin="0"
+                                          materialDesign:DataGridAssist.CellPadding="4 15 2 2"
+                                          materialDesign:DataGridAssist.ColumnHeaderPadding="4 15 2 2"
+                                          Grid.Column="1" Grid.RowSpan="4"
+                                          MaxHeight="350">
+                                    <DataGrid.Columns>
+                                        <materialDesign:DataGridTextColumn Header="Date/Time"
+                                                                           Binding="{Binding dateTime}"/>
+                                        <materialDesign:DataGridTextColumn Header="Condition"
+                                                                           Binding="{Binding condition}"/>
+                                        <materialDesign:DataGridTextColumn Header="Checked Status"
+                                                                           Binding="{Binding checkedStatus}"/>
+                                        <materialDesign:DataGridTextColumn Header="Owner"
+                                                                           Binding="{Binding currentOwner}"/>
+                                        <materialDesign:DataGridTextColumn Header="Initials"
+                                                                           Binding="{Binding initials}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                </materialDesign:Card>
+
+
 
 
                 <materialDesign:PopupBox Style="{DynamicResource MaterialDesignFloatingActionButtonPopupBox}" 
@@ -267,54 +402,7 @@
                         </StackPanel>
                     </Grid>
                 </materialDesign:PopupBox>
-                <ComboBox x:Name="ItemHistTypeBox"
-                    SelectionChanged="ItemHistTypeBox_SelectionChanged"
-                    DropDownClosed="FocusGrid"
-                    materialDesign:HintAssist.Hint="Type" 
-                    materialDesign:HintAssist.IsFloating="True"
-                    HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
-                    HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                    Grid.Column="2" Grid.Row="2"
-                    Width="110"/>
-                <ComboBox x:Name="ItemHistNameBox" 
-                    materialDesign:HintAssist.Hint="Name" 
-                    materialDesign:HintAssist.IsFloating="True"
-                    SelectionChanged="ItemHistNameBox_SelectionChanged"
-                    DropDownClosed="FocusGrid"
-                    HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom"
-                    Grid.Column="2" Grid.Row="2" Margin="120,0,0,0"
-                    Width="140" Grid.ColumnSpan="3" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-
-                <materialDesign:PopupBox x:Name="CheckHistPopupBox"
-                                         Content="Check History" 
-                                         PlacementMode="TopAndAlignCentres"
-                                         materialDesign:RippleAssist.IsDisabled="True"
-                                         Margin="55,0,0,0" VerticalAlignment="Center"
-                                         Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2">
-                    <materialDesign:PopupBox.ToggleContent>
-                        <Button x:Name="CheckHistInsideBtn" Content="Check History" IsEnabled="True" materialDesign:RippleAssist.IsDisabled="False" Click="CheckHistInsideBtn_Click"/>
-                    </materialDesign:PopupBox.ToggleContent>
-
-                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True"
-                              FontSize="11"
-                              BorderThickness="0"
-                              Margin="0"
-                              MaxHeight="250">
-                        <DataGrid.Columns>
-                            <materialDesign:DataGridTextColumn Header="Date/Time"
-                                                               Binding="{Binding dateTime}"
-                                                               SortDirection="Descending"/>
-                            <materialDesign:DataGridTextColumn Header="Condition"
-                                                               Binding="{Binding condition}"/>
-                            <materialDesign:DataGridTextColumn Header="Checked Status"
-                                                               Binding="{Binding checkedStatus}"/>
-                            <materialDesign:DataGridTextColumn Header="Owner"
-                                                               Binding="{Binding currentOwner}"/>
-                            <materialDesign:DataGridTextColumn Header="Initials"
-                                                               Binding="{Binding initials}"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </materialDesign:PopupBox>
+                
             </Grid>
         </Border>
     </materialDesign:DialogHost>

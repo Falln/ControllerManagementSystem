@@ -30,7 +30,7 @@ namespace ControllerManagementSystem
         public Boolean isCheckedOut = false;
         public string historyFile;
 
-        int totalEntriesToSave = Properties.Settings.Default.totalEntriesToSave;
+        public int totalEntriesToSave = Properties.Settings.Default.totalEntriesToSave;
 
         public Controller()
         {

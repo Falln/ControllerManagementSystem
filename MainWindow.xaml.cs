@@ -503,27 +503,6 @@ namespace ControllerManagementSystem
         //Check history stuff
         private void ItemHistNameBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if ((ComboBoxItem)ItemHistNameBox.SelectedItem != null)
-            {
-                //Get the selected controller from the controller list
-                Controller.ControllerType controllerTypeItem = (Controller.ControllerType)ItemHistTypeBox.SelectedItem;
-                ComboBoxItem nameItem = (ComboBoxItem)ItemHistNameBox.SelectedItem;
-                StackPanel nameBoxStackPanel = (StackPanel)nameItem.Content;
-                TextBlock nameTextBox = (TextBlock)nameBoxStackPanel.Children[1];
-                string controllerName = nameTextBox.Text;
-
-                Controller currController = GetController(controllerTypeItem, controllerName);
-            }
-        }
-
-
-        private void FocusGrid(object sender, EventArgs e)
-        {
-            Grid.Focus();
-        }
-
-        private void CheckHistInsideBtn_Click(object sender, RoutedEventArgs e)
-        {
             if (ItemHistTypeBox.SelectedItem != null && ItemHistNameBox.SelectedItem != null)
             {
                 //Get the selected controller from the controller list
@@ -539,12 +518,16 @@ namespace ControllerManagementSystem
                 List<Controller.HistoryEntry> controllerHistoryList = currController.GetControllerHistory();
 
                 //Add the list of the history to the ListView
-                DataGrid dataGrid = (DataGrid)CheckHistPopupBox.PopupContent;
-                dataGrid.ItemsSource = controllerHistoryList;
-
-                CheckHistPopupBox.IsPopupOpen = true;
+                ControllerHistoryData.ItemsSource = controllerHistoryList;
             }
         }
+
+
+        private void FocusGrid(object sender, EventArgs e)
+        {
+            Grid.Focus();
+        }
+
         private void ApplyColorBtn_Click(object sender, RoutedEventArgs e)
         {
             //Get the current theme
@@ -577,6 +560,8 @@ namespace ControllerManagementSystem
             if (TotalEntriesBlock.Text != null && TotalEntriesBlock.Text != "")
             {
                 Properties.Settings.Default.totalEntriesToSave = int.Parse(TotalEntriesBlock.Text);
+                foreach (Controller controller in controllerList)
+                    controller.totalEntriesToSave = int.Parse(TotalEntriesBlock.Text);
             }
         }
 
@@ -584,6 +569,7 @@ namespace ControllerManagementSystem
         {
             System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
+
         }
 
         private void DefaultOwnerBlock_TextChanged(object sender, TextChangedEventArgs e)
@@ -629,6 +615,11 @@ namespace ControllerManagementSystem
             ColorPicker.Color = primaryColor;
             ColorPickerHexInput.Text = test;
             ModeTglBtn.IsChecked = Properties.Settings.Default.isThemeDark;
+        }
+
+        private void MainNavRail_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ItemHistNameBox_SelectionChanged(sender, e);
         }
     }
 
