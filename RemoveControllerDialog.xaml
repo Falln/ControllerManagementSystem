@@ -23,7 +23,7 @@
                                 Style="{DynamicResource WindowButtonStyle}"
                                 Click="CloseBtn_Click"
                                 Padding="0"
-                                Margin="10,5,4,0" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                Margin="30,5,4,0" HorizontalAlignment="Right" VerticalAlignment="Center"
                                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                                 Height="20" Width="20">
                             <materialDesign:PackIcon Kind="Close"/>

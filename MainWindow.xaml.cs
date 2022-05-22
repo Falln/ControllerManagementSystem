@@ -177,6 +177,9 @@ namespace ControllerManagementSystem
             //Add the dialog content to the dialogs
             RemoveControllerDialog removeContent = new RemoveControllerDialog(controllerList, RefreshControllerStatus, () => RemoveDialog.IsOpen=false);
             RemoveDialog.DialogContent = removeContent;
+
+            AddControllerDialog addContent = new AddControllerDialog(controllerList, RefreshControllerStatus, () => AddDialog.IsOpen=false);
+            AddDialog.DialogContent = addContent;
         }
 
         private void MaterialWindow_Closed(object sender, EventArgs e)
@@ -404,25 +407,9 @@ namespace ControllerManagementSystem
         private void AddItemBtn_Click(object sender, RoutedEventArgs e)
         {
             //Check if there are any other add/remove windows open. If so close them
-            if (removeControllerWindow != null)
-            {
-                if (removeControllerWindow.IsEnabled) { }
-                    //removeControllerWindow.Close();
-            }
 
-            if (newControllerWindow != null)
-            {
-                if (newControllerWindow.IsEnabled)
-                    newControllerWindow.Close();
-            }
-
-            //Start new add window
-            newControllerWindow = new NewControllerWindow(controllerList, RefreshControllerStatus);
-            newControllerWindow.WindowStartupLocation = WindowStartupLocation.Manual;
-            newControllerWindow.Left = PointToScreen(Mouse.GetPosition(null)).X;
-            newControllerWindow.Top = PointToScreen(Mouse.GetPosition(null)).Y;
-            newControllerWindow.Activate();
-            newControllerWindow.Show();
+            //Start the add controller dialog box
+            AddDialog.IsOpen = true;
         }
 
         private void RemoveItemBtn_Click(object sender, RoutedEventArgs e)
@@ -430,7 +417,7 @@ namespace ControllerManagementSystem
             //Check if there are any other add/remove windows open. If so close them
 
 
-            //Start the remove dialog box
+            //Start the remove controller dialog box
             RemoveDialog.IsOpen = true;
         }
 
@@ -616,6 +603,24 @@ namespace ControllerManagementSystem
         private void InitialsBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = ((e.Text.Length + InitialsBox.Text.Length) > 3) ? true : false;
+        }
+
+        private void AddDialog_DialogOpened(object sender, DialogOpenedEventArgs eventArgs)
+        {
+            if (AddDialog.DialogContent != null)
+            {
+                AddControllerDialog dialogContent = (AddControllerDialog)AddDialog.DialogContent;
+                dialogContent.ClearValidityBox(sender, new RoutedEventArgs());
+            }
+        }
+
+        private void RemoveDialog_DialogOpened(object sender, DialogOpenedEventArgs eventArgs)
+        {
+            if (RemoveDialog.DialogContent != null)
+            {
+                RemoveControllerDialog dialogContent = (RemoveControllerDialog)RemoveDialog.DialogContent;
+                dialogContent.ClearValidityBox(sender, new RoutedEventArgs());
+            }
         }
     }
 

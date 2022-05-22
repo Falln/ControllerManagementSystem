@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="ControllerManagementSystem.AddControllerDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ControllerManagementSystem"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{materialDesign:MaterialDesignFont}"
+        FontSize="14"
+        mc:Ignorable="d"
+        d:DesignHeight="280" d:DesignWidth="200"
+        BorderThickness="0">
+    <StackPanel>
+        <Border>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Add Controllers"
+                               HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,5,0,0"/>
+                <Button x:Name="CloseBtn"
+                                Style="{DynamicResource WindowButtonStyle}"
+                                Click="CloseBtn_Click"
+                                Padding="0"
+                                Margin="70,5,4,0" HorizontalAlignment="Right" VerticalAlignment="Center"
+                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                Height="20" Width="20">
+                    <materialDesign:PackIcon Kind="Close"/>
+                </Button>
+            </StackPanel>
+        </Border>
+        <StackPanel HorizontalAlignment="Center">
+            <Label Content="Type" HorizontalAlignment="Left" Margin="10,5,0,0"/>
+            <ComboBox x:Name="TypeBox" 
+                          SelectionChanged="ClearValidityBox"
+                          materialDesign:HintAssist.Hint="Select Type"
+                          Margin="0" HorizontalAlignment="Center" 
+                          Width="120"/>
+            <Label Content="Name" HorizontalAlignment="Left" Margin="10,10,0,0"/>
+            <TextBox x:Name="NameBox"
+                         TextChanged="ClearValidityBox"
+                         MaxLength="20"
+                         materialDesign:HintAssist.Hint="Enter Name"
+                         Margin="0" HorizontalAlignment="Center"
+                         TextWrapping="Wrap"  
+                         Width="120"/>
+            <Label Content="Condition" HorizontalAlignment="Left" Margin="10,10,0,0"/>
+            <ComboBox x:Name="ConditionBox" 
+                          SelectionChanged="ClearValidityBox"
+                          materialDesign:HintAssist.Hint="Select Condition"
+                          Margin="0" HorizontalAlignment="Center"
+                          Width="120">
+                <ComboBoxItem>New</ComboBoxItem>
+                <ComboBoxItem>Like New</ComboBoxItem>
+                <ComboBoxItem>Worn</ComboBoxItem>
+                <ComboBoxItem>Damaged</ComboBoxItem>
+            </ComboBox>
+            <Button x:Name="AddControllerBtn" 
+                        Content="Add Controller" 
+                        Click="AddControllerBtn_Click"
+                        HorizontalAlignment="Center" Margin="0,10,0,0"/>
+            <TextBlock x:Name="ValidityBox"
+                         Text=""
+                         FontSize="10" TextWrapping="Wrap" TextAlignment="Center"
+                         HorizontalAlignment="Center" Margin="0,3,0,5"
+                         Width="150"/>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

@@ -184,6 +184,12 @@ namespace ControllerManagementSystem
             Dispatcher.Invoke(closeDialog);
         }
 
+        public void ClearValidityBox(object sender, RoutedEventArgs e)
+        {
+            //Reset the validity box when a new type is selected
+            ValidityBox.Text = "";
+        }
+
         private void ControllerNumberBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
         }
