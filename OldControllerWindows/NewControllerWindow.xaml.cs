@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ControllerManagementSystem
+namespace ControllerManagementSystem.OldControllerWindows
 {
     /// <summary>
     /// Interaction logic for NewControllerWindow.xaml
