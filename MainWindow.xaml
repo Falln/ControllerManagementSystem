@@ -59,7 +59,7 @@
         </DataTemplate>
     </mde:MaterialWindow.TitleTemplate>
 
-    <materialDesign:DialogHost x:Name="RemoveDialog" IsOpen="False" DialogOpened="DialogHost_DialogOpened">
+    <materialDesign:DialogHost x:Name="RemoveDialog" IsOpen="False">
         <materialDesign:DialogHost x:Name="ColorDialog" IsOpen="False" DialogOpened="ColorDialog_DialogOpened">
             <materialDesign:DialogHost.DialogContent>
                 <Grid Visibility="{Binding IsChecked, ElementName=CustomPaletteButton, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -187,12 +187,14 @@
                                     <TextBox x:Name="InitialsBox" 
                                              materialDesign:HintAssist.Hint="Initials" 
                                              materialDesign:HintAssist.IsFloating="True"
+                                             PreviewTextInput="InitialsBox_PreviewTextInput"
                                              ToolTip="Employee Initials" 
                                              Grid.Column="0" Grid.Row="1" Margin="10,0,0,0" VerticalAlignment="Center"
                                              Width="50"/>
                                     <TextBox x:Name="UsernameCheckoutBox" 
-                                             materialDesign:HintAssist.Hint="Name/Tag" 
+                                             materialDesign:HintAssist.Hint="Name" 
                                              materialDesign:HintAssist.IsFloating="True"
+                                             MaxLength="20"
                                              ToolTip="Person checking the controller out" 
                                              TextWrapping="NoWrap"
                                              Grid.Column="1" Grid.Row="1" Margin="20,0,0,0" VerticalAlignment="Center"

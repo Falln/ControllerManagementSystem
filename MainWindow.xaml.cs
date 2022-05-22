@@ -613,12 +613,10 @@ namespace ControllerManagementSystem
             ItemHistNameBox_SelectionChanged(sender, e);
         }
 
-        private void DialogHost_DialogOpened(object sender, DialogOpenedEventArgs eventArgs)
+        private void InitialsBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-
+            e.Handled = ((e.Text.Length + InitialsBox.Text.Length) > 3) ? true : false;
         }
-
-
     }
 
     [ValueConversion(typeof(Color), typeof(Brush))]

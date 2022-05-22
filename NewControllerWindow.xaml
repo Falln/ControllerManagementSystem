@@ -25,6 +25,7 @@
                 <Label Content="Name" HorizontalAlignment="Left" Margin="10,10,0,0"/>
                 <TextBox x:Name="NameBox"
                          TextChanged="ClearValidityBox"
+                         MaxLength="20"
                          materialDesign:HintAssist.Hint="Enter Name"
                          Margin="0" HorizontalAlignment="Center"
                          TextWrapping="Wrap"  
