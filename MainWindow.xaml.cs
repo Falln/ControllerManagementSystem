@@ -98,9 +98,9 @@ namespace ControllerManagementSystem
         //List of Controllers
         List<Controller> controllerList = new();
 
-        //Add/Remove Windows
-        NewControllerWindow newControllerWindow;
-        RemoveControllerWindow removeControllerWindow;
+        //Add/Remove Dialogs
+        AddControllerDialog addControllerDialogContent;
+        RemoveControllerDialog removeControllerDialogContent;
 
         public MainWindow()
         {
@@ -175,11 +175,13 @@ namespace ControllerManagementSystem
             DefaultOwnerBlock.Text = Properties.Settings.Default.defaultOwner;
 
             //Add the dialog content to the dialogs
-            RemoveControllerDialog removeContent = new RemoveControllerDialog(controllerList, RefreshControllerStatus, () => RemoveDialog.IsOpen=false);
-            RemoveDialog.DialogContent = removeContent;
+            addControllerDialogContent = new AddControllerDialog(controllerList, RefreshControllerStatus, () => AddDialog.IsOpen = false);
+            AddDialog.DialogContent = addControllerDialogContent;
 
-            AddControllerDialog addContent = new AddControllerDialog(controllerList, RefreshControllerStatus, () => AddDialog.IsOpen=false);
-            AddDialog.DialogContent = addContent;
+            removeControllerDialogContent = new RemoveControllerDialog(controllerList, RefreshControllerStatus, () => RemoveDialog.IsOpen=false);
+            RemoveDialog.DialogContent = removeControllerDialogContent;
+
+
         }
 
         private void MaterialWindow_Closed(object sender, EventArgs e)
@@ -246,6 +248,8 @@ namespace ControllerManagementSystem
                 ItemHistNameBox.SelectedIndex = 1;
             else
                 ItemHistNameBox.SelectedIndex = previousIndex;
+
+            removeControllerDialogContent.RefreshControllerStatus();
         }
 
         //Clicks
@@ -360,6 +364,15 @@ namespace ControllerManagementSystem
                 TestCheckedout.Text = currController.isCheckedOut ? "Checked Out" : "Available";
                 TestStatus.Text = currController.controllerStatus;
                 TestOwner.Text = currController.currentOwner;
+
+                //Check if the controller is Checked out by someone, if so, display that in the helper text
+                if (currController.isCheckedOut && currController.currentOwner != "")
+                {
+                    HintAssist.SetHelperText(ControllerNumberBox, "Checked out by " + currController.currentOwner);
+                } else
+                {
+                    HintAssist.SetHelperText(ControllerNumberBox, "");
+                }
             }
         }
 
