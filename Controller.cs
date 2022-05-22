@@ -16,6 +16,7 @@ namespace ControllerManagementSystem
         {
             JoyCon,
             ProController,
+            GameCube,
             SwitchConsole,
             XboxWireless,
             XboxWired,
@@ -343,6 +344,8 @@ namespace ControllerManagementSystem
                     return ControllerType.JoyCon;
                 case "ProController":
                     return ControllerType.ProController;
+                case "Gamecube":
+                    return ControllerType.GameCube;
                 case "SwitchConsole":
                     return ControllerType.SwitchConsole;
                 case "XboxWireless":

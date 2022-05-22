@@ -137,6 +137,7 @@ namespace ControllerManagementSystem
             //Add ControllerTypes to the Type ComboBoxes
             ControllerTypeBox.Items.Add(Controller.ControllerType.JoyCon);
             ControllerTypeBox.Items.Add(Controller.ControllerType.ProController);
+            ControllerTypeBox.Items.Add(Controller.ControllerType.GameCube);
             ControllerTypeBox.Items.Add(Controller.ControllerType.SwitchConsole);
             ControllerTypeBox.Items.Add(Controller.ControllerType.XboxWireless);
             ControllerTypeBox.Items.Add(Controller.ControllerType.XboxWired);
@@ -145,6 +146,7 @@ namespace ControllerManagementSystem
 
             ItemHistTypeBox.Items.Add(Controller.ControllerType.JoyCon);
             ItemHistTypeBox.Items.Add(Controller.ControllerType.ProController);
+            ItemHistTypeBox.Items.Add(Controller.ControllerType.GameCube);
             ItemHistTypeBox.Items.Add(Controller.ControllerType.SwitchConsole);
             ItemHistTypeBox.Items.Add(Controller.ControllerType.XboxWireless);
             ItemHistTypeBox.Items.Add(Controller.ControllerType.XboxWired);

@@ -29,6 +29,7 @@ namespace ControllerManagementSystem
 
             TypeBox.Items.Add(Controller.ControllerType.JoyCon);
             TypeBox.Items.Add(Controller.ControllerType.ProController);
+            TypeBox.Items.Add(Controller.ControllerType.GameCube);
             TypeBox.Items.Add(Controller.ControllerType.SwitchConsole);
             TypeBox.Items.Add(Controller.ControllerType.XboxWireless);
             TypeBox.Items.Add(Controller.ControllerType.XboxWired);
